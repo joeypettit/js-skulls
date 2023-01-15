@@ -9,28 +9,41 @@ export function useGameState() {
 
 export function GameStateProvider({ id, children }) {
   const socket = useSocket();
+  const [gameState, setGameState] = useState(null);
 
-  function updateGameState() {
+  function startNewGame() {
+    // request new game from server
+  }
+
+  function addPlayers() {}
+
+  function updateGameState(gameState) {
+    console.log("in update gamestate", gameState);
     // update game state
+    setGameState();
   }
 
   // set up listeners for gamestate updates
   useEffect(() => {
     // if we do not have a socket, do nothing
     if (socket == null) return;
-    // create recieve message socket event listener
-    // when message recieve pass arguments to addMessageToConversation
+    // create 'update gamestate' socket event listener
+    // when update recieved, pass arguments to updateGameState
     socket.on("update-gamestate", updateGameState);
 
-    // clean up: remove event listener when
+    // clean up: remove event listener when client navigates away from page
     return () => {
       socket.off("update-gamestate");
     };
-  }, [socket, addMessageToConversation]);
+  }, [socket, updateGameState]);
 
-  const gameState = {};
+  const value = {
+    gameState,
+    startNewGame,
+  };
+
   return (
-    <GameStateContext.Provider value={gameState}>
+    <GameStateContext.Provider value={value}>
       {children}
     </GameStateContext.Provider>
   );

@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import generateId from "../ClientFunctions/generateId";
+import { useGameState } from "../Contexts/GameStateProvider";
 
 function LoginPage({ setGameId, userId, setUserId }) {
   // this ref points to game id input on "enter an exisiting game"
@@ -10,6 +11,9 @@ function LoginPage({ setGameId, userId, setUserId }) {
 
   // this ref points to the game id input of "Use Device as Public Gameboard"
   const gameIdUseAsGameboard = useRef();
+
+  // import function from GameStateProvider
+  const { startNewGame } = useGameState();
 
   // this function will enter the player into an exisiting game
   // using the players id, and inputted game id
@@ -27,6 +31,7 @@ function LoginPage({ setGameId, userId, setUserId }) {
     // if player does not have id, create a new one
     createPlayerId();
     // open a socket, a request new game
+    startNewGame();
   }
 
   function handleUseDeviceAsGameboard(e) {
