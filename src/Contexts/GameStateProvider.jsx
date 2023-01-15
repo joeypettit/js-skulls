@@ -19,14 +19,19 @@ export function GameStateProvider({ id, children }) {
   // - create new socket.io room with gameId, add player
   // - create create a new game state with game creators playerId
   // -
-  function createNewGameState(playerId, gameId) {}
+  function requestNewGameState(userId, newGameId) {
+    // create new game room
+    socket.emit("create-gamestate", { userId, gameId: newGameId });
+  }
 
-  function updatePlayerName() {}
+  function updatePlayerName() {
+    console.log("okay");
+  }
 
   function updateGameState(gameState) {
     console.log("in update gamestate", gameState);
     // update game state
-    setGameState();
+    // setGameState();
   }
 
   // set up listeners for gamestate updates
@@ -35,7 +40,7 @@ export function GameStateProvider({ id, children }) {
     if (socket == null) return;
     // create 'update gamestate' socket event listener
     // when update recieved, pass arguments to updateGameState
-    socket.on("update-gamestate", updateGameState);
+    socket.on("update-gamestate", (socket) => console.log("got it"));
 
     // clean up: remove event listener when client navigates away from page
     return () => {
@@ -45,7 +50,7 @@ export function GameStateProvider({ id, children }) {
 
   const value = {
     gameState,
-    createNewGameState,
+    requestNewGameState,
     startNewGame,
   };
 

@@ -7,7 +7,7 @@
 function createNewGameState(playerId, gameId) {
   const gameState = {
     gameId,
-    isActive: false, // is active will be true when game is in play
+    inProgress: false, // is active will be true when game is in play
     gameStage: ["laying", "betting", "flipping", "scoring"], // ,laying, betting, flipping, scoring
     playerOrder: ["Joey"], // order of play, first player in array is the dealer for the round
     round: 0,
@@ -47,6 +47,7 @@ function createNewGameState(playerId, gameId) {
       },
     ],
   };
+  return gameState;
 }
 
 module.exports = createNewGameState;

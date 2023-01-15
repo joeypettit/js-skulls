@@ -19,7 +19,7 @@ export function SocketProvider({ userId, gameId, children }) {
   useEffect(() => {
     // create new socket with the address of the origin url(eg localhost:5000 or 10.168.2.34.34:3000)
     const newSocket = io(window.location.origin, {
-      query: { userId, gameId },
+      query: { userId },
     });
 
     // store new socket to local state
@@ -28,7 +28,7 @@ export function SocketProvider({ userId, gameId, children }) {
     // clean up function in return will close socket connection when
     // user navigates away from page
     return () => newSocket.close();
-  }, [gameId, userId]);
+  }, [userId]);
 
   // create socket provider, pass it the socket now stored in state.
   return (

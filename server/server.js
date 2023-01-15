@@ -11,20 +11,30 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json()); // body parser middleware
 app.use(bodyParser.urlencoded({ extended: true })); // body parser middleware
 
-// Route includes
-const gameRouter = require("./routes/game.route");
+// game logic imports
+const allGameStates = require("./gameFunctions/allGameStates");
+const createNewGameState = require("./gameFunctions/createNewGameState");
 
+// Route includes
+// const gameRouter = require("./routes/game.route");
 // Routes
 // app.use("/api/game", gameRouter);
 
 // Socket.io
 io.on("connection", (socket) => {
-  console.log(socket.handshake.query, "connected");
+  console.log("connected");
 
-  socket.on("create-game-room", (socket) => {
-    let newGameRoom = socket.handshake.query.gameId;
-    console.log("game room", newGameRoom);
-    socket.join(newGameRoom);
+  socket.on("create-gamestate", ({ userId, gameId }) => {
+    // create new room based on gameId
+    let newGameRoom = gameId;
+    // socket.join(newGameRoom);
+    // // create a new gamestate with this gameId
+    // const newGameState = createNewGameState(userId, gameId);
+    // allGameStates.push(newGameState);
+    // const myGameState = allGameStates.find(
+    //   (object) => object.gameId === gameId
+    // );
+    socket.emit("update-gamestate");
   });
 
   socket.on("disconnect", (socket) => {
