@@ -18,6 +18,7 @@ function App() {
           setGameId={setGameId}
           setUserId={setUserId}
           userId={userId}
+          gameId={gameId}
         />
       </AllProviders>
     </>

@@ -15,7 +15,13 @@ export function GameStateProvider({ id, children }) {
     // request new game from server
   }
 
-  function addPlayers() {}
+  // this function will...
+  // - create new socket.io room with gameId, add player
+  // - create create a new game state with game creators playerId
+  // -
+  function createNewGameState(playerId, gameId) {}
+
+  function updatePlayerName() {}
 
   function updateGameState(gameState) {
     console.log("in update gamestate", gameState);
@@ -39,6 +45,7 @@ export function GameStateProvider({ id, children }) {
 
   const value = {
     gameState,
+    createNewGameState,
     startNewGame,
   };
 

@@ -15,11 +15,17 @@ app.use(bodyParser.urlencoded({ extended: true })); // body parser middleware
 const gameRouter = require("./routes/game.route");
 
 // Routes
-app.use("/api/game", gameRouter);
+// app.use("/api/game", gameRouter);
 
 // Socket.io
 io.on("connection", (socket) => {
   console.log(socket.handshake.query, "connected");
+
+  socket.on("create-game-room", (socket) => {
+    let newGameRoom = socket.handshake.query.gameId;
+    console.log("game room", newGameRoom);
+    socket.join(newGameRoom);
+  });
 
   socket.on("disconnect", (socket) => {
     console.log("disconnected");

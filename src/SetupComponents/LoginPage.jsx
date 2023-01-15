@@ -13,7 +13,7 @@ function LoginPage({ setGameId, userId, setUserId }) {
   const gameIdUseAsGameboard = useRef();
 
   // import function from GameStateProvider
-  const { startNewGame } = useGameState();
+  const { createNewGameState } = useGameState();
 
   // this function will enter the player into an exisiting game
   // using the players id, and inputted game id
@@ -31,7 +31,7 @@ function LoginPage({ setGameId, userId, setUserId }) {
     // if player does not have id, create a new one
     createPlayerId();
     // open a socket, a request new game
-    startNewGame();
+    createNewGameState();
   }
 
   function handleUseDeviceAsGameboard(e) {
