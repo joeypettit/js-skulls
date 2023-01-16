@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import generateId from "../ClientFunctions/generateId";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function LoginPage({ setGameId, userId, setUserId }) {
+function LoginPage({ setGameId, userId }) {
   // import function from GameStateProvider
   const { requestNewGameState, requestAddPlayerToGame } = useGameState();
   // this ref points to game id input on "enter an exisiting game"
@@ -17,18 +17,15 @@ function LoginPage({ setGameId, userId, setUserId }) {
     const newGameId = generateId();
     // generate new room code, set as gameId
     setGameId(newGameId);
-    // if player does not have id, create a new one
-    const playerId = getPlayerId();
+
     // request new game state from server
-    requestNewGameState(playerId, newGameId);
+    requestNewGameState(userId, newGameId);
   }
 
   // this function will enter the player into an exisiting game
   // using the players id, and inputted game id
   function handleEnterGame(e) {
     e.preventDefault();
-    // if player does not have id, create a new one
-    const playerId = getPlayerId();
     // send request to be added to game in 'enter game id' field
     const existingGameId = gameIdEnterExistingRef.current.value;
     requestAddPlayerToGame(userId, existingGameId);
@@ -37,19 +34,6 @@ function LoginPage({ setGameId, userId, setUserId }) {
   function handleUseDeviceAsGameboard(e) {
     e.preventDefault();
     setGameId(gameIdUseAsGameboard.current.value);
-  }
-
-  function getPlayerId() {
-    if (userId !== null) {
-      // if player already has id in local storage, return that
-      return userId;
-    } else {
-      // if player doesn't already have id, generate a new one
-      // and return it
-      const newPlayerId = generateId();
-      setUserId(newPlayerId);
-      return newPlayerId;
-    }
   }
 
   return (
