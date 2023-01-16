@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { useSocket } from "./SocketProvider";
 
 const GameStateContext = React.createContext();
@@ -7,7 +7,7 @@ export function useGameState() {
   return useContext(GameStateContext);
 }
 
-export function GameStateProvider({ children }) {
+export function GameStateProvider({ children, gameId, setGameId }) {
   const socket = useSocket();
   const [gameState, setGameState] = useState(null);
 
@@ -19,13 +19,13 @@ export function GameStateProvider({ children }) {
   // - create new socket.io room with gameId, add player
   // - create create a new game state with game creators playerId
   // -
-  function requestNewGameState(userId, newGameId) {
+  function requestNewGameState(userId, newGameId, playerName) {
     // create new game room
-    socket.emit("create-gamestate", { userId, gameId: newGameId });
+    socket.emit("create-gamestate", { userId, gameId: newGameId, playerName });
   }
 
-  function requestAddPlayerToGame(userId, gameId) {
-    socket.emit("add-player", { playerId: userId, gameId });
+  function requestAddPlayerToGame(userId, gameId, playerName) {
+    socket.emit("add-player", { playerId: userId, gameId, playerName });
   }
 
   function updatePlayerName() {
@@ -33,10 +33,16 @@ export function GameStateProvider({ children }) {
   }
 
   // update gameState in state
-  function updateGameState(gameState) {
-    setGameState(gameState);
-    console.log("GameState Updated", gameState);
-  }
+  const updateGameState = useCallback(
+    (newGameState) => {
+      console.log("in callback");
+      if (newGameState.gameId !== gameId) {
+        setGameId(newGameState.gameId);
+      }
+      setGameState(newGameState);
+    },
+    [setGameId, setGameState, gameId]
+  );
 
   // set up listeners for gamestate updates
   useEffect(() => {
@@ -44,8 +50,9 @@ export function GameStateProvider({ children }) {
     if (socket == null) return;
     // create 'update gamestate' socket event listener
     // when update recieved, pass arguments to updateGameState
-    socket.on("update-gamestate", updateGameState);
-    console.log("updating gamestate");
+    socket.on("update-gamestate", (newGameState) =>
+      updateGameState(newGameState)
+    );
 
     // clean up: remove event listener when client navigates away from page
     return () => {

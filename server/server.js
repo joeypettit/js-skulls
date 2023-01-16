@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // body parser middleware
 // game logic imports
 const allGameStates = require("./gameFunctions/allGameStates");
 const createNewGameState = require("./gameFunctions/createNewGameState");
+const createNewPlayer = require("./gameFunctions/createNewPlayer");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -24,25 +25,34 @@ const createNewGameState = require("./gameFunctions/createNewGameState");
 io.on("connection", (socket) => {
   console.log("connected");
 
-  socket.on("create-gamestate", ({ userId, gameId }) => {
+  socket.on("create-gamestate", ({ userId, gameId, playerName }) => {
     // create new room based on gameId
     let newGameRoom = gameId;
     socket.join(newGameRoom);
     // // create a new gamestate with this gameId
-    const newGameState = createNewGameState(userId, gameId);
+    const newGameState = createNewGameState(userId, gameId, playerName);
     allGameStates.push(newGameState);
+    console.log("updating gamestate");
     socket.emit("update-gamestate", newGameState);
   });
 
   // add player to a game using gameId and playerId
-  socket.on("add-player", ({ playerId, gameId }) => {
-    // find gameState with matching gameId
-    const gameToJoin = allGameStates.find((object) => object.gameId === gameId);
+  socket.on("add-player", ({ playerId, gameId, playerName }) => {
+    const gameStateIndex = allGameStates.findIndex(
+      (gameStateObj) => gameStateObj.gameId === gameId
+    );
 
-    // if a gamestate matches18
-    if (gameToJoin) {
-      socket.join(gameToJoin);
+    // if a gamestate matches, join socket, add player to gamestate
+    if (gameStateIndex !== -1) {
+      const newPlayerObj = createNewPlayer(playerId, playerName);
+      allGameStates[gameStateIndex].players.push(newPlayerObj);
+      const updatedGameState = allGameStates[gameStateIndex];
+      socket.join(gameId);
+      io.in(gameId).emit("update-gamestate", updatedGameState);
+    } else {
+      // emit there was an error
     }
+    //
   });
 
   socket.on("disconnect", (socket) => {

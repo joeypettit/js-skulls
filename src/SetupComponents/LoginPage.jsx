@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import generateId from "../ClientFunctions/generateId";
 import { useGameState } from "../Contexts/GameStateProvider";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function LoginPage({ setGameId, userId }) {
   // import function from GameStateProvider
@@ -12,23 +13,38 @@ function LoginPage({ setGameId, userId }) {
   const gameIdEnterExistingRef = useRef();
   // this ref points to the game id input of "Use Device as Public Gameboard"
   const gameIdUseAsGameboard = useRef();
+  // this ref points to the player name input
+  const playerNameInputRef = useRef();
+  // true when name has been confirmed => render start new/enter game
+  const [nameConfirmed, setNameConfirmed] = useState(false);
+  // use local storage to grab/store player name
+  const [playerName, setPlayerName] = useLocalStorage("name", null);
+
+  function handleChangeName() {
+    const newPlayerName = playerNameInputRef.current.value;
+    setPlayerName(newPlayerName);
+  }
+
+  function handleNameConfirm() {
+    setNameConfirmed(true);
+  }
 
   function handleStartNewGame() {
     const newGameId = generateId();
     // generate new room code, set as gameId
-    setGameId(newGameId);
 
     // request new game state from server
-    requestNewGameState(userId, newGameId);
+    requestNewGameState(userId, newGameId, playerName);
   }
 
   // this function will enter the player into an exisiting game
   // using the players id, and inputted game id
   function handleEnterGame(e) {
     e.preventDefault();
+    console.log("here");
     // send request to be added to game in 'enter game id' field
     const existingGameId = gameIdEnterExistingRef.current.value;
-    requestAddPlayerToGame(userId, existingGameId);
+    requestAddPlayerToGame(userId, existingGameId, playerName);
   }
 
   function handleUseDeviceAsGameboard(e) {
@@ -38,27 +54,63 @@ function LoginPage({ setGameId, userId }) {
 
   return (
     <Container className="d-flex flex-column alight-items-center justify-content-center">
-      <div className="bg-light rounded d-flex flex-column align-items-center my-3">
-        <Button onClick={handleStartNewGame} className="my-3">
-          Start New Game
-        </Button>
-        <div>Or</div>
-        {/* enter existing game with your id */}
-        <Form className="p-2 m-2 text-center" onSubmit={handleEnterGame}>
-          <Form.Group>
-            <Form.Label>Enter An Existing Game</Form.Label>
-            <Form.Control
-              type="text"
-              ref={gameIdEnterExistingRef}
-              required
-              placeholder="Enter Game ID"
-            ></Form.Control>
-          </Form.Group>
-          <Button type="submit" className="mt-2 me-2">
-            Enter
-          </Button>
-        </Form>
+      <div>
+        {playerName && !nameConfirmed && (
+          <div>
+            <h1>Welcome {playerName}</h1>
+            <Button onClick={handleNameConfirm}>Continue</Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setPlayerName(null)}
+            >
+              Change Name
+            </Button>
+          </div>
+        )}
+        {!playerName && (
+          <div>
+            <h1>Enter Your Name:</h1>
+            <Form className="p-2 m-2 text-center" onSubmit={handleChangeName}>
+              <Form.Group>
+                <Form.Label>Enter Your Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={playerNameInputRef}
+                  required
+                  placeholder="Enter Your Name"
+                ></Form.Control>
+              </Form.Group>
+              <Button type="submit" className="mt-2 me-2">
+                Enter
+              </Button>
+            </Form>
+          </div>
+        )}
       </div>
+      {playerName && nameConfirmed && (
+        <div className="bg-light rounded d-flex flex-column align-items-center my-3">
+          <Button onClick={handleStartNewGame} className="my-3">
+            Start New Game
+          </Button>
+          <div>Or</div>
+          {/* enter existing game with your id */}
+          <Form className="p-2 m-2 text-center" onSubmit={handleEnterGame}>
+            <Form.Group>
+              <Form.Label>Enter An Existing Game</Form.Label>
+              <Form.Control
+                type="text"
+                ref={gameIdEnterExistingRef}
+                required
+                placeholder="Enter Game ID"
+              ></Form.Control>
+            </Form.Group>
+            <Button type="submit" className="mt-2 me-2">
+              Enter
+            </Button>
+          </Form>
+        </div>
+      )}
       {/* Use This Device as a Game Gameboard */}
       <Form
         className="bg-light rounded p-2 m-2"

@@ -4,7 +4,7 @@
 // - add the playerId from client, set name to playerId by default
 // -
 // it will add the player who create the game
-function createNewGameState(playerId, gameId) {
+function createNewGameState(playerId, gameId, playerName) {
   const gameState = {
     gameId,
     inProgress: false, // is active will be true when game is in play
@@ -17,7 +17,7 @@ function createNewGameState(playerId, gameId) {
     },
     players: [
       {
-        name: playerId, // by default this will be playerId
+        name: playerName, // by default this will be playerId
         isPlayersTurn: false,
         playerId, // function will update this to playerId
         isConnected: true,
