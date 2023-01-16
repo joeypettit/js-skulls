@@ -7,7 +7,7 @@ export function useGameState() {
   return useContext(GameStateContext);
 }
 
-export function GameStateProvider({ id, children }) {
+export function GameStateProvider({ children }) {
   const socket = useSocket();
   const [gameState, setGameState] = useState(null);
 
@@ -29,9 +29,9 @@ export function GameStateProvider({ id, children }) {
   }
 
   function updateGameState(gameState) {
-    console.log("in update gamestate", gameState);
     // update game state
-    // setGameState();
+    setGameState(gameState);
+    console.log("GameState Updated", gameState);
   }
 
   // set up listeners for gamestate updates
@@ -40,7 +40,8 @@ export function GameStateProvider({ id, children }) {
     if (socket == null) return;
     // create 'update gamestate' socket event listener
     // when update recieved, pass arguments to updateGameState
-    socket.on("update-gamestate", (socket) => console.log("got it"));
+    socket.on("update-gamestate", updateGameState);
+    console.log("updating gamestate");
 
     // clean up: remove event listener when client navigates away from page
     return () => {

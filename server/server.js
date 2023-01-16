@@ -27,14 +27,23 @@ io.on("connection", (socket) => {
   socket.on("create-gamestate", ({ userId, gameId }) => {
     // create new room based on gameId
     let newGameRoom = gameId;
-    // socket.join(newGameRoom);
+    socket.join(newGameRoom);
     // // create a new gamestate with this gameId
-    // const newGameState = createNewGameState(userId, gameId);
-    // allGameStates.push(newGameState);
-    // const myGameState = allGameStates.find(
-    //   (object) => object.gameId === gameId
-    // );
-    socket.emit("update-gamestate");
+    const newGameState = createNewGameState(userId, gameId);
+    allGameStates.push(newGameState);
+    socket.emit("update-gamestate", newGameState);
+  });
+
+  // add player to a game using gameId and playerId
+  socket.on("add-player", ({ playerId, gameId }) => {
+    // find gameState with matching gameId
+    const gameToJoin = allGameStates.find((object) => object.gameId === gameId);
+    console.log("game to join is", gameToJoin);
+
+    // if a gamestate matches
+    if (gameToJoin && gameToJoin.playerOrder.includes(playerId)) {
+      console.log("Match! add to game");
+    }
   });
 
   socket.on("disconnect", (socket) => {

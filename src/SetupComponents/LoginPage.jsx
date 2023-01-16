@@ -15,24 +15,24 @@ function LoginPage({ setGameId, userId, setUserId }) {
   // import function from GameStateProvider
   const { requestNewGameState } = useGameState();
 
-  // this function will enter the player into an exisiting game
-  // using the players id, and inputted game id
-  function handleEnterGame(e) {
-    e.preventDefault();
-    // set game id to entered game id
-    setGameId(gameIdEnterExistingRef.current.value);
-    // if player does not have id, create a new one
-    createPlayerId();
-  }
-
   function handleStartNewGame() {
     const newGameId = generateId();
     // generate new room code, set as gameId
     setGameId(newGameId);
     // if player does not have id, create a new one
-    createPlayerId();
+    const playerId = createPlayerId();
+    console.log("new playerId", playerId);
     // open a socket, a request new game
-    requestNewGameState(userId, newGameId);
+    requestNewGameState(playerId, newGameId);
+  }
+  // this function will enter the player into an exisiting game
+  // using the players id, and inputted game id
+  function handleEnterGame(e) {
+    e.preventDefault();
+    // // if player does not have id, create a new one
+    // const newPlayerId = createPlayerId();
+    // // send request to socket to be added
+    // requestAddPlayerToGame();
   }
 
   function handleUseDeviceAsGameboard(e) {
@@ -43,11 +43,11 @@ function LoginPage({ setGameId, userId, setUserId }) {
   function createPlayerId() {
     // if player does not have id, create a new one
     if (userId !== null) {
-      console.log("here", userId);
-      console.log("here string", "null");
-      return;
+      return userId;
     } else {
-      setUserId(generateId());
+      const newPlayerId = generateId();
+      setUserId(newPlayerId);
+      return newPlayerId;
     }
   }
 

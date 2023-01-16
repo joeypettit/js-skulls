@@ -9,7 +9,7 @@ function createNewGameState(playerId, gameId) {
     gameId,
     inProgress: false, // is active will be true when game is in play
     gameStage: ["laying", "betting", "flipping", "scoring"], // ,laying, betting, flipping, scoring
-    playerOrder: ["Joey"], // order of play, first player in array is the dealer for the round
+    playerOrder: [playerId], // order of play, playerIds, first player in array is the dealer for the round
     round: 0,
     latestBet: {
       numOfCards: null, // number of cards currently being bet
@@ -20,6 +20,7 @@ function createNewGameState(playerId, gameId) {
         name: playerId, // by default this will be playerId
         isPlayersTurn: false,
         playerId, // function will update this to playerId
+        isConnected: true,
         allCards: [
           // give player default card hand
           {

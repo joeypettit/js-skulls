@@ -1,8 +1,12 @@
 import React from "react";
 import LoginPage from "./LoginPage";
 import AddPlayersPage from "./AddPlayersPage";
+import { useGameState } from "../Contexts/GameStateProvider";
 
 function SetupComponents({ setGameId, setUserId, userId, gameId }) {
+  const { gameState } = useGameState();
+  console.log("game id, userid, gamestate", gameId, userId, gameState);
+
   return (
     <>
       {!gameId && (
@@ -12,9 +16,9 @@ function SetupComponents({ setGameId, setUserId, userId, gameId }) {
           userId={userId}
         />
       )}
-      {}
-
-      <AddPlayersPage gameId={gameId} />
+      {gameId && userId && gameState && (
+        <AddPlayersPage gameId={gameId} gameState={gameState} />
+      )}
     </>
   );
 }
