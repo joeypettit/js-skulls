@@ -24,12 +24,16 @@ export function GameStateProvider({ children }) {
     socket.emit("create-gamestate", { userId, gameId: newGameId });
   }
 
+  function requestAddPlayerToGame(userId, gameId) {
+    socket.emit("add-player", { playerId: userId, gameId });
+  }
+
   function updatePlayerName() {
     console.log("okay");
   }
 
+  // update gameState in state
   function updateGameState(gameState) {
-    // update game state
     setGameState(gameState);
     console.log("GameState Updated", gameState);
   }
@@ -52,6 +56,7 @@ export function GameStateProvider({ children }) {
   const value = {
     gameState,
     requestNewGameState,
+    requestAddPlayerToGame,
     startNewGame,
   };
 

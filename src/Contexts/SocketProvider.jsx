@@ -25,7 +25,9 @@ export function SocketProvider({ userId, gameId, children }) {
 
     // clean up function in return will close socket connection when
     // user navigates away from page
-    return () => newSocket.close();
+    return () => {
+      newSocket.close();
+    };
   }, []);
 
   // create socket provider, pass it the socket now stored in state.

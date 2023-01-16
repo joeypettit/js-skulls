@@ -38,11 +38,10 @@ io.on("connection", (socket) => {
   socket.on("add-player", ({ playerId, gameId }) => {
     // find gameState with matching gameId
     const gameToJoin = allGameStates.find((object) => object.gameId === gameId);
-    console.log("game to join is", gameToJoin);
 
-    // if a gamestate matches
-    if (gameToJoin && gameToJoin.playerOrder.includes(playerId)) {
-      console.log("Match! add to game");
+    // if a gamestate matches18
+    if (gameToJoin) {
+      socket.join(gameToJoin);
     }
   });
 
