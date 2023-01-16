@@ -27,13 +27,12 @@ io.on("connection", (socket) => {
 
   socket.on("create-gamestate", ({ userId, gameId, playerName }) => {
     // create new room based on gameId
-    let newGameRoom = gameId;
-    socket.join(newGameRoom);
+    socket.join(gameId);
     // // create a new gamestate with this gameId
     const newGameState = createNewGameState(userId, gameId, playerName);
     allGameStates.push(newGameState);
     console.log("updating gamestate");
-    socket.emit("update-gamestate", newGameState);
+    io.in(gameId).emit("update-gamestate", newGameState);
   });
 
   // add player to a game using gameId and playerId
