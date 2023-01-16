@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <Header gameId={gameId} userId={userId} />
-      <AllProviders gameId={gameId} userId={userId}>
+      <AllProviders gameId={gameId} userId={userId} setUserId={setUserId}>
         <GameComponents gameId={gameId} userId={userId} />
         <SetupComponents
           setGameId={setGameId}

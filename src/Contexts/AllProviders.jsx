@@ -3,9 +3,9 @@ import { GameStateProvider } from "./GameStateProvider";
 import { SocketProvider } from "./SocketProvider";
 import useLocalStorage from "../hooks/useLocalStorage";
 
-function AllProviders({ children, userId, gameId }) {
+function AllProviders({ children, userId, setUserId, gameId }) {
   return (
-    <SocketProvider userId={userId} gameId={gameId}>
+    <SocketProvider userId={userId} setUserId={setUserId} gameId={gameId}>
       <GameStateProvider>{children}</GameStateProvider>
     </SocketProvider>
   );
