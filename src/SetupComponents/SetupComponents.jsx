@@ -1,7 +1,6 @@
 import React from "react";
 import LoginPage from "./LoginPage";
 import AddPlayersPage from "./AddPlayersPage";
-import ReorderPlayers from "./ReorderPlayers";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function SetupComponents({ setGameId, setUserId, userId, gameId }) {
