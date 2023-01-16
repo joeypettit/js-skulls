@@ -28,8 +28,8 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     socket.emit("add-player", { playerId: userId, gameId, playerName });
   }
 
-  function updatePlayerName() {
-    console.log("okay");
+  function toggleReorderPlayers(gameToToggle) {
+    socket.emit("toggle-reorder-players", gameToToggle);
   }
 
   // update gameState in state
@@ -64,6 +64,7 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     gameState,
     requestNewGameState,
     requestAddPlayerToGame,
+    toggleReorderPlayers,
     startNewGame,
   };
 

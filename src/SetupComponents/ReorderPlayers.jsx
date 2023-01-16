@@ -7,7 +7,7 @@ function ReorderPlayers({ gameState, playersReordering }) {
 
   return (
     <Container className="d-flex flex-column justify-content-center">
-      {playersReordering && (
+      {gameState.playersReordering && (
         <div className="text-danger">
           Starting with {gameState.players[0].name}, input your order,
           counter-clockwise.
@@ -18,7 +18,9 @@ function ReorderPlayers({ gameState, playersReordering }) {
           if (player.isOwner === true) {
             return (
               <li key={index} className="m-1">
-                <Button variant={playersReordering ? "danger" : "secondary"}>
+                <Button
+                  variant={gameState.playersReordering ? "danger" : "secondary"}
+                >
                   {"1: "}
                   {player.name}
                 </Button>
@@ -28,7 +30,7 @@ function ReorderPlayers({ gameState, playersReordering }) {
           return (
             <li key={index} className="m-1">
               <Button
-                variant={playersReordering ? "info" : "secondary"}
+                variant={gameState.playersReordering ? "info" : "secondary"}
                 onClick={() => handleOrdering(index)}
               >
                 {index + 1 + ": "}

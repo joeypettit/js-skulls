@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ReorderPlayers from "./ReorderPlayers";
+import { useGameState } from "../Contexts/GameStateProvider";
 
 function AddPlayersPage({ gameId, gameState }) {
-  const [playersReordering, setPlayersReordering] = useState(false);
+  const { toggleReorderPlayers } = useGameState();
 
   return (
     <Container>
@@ -12,24 +13,16 @@ function AddPlayersPage({ gameId, gameState }) {
       <p>Navigate to URL and Enter Existing Game Using the Game Id</p>
       <p>When All Players Are In, Press Ready</p>
       <p>Players:</p>
-      {playersReordering ? (
-        <Button onClick={() => setPlayersReordering(false)}>
+      {gameState.playersReordering ? (
+        <Button onClick={() => toggleReorderPlayers(gameState.gameId)}>
           Finish Re-Order
         </Button>
       ) : (
-        <Button onClick={() => setPlayersReordering(true)}>
+        <Button onClick={() => toggleReorderPlayers(gameState.gameId)}>
           Re-order Players
         </Button>
       )}
-      <ReorderPlayers
-        gameState={gameState}
-        playersReordering={playersReordering}
-      />
-      <ul>
-        {gameState.players.map((player, index) => {
-          return <li key={index}>{player.name}</li>;
-        })}
-      </ul>
+      <ReorderPlayers gameState={gameState} />
       <Button>Ready</Button>
     </Container>
   );

@@ -54,6 +54,21 @@ io.on("connection", (socket) => {
     //
   });
 
+  socket.on("toggle-reorder-players", (gameId) => {
+    const gameStateIndex = allGameStates.findIndex(
+      (gameStateObj) => gameStateObj.gameId === gameId
+    );
+
+    if (gameStateIndex !== -1) {
+      allGameStates[gameStateIndex].playersReordering =
+        !allGameStates[gameStateIndex].playersReordering;
+      const updatedGameState = allGameStates[gameStateIndex];
+      io.in(gameId).emit("update-gamestate", updatedGameState);
+    } else {
+      // emit there was an error
+    }
+  });
+
   socket.on("disconnect", (socket) => {
     console.log("disconnected");
   });
