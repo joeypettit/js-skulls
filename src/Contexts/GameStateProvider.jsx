@@ -34,8 +34,8 @@ export function GameStateProvider({ children, gameId, setGameId }) {
 
   // this function accepts the order index number of the
   // user and places them accordingly in the gameState obj
-  function assignPlayerOrderNumber(orderIndex) {
-    socket.emit("assign-order-number", orderIndex);
+  function assignPlayerOrderNumber(newIndex) {
+    socket.emit("assign-order-number", { gameId, newIndex });
   }
 
   // update gameState in state

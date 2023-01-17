@@ -17,7 +17,7 @@ function SetupComponents({ setGameId, setUserId, userId, gameId }) {
         />
       )}
       {gameId && userId && gameState && (
-        <AddPlayersPage gameId={gameId} gameState={gameState} />
+        <AddPlayersPage gameId={gameId} gameState={gameState} userId={userId} />
       )}
     </>
   );

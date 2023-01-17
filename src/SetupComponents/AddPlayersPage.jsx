@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import ReorderPlayers from "./ReorderPlayers";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function AddPlayersPage({ gameId, gameState }) {
+function AddPlayersPage({ gameId, userId, gameState }) {
   const { toggleReorderPlayers } = useGameState();
 
   return (
@@ -22,7 +22,7 @@ function AddPlayersPage({ gameId, gameState }) {
           Re-order Players
         </Button>
       )}
-      <ReorderPlayers gameState={gameState} />
+      <ReorderPlayers gameState={gameState} userId={userId} />
       <Button>Ready</Button>
     </Container>
   );

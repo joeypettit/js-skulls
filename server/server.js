@@ -74,6 +74,39 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("assign-order-number", ({ gameId, newIndex }) => {
+    const userId = socket.handshake.query.userId;
+    console.log("in assign order index", gameId, newIndex);
+
+    const gameStateIndex = allGameStates.findIndex(
+      (gameStateObj) => gameStateObj.gameId === gameId
+    );
+
+    if (gameStateIndex !== -1) {
+      const playerIndex = allGameStates[gameStateIndex].players.findIndex(
+        (playersObj) => {
+          playersObj.playerId === userId;
+        }
+      );
+      // remove player object from players array
+      const playerObj = allGameStates[gameStateIndex].players.splice(
+        playerIndex,
+        1
+      )[0];
+
+      console.log("playerObj", playerObj);
+      // reinsert player object at updated index
+      allGameStates[gameStateIndex].players.splice(newIndex, 0, playerObj);
+
+      // return updated gamestate to clients
+      const updatedGameState = allGameStates[gameStateIndex];
+      console.log("updatedgamestate", updatedGameState.players);
+      io.in(gameId).emit("update-gamestate", updatedGameState);
+    } else {
+      // emit there was an error
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("disconnect user", socket.rooms);
     const disconnectedId = socket.handshake.query.userId;

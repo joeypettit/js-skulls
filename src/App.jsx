@@ -37,3 +37,5 @@ export default App;
 //    -implement list of recent players on server
 //    -when client drops, check what their active games were, update gamestate
 //    -
+// -Possible player order idea...
+//    -promt: player two press, player three press, player four press, etc.
