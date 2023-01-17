@@ -41,8 +41,10 @@ io.on("connection", (socket) => {
     console.log("add player", socket.handshake.query.userId);
     const userId = socket.handshake.query.userId;
     const gameStateIndex = allGameStates.findIndex(
-      (gameStateObj) => gameStateObj.gameId === gameId
+      (gameStateObj) => gameStateObj.gameId == gameId
     );
+    console.log(allGameStates);
+    console.log("adding player", userId, gameId, gameStateIndex);
 
     // if a gamestate matches, join socket, add player to gamestate
     if (gameStateIndex !== -1) {

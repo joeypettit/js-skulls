@@ -1,9 +1,14 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import { useGameState } from "../Contexts/GameStateProvider";
 
 function ReorderPlayers({ gameState, playersReordering }) {
-  function handleOrdering() {}
+  const { assignPlayerOrderNumber } = useGameState();
+
+  function handleOrdering(orderIndex) {
+    assignPlayerOrderNumber(orderIndex);
+  }
 
   return (
     <Container className="d-flex flex-column justify-content-center">

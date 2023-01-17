@@ -33,4 +33,7 @@ function App() {
 export default App;
 
 // TODO:
-// -create function to start new game and connect to client
+// -Ensure that when client is disconnected, the game response appropiately
+//    -implement list of recent players on server
+//    -when client drops, check what their active games were, update gamestate
+//    -

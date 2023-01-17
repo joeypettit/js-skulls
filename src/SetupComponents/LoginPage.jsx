@@ -44,7 +44,7 @@ function LoginPage({ setGameId, userId }) {
     console.log("here");
     // send request to be added to game in 'enter game id' field
     const existingGameId = gameIdEnterExistingRef.current.value;
-    requestAddPlayerToGame(userId, existingGameId, playerName);
+    requestAddPlayerToGame(existingGameId, playerName);
   }
 
   function handleUseDeviceAsGameboard(e) {
