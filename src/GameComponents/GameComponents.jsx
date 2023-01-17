@@ -4,7 +4,11 @@ import { useGameState } from "../Contexts/GameStateProvider";
 function GameComponents({ gameId, userId }) {
   const { gameState } = useGameState();
 
-  return <>{gameState.inProgress ? <div>Game Components Here</div> : null}</>;
+  return (
+    <>
+      <div>Game Components Here</div>
+    </>
+  );
 }
 
 export default GameComponents;
