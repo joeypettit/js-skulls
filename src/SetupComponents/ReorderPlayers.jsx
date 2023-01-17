@@ -6,7 +6,7 @@ import { useGameState } from "../Contexts/GameStateProvider";
 function ReorderPlayers({ gameState, userId }) {
   const { assignPlayerOrderNumber } = useGameState();
 
-  function handleOrdering(newIndex) {
+  function handleReorder(newIndex) {
     assignPlayerOrderNumber(newIndex);
   }
 
@@ -14,10 +14,15 @@ function ReorderPlayers({ gameState, userId }) {
     <Container className="d-flex flex-column justify-content-center">
       {gameState.playersReordering && (
         <div className="text-danger">
-          The Player to the Left of {gameState.players[0].name},
+          <h4>
+            The Player to the Left of{" "}
+            {gameState.players[gameState.reorderingAt].name}, Press Next
+          </h4>
+          <Button onClick={() => handleReorder(gameState.reorderingAt + 1)}>
+            Next
+          </Button>
         </div>
       )}
-      <ul>{}</ul>
 
       {/* {gameState.playersReordering && (
         <div className="text-danger">

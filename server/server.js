@@ -74,21 +74,24 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("assign-order-number", ({ gameId, newIndex }) => {
+  socket.on("assign-order-index", ({ gameId, newIndex }) => {
     const userId = socket.handshake.query.userId;
     console.log("in assign order index", gameId, newIndex);
 
+    // find correct gameState to edit
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId === gameId
     );
 
+    // if gamestate found...
     if (gameStateIndex !== -1) {
+      // find the current index of the player that will be reordered
       const playerIndex = allGameStates[gameStateIndex].players.findIndex(
         (playersObj) => {
           playersObj.playerId === userId;
         }
       );
-      // remove player object from players array
+      // remove player object from players array, store in variable
       const playerObj = allGameStates[gameStateIndex].players.splice(
         playerIndex,
         1
@@ -98,9 +101,22 @@ io.on("connection", (socket) => {
       // reinsert player object at updated index
       allGameStates[gameStateIndex].players.splice(newIndex, 0, playerObj);
 
+      // add one to helper counter
+      allGameStates[gameStateIndex].reorderingAt += 1;
+
+      // if helper counter "reorderingAt" is greater than length of players array...
+      if (
+        allGameStates[gameStateIndex].reorderingAt >=
+        allGameStates[gameStateIndex].players.length - 1
+      ) {
+        // reset the counter to 0, and flip "playersReordering" to false
+        allGameStates[gameStateIndex].reorderingAt = 0;
+        allGameStates[gameStateIndex].playersReordering = false;
+      }
+
       // return updated gamestate to clients
       const updatedGameState = allGameStates[gameStateIndex];
-      console.log("updatedgamestate", updatedGameState.players);
+      console.log("updatedgamestate", updatedGameState);
       io.in(gameId).emit("update-gamestate", updatedGameState);
     } else {
       // emit there was an error

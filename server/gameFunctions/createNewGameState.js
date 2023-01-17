@@ -7,7 +7,8 @@
 function createNewGameState(playerId, gameId, playerName) {
   const gameState = {
     gameId,
-    playersReordering: false,
+    playersReordering: false, // helper boolean for rendering player reorder
+    reorderingAt: 0, // helpful for tracking reordering progression
     inProgress: false, // is active will be true when game is in play
     gameStage: ["laying", "betting", "flipping", "scoring"], // ,laying, betting, flipping, scoring
     round: 0,

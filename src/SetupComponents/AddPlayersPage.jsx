@@ -23,6 +23,11 @@ function AddPlayersPage({ gameId, userId, gameState }) {
         </Button>
       )}
       <ReorderPlayers gameState={gameState} userId={userId} />
+      <ul>
+        {gameState.players.map((player, index) => {
+          return <li key={index}>{index + 1 + ": " + player.name}</li>;
+        })}
+      </ul>
       <Button>Ready</Button>
     </Container>
   );
