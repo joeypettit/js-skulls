@@ -7,15 +7,17 @@
 function createNewGameState(playerId, gameId, playerName) {
   const gameState = {
     gameId,
+    playersReordering: false, // helper boolean for rendering player reorder
+    reorderingAt: 0, // helpful for tracking reordering progression
     inProgress: false, // is active will be true when game is in play
     gameStage: ["laying", "betting", "flipping", "scoring"], // ,laying, betting, flipping, scoring
-    playerOrder: [playerId], // order of play, playerIds, first player in array is the dealer for the round
     round: 0,
     latestBet: {
       numOfCards: null, // number of cards currently being bet
       highestBetter: null, // player with highest bet
     },
     players: [
+      // all players, they will be in the order of play
       {
         name: playerName, // by default this will be playerId
         isPlayersTurn: false,

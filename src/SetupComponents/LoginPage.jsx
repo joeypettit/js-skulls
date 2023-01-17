@@ -4,9 +4,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import generateId from "../ClientFunctions/generateId";
 import { useGameState } from "../Contexts/GameStateProvider";
-import useLocalStorage from "../hooks/useLocalStorage";
 
-function LoginPage({ setGameId, userId }) {
+function LoginPage({ setGameId, userId, playerName, setPlayerName }) {
   // import function from GameStateProvider
   const { requestNewGameState, requestAddPlayerToGame } = useGameState();
   // this ref points to game id input on "enter an exisiting game"
@@ -17,8 +16,6 @@ function LoginPage({ setGameId, userId }) {
   const playerNameInputRef = useRef();
   // true when name has been confirmed => render start new/enter game
   const [nameConfirmed, setNameConfirmed] = useState(false);
-  // use local storage to grab/store player name
-  const [playerName, setPlayerName] = useLocalStorage("name", null);
 
   function handleChangeName() {
     const newPlayerName = playerNameInputRef.current.value;
@@ -44,7 +41,7 @@ function LoginPage({ setGameId, userId }) {
     console.log("here");
     // send request to be added to game in 'enter game id' field
     const existingGameId = gameIdEnterExistingRef.current.value;
-    requestAddPlayerToGame(userId, existingGameId, playerName);
+    requestAddPlayerToGame(existingGameId, playerName);
   }
 
   function handleUseDeviceAsGameboard(e) {

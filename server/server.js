@@ -23,9 +23,10 @@ const createNewPlayer = require("./gameFunctions/createNewPlayer");
 
 // Socket.io
 io.on("connection", (socket) => {
-  console.log("connected");
+  console.log("connected", socket.handshake.query.userId);
 
-  socket.on("create-gamestate", ({ userId, gameId, playerName }) => {
+  socket.on("create-gamestate", ({ gameId, playerName }) => {
+    const userId = socket.handshake.query.userId;
     // create new room based on gameId
     socket.join(gameId);
     // // create a new gamestate with this gameId
@@ -35,15 +36,19 @@ io.on("connection", (socket) => {
     io.in(gameId).emit("update-gamestate", newGameState);
   });
 
-  // add player to a game using gameId and playerId
-  socket.on("add-player", ({ playerId, gameId, playerName }) => {
+  // add player to a game using gameId and userId
+  socket.on("add-player", ({ gameId, playerName }) => {
+    console.log("add player", socket.handshake.query.userId);
+    const userId = socket.handshake.query.userId;
     const gameStateIndex = allGameStates.findIndex(
-      (gameStateObj) => gameStateObj.gameId === gameId
+      (gameStateObj) => gameStateObj.gameId == gameId
     );
+    console.log(allGameStates);
+    console.log("adding player", userId, gameId, gameStateIndex);
 
     // if a gamestate matches, join socket, add player to gamestate
     if (gameStateIndex !== -1) {
-      const newPlayerObj = createNewPlayer(playerId, playerName);
+      const newPlayerObj = createNewPlayer(userId, playerName);
       allGameStates[gameStateIndex].players.push(newPlayerObj);
       const updatedGameState = allGameStates[gameStateIndex];
       socket.join(gameId);
@@ -54,8 +59,77 @@ io.on("connection", (socket) => {
     //
   });
 
-  socket.on("disconnect", (socket) => {
-    console.log("disconnected");
+  socket.on("toggle-reorder-players", (gameId) => {
+    const gameStateIndex = allGameStates.findIndex(
+      (gameStateObj) => gameStateObj.gameId === gameId
+    );
+
+    allGameStates[gameStateIndex].reorderingAt = 0;
+
+    if (gameStateIndex !== -1) {
+      allGameStates[gameStateIndex].playersReordering =
+        !allGameStates[gameStateIndex].playersReordering;
+
+      const updatedGameState = allGameStates[gameStateIndex];
+      io.in(gameId).emit("update-gamestate", updatedGameState);
+    } else {
+      // emit there was an error
+    }
+  });
+
+  socket.on("assign-order-index", ({ gameId, newIndex }) => {
+    const userId = socket.handshake.query.userId;
+    console.log("in assign order index", gameId, newIndex);
+
+    // find correct gameState to edit
+    const gameStateIndex = allGameStates.findIndex(
+      (gameStateObj) => gameStateObj.gameId === gameId.toString()
+    );
+
+    // if gamestate found...
+    if (gameStateIndex !== -1) {
+      // find the current index of the player that will be reordered
+      const playerIndex = allGameStates[gameStateIndex].players.findIndex(
+        (playerObj) => {
+          return playerObj.playerId === userId;
+        }
+      );
+
+      if (playerIndex !== newIndex) {
+        // remove player object from players array, store in variable
+        const playerObj = allGameStates[gameStateIndex].players.splice(
+          playerIndex,
+          1
+        )[0];
+
+        // reinsert player object at updated index
+        allGameStates[gameStateIndex].players.splice(newIndex, 0, playerObj);
+      }
+      // add one to helper counter
+      allGameStates[gameStateIndex].reorderingAt += 1;
+
+      // if helper counter "reorderingAt" is greater than length of players array...
+      if (
+        allGameStates[gameStateIndex].reorderingAt >=
+        allGameStates[gameStateIndex].players.length - 1
+      ) {
+        // reset the counter to 0, and flip "playersReordering" to false
+        allGameStates[gameStateIndex].reorderingAt = 0;
+        allGameStates[gameStateIndex].playersReordering = false;
+      }
+
+      // return updated gamestate to clients
+      const updatedGameState = allGameStates[gameStateIndex];
+      console.log("updatedgamestate", updatedGameState);
+      io.in(gameId).emit("update-gamestate", updatedGameState);
+    } else {
+      // emit there was an error
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("disconnect user", socket.rooms);
+    const disconnectedId = socket.handshake.query.userId;
   });
 });
 

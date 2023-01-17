@@ -33,4 +33,14 @@ function App() {
 export default App;
 
 // TODO:
-// -create function to start new game and connect to client
+// -Use device as gameboard feature
+// -Ensure that when client is disconnected, the game response appropiately
+//    -implement list of recent players on server
+//    -when client drops, check what their active games were, update gamestate
+//    -
+// -Possible player order idea...
+//    -promt: player two press, player three press, player four press, etc.
+// -Add ability to change player name on the add players screen
+// -Global "Kath is connected/disconnected" notification messages context
+// -Global error messages conext
+//

@@ -21,15 +21,21 @@ export function GameStateProvider({ children, gameId, setGameId }) {
   // -
   function requestNewGameState(userId, newGameId, playerName) {
     // create new game room
-    socket.emit("create-gamestate", { userId, gameId: newGameId, playerName });
+    socket.emit("create-gamestate", { gameId: newGameId, playerName });
   }
 
-  function requestAddPlayerToGame(userId, gameId, playerName) {
-    socket.emit("add-player", { playerId: userId, gameId, playerName });
+  function requestAddPlayerToGame(gameId, playerName) {
+    socket.emit("add-player", { gameId, playerName });
   }
 
-  function updatePlayerName() {
-    console.log("okay");
+  function toggleReorderPlayers(gameToToggle) {
+    socket.emit("toggle-reorder-players", gameToToggle);
+  }
+
+  // this function accepts the order index number of the
+  // user and places them accordingly in the gameState obj
+  function assignPlayerOrderNumber(newIndex) {
+    socket.emit("assign-order-index", { gameId, newIndex });
   }
 
   // update gameState in state
@@ -64,6 +70,8 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     gameState,
     requestNewGameState,
     requestAddPlayerToGame,
+    toggleReorderPlayers,
+    assignPlayerOrderNumber,
     startNewGame,
   };
 
