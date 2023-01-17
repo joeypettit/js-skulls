@@ -33,7 +33,9 @@ export function SocketProvider({ userId, setUserId, gameId, children }) {
   useEffect(() => {
     const idForNewSocket = getUserId();
     // create new socket with the address of the origin url(eg localhost:5000 or 10.168.2.34.34:3000)
-    const newSocket = io(window.location.origin);
+    const newSocket = io(window.location.origin, {
+      query: { userId: idForNewSocket },
+    });
 
     // store new socket to local state
     setSocket(newSocket);

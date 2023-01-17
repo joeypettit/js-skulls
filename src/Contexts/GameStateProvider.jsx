@@ -21,7 +21,7 @@ export function GameStateProvider({ children, gameId, setGameId }) {
   // -
   function requestNewGameState(userId, newGameId, playerName) {
     // create new game room
-    socket.emit("create-gamestate", { userId, gameId: newGameId, playerName });
+    socket.emit("create-gamestate", { gameId: newGameId, playerName });
   }
 
   function requestAddPlayerToGame(userId, gameId, playerName) {

@@ -23,9 +23,10 @@ const createNewPlayer = require("./gameFunctions/createNewPlayer");
 
 // Socket.io
 io.on("connection", (socket) => {
-  console.log("connected");
+  console.log("connected", socket.handshake.query.userId);
 
-  socket.on("create-gamestate", ({ userId, gameId, playerName }) => {
+  socket.on("create-gamestate", ({ gameId, playerName }) => {
+    const userId = socket.handshake.query.userId;
     // create new room based on gameId
     socket.join(gameId);
     // // create a new gamestate with this gameId
@@ -35,15 +36,17 @@ io.on("connection", (socket) => {
     io.in(gameId).emit("update-gamestate", newGameState);
   });
 
-  // add player to a game using gameId and playerId
-  socket.on("add-player", ({ playerId, gameId, playerName }) => {
+  // add player to a game using gameId and userId
+  socket.on("add-player", ({ gameId, playerName }) => {
+    console.log("add player", socket.handshake.query.userId);
+    const userId = socket.handshake.query.userId;
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId === gameId
     );
 
     // if a gamestate matches, join socket, add player to gamestate
     if (gameStateIndex !== -1) {
-      const newPlayerObj = createNewPlayer(playerId, playerName);
+      const newPlayerObj = createNewPlayer(userId, playerName);
       allGameStates[gameStateIndex].players.push(newPlayerObj);
       const updatedGameState = allGameStates[gameStateIndex];
       socket.join(gameId);
@@ -69,8 +72,9 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("disconnect", (socket) => {
-    console.log("disconnected");
+  socket.on("disconnect", () => {
+    console.log("disconnect user", socket.rooms);
+    const disconnectedId = socket.handshake.query.userId;
   });
 });
 
