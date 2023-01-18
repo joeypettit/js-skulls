@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // body parser middleware
 const allGameStates = require("./gameFunctions/allGameStates");
 const createNewGameState = require("./gameFunctions/createNewGameState");
 const createNewPlayer = require("./gameFunctions/createNewPlayer");
+const createCensoredGameState = require("./gameFunctions/createCensoredGameState");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -29,6 +30,7 @@ io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
     // create new room based on gameId
     socket.join(gameId);
+    socket.join(userId);
     // // create a new gamestate with this gameId
     const newGameState = createNewGameState(userId, gameId, playerName);
     allGameStates.push(newGameState);
@@ -52,6 +54,7 @@ io.on("connection", (socket) => {
       allGameStates[gameStateIndex].players.push(newPlayerObj);
       const updatedGameState = allGameStates[gameStateIndex];
       socket.join(gameId);
+      socket.join(userId);
       io.in(gameId).emit("update-gamestate", updatedGameState);
     } else {
       // emit there was an error
@@ -141,12 +144,21 @@ io.on("connection", (socket) => {
       allGameStates[gameStateIndex].readyToPlay = true;
       allGameStates[gameStateIndex].inProgress = true;
 
-      // for each player, move cards into cardsInHand
+      // for each player,
+      // -move cards into cardsInHand
+      // -emit unique gamestate with other player info censored.
       for (let player of allGameStates[gameStateIndex].players) {
-        const allCards = [...player.allCards];
-        player.cardsInHand = allCards;
-      }
+        const userId = player.playerId;
+        player.cardsInHand = [...player.allCards];
 
+        // censor other players' card info
+        const updatedGameState = createCensoredGameState(
+          player.playerId,
+          allGameStates[gameStateIndex]
+        );
+        // send uniquely censored gamestate to each player
+        io.in(userId).emit("update-gamestate", updatedGameState);
+      }
       // set player turn index
     } else {
       // emit there was an error

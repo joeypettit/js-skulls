@@ -9,7 +9,6 @@ import AllProviders from "./Contexts/AllProviders";
 function App() {
   // gameId is stored locally to pass to gamestate provider
   const [gameId, setGameId] = useState();
-
   const [userId, setUserId] = useLocalStorage("userId", null);
   return (
     <>
@@ -45,4 +44,6 @@ export default App;
 // -Add ability to change player name on the add players screen
 // -Global "Kath is connected/disconnected" notification messages context
 // -Global error messages conext
+// -handle players that join late, after game has started
+//
 //

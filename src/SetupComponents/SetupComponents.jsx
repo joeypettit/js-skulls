@@ -4,13 +4,7 @@ import AddPlayersPage from "./AddPlayersPage";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function SetupComponents({
-  setGameId,
-  setUserId,
-  userId,
-  gameId,
-  setReadyToPlay,
-}) {
+function SetupComponents({ setGameId, gameId, userId, setUserId }) {
   const { gameState } = useGameState();
   // use local storage to grab/store player name
   const [playerName, setPlayerName] = useLocalStorage("name", null);
@@ -27,7 +21,7 @@ function SetupComponents({
           setPlayerName={setPlayerName}
         />
       )}
-      {gameId && userId && gameState && (
+      {gameId && userId && gameState && !gameState.readyToPlay && (
         <AddPlayersPage
           gameId={gameId}
           gameState={gameState}
