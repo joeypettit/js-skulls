@@ -9,8 +9,7 @@ import AllProviders from "./Contexts/AllProviders";
 function App() {
   // gameId is stored locally to pass to gamestate provider
   const [gameId, setGameId] = useState();
-  // after initial set up, set to true to begin game
-  const [readyToPlay, setReadyToPlay] = useState(false);
+
   const [userId, setUserId] = useLocalStorage("userId", null);
   return (
     <>
@@ -21,17 +20,13 @@ function App() {
         userId={userId}
         setUserId={setUserId}
       >
-        {readyToPlay ? (
-          <GameComponents gameId={gameId} userId={userId} />
-        ) : (
-          <SetupComponents
-            setGameId={setGameId}
-            setUserId={setUserId}
-            userId={userId}
-            gameId={gameId}
-            setReadyToPlay={setReadyToPlay}
-          />
-        )}
+        <GameComponents gameId={gameId} userId={userId} />
+        <SetupComponents
+          setGameId={setGameId}
+          setUserId={setUserId}
+          userId={userId}
+          gameId={gameId}
+        />
       </AllProviders>
     </>
   );

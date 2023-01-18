@@ -11,10 +11,6 @@ export function GameStateProvider({ children, gameId, setGameId }) {
   const socket = useSocket();
   const [gameState, setGameState] = useState(null);
 
-  function startNewGame() {
-    // request new game from server
-  }
-
   // this function will...
   // - create new socket.io room with gameId, add player
   // - create create a new game state with game creators playerId
@@ -36,6 +32,11 @@ export function GameStateProvider({ children, gameId, setGameId }) {
   // user and places them accordingly in the gameState obj
   function assignPlayerOrderNumber(newIndex) {
     socket.emit("assign-order-index", { gameId, newIndex });
+  }
+
+  function startNewGame() {
+    // request new game from server
+    socket.emit("start-new-game", gameId);
   }
 
   // update gameState in state

@@ -33,7 +33,6 @@ function SetupComponents({
           gameState={gameState}
           userId={userId}
           playerName={playerName}
-          setReadyToPlay={setReadyToPlay}
         />
       )}
     </>

@@ -127,6 +127,32 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("start-new-game", (gameId) => {
+    console.log("starting new game", gameId);
+
+    // find correct gameState to edit
+    const gameStateIndex = allGameStates.findIndex(
+      (gameStateObj) => gameStateObj.gameId === gameId.toString()
+    );
+
+    // if gamestate found...
+    if (gameStateIndex !== -1) {
+      // set each readyToPlay and inProgress to true
+      allGameStates[gameStateIndex].readyToPlay = true;
+      allGameStates[gameStateIndex].inProgress = true;
+
+      // for each player, move cards into cardsInHand
+      for (let player of allGameStates[gameStateIndex].players) {
+        const allCards = [...player.allCards];
+        player.cardsInHand = allCards;
+      }
+
+      // set player turn index
+    } else {
+      // emit there was an error
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("disconnect user", socket.rooms);
     const disconnectedId = socket.handshake.query.userId;

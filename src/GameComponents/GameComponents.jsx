@@ -1,4 +1,5 @@
 import React from "react";
+import PlayerHand from "./PlayerHand";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
@@ -6,7 +7,7 @@ function GameComponents({ gameId, userId }) {
 
   return (
     <>
-      <div>Game Components Here</div>
+      <PlayerHand />
     </>
   );
 }

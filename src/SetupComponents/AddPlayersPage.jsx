@@ -4,12 +4,17 @@ import Button from "react-bootstrap/Button";
 import ReorderPlayers from "./ReorderPlayers";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function AddPlayersPage({ gameId, userId, gameState, setReadyToPlay }) {
-  const { toggleReorderPlayers } = useGameState();
+function AddPlayersPage({ gameId, userId, gameState }) {
+  const { toggleReorderPlayers, startNewGame } = useGameState();
 
   function initiatePlayerReorder() {
     console.log("initiatePlayerReorder");
     toggleReorderPlayers(gameState.gameId);
+  }
+
+  function handleReadyToPlay() {
+    console.log("ready to play");
+    startNewGame();
   }
 
   return (
@@ -46,7 +51,7 @@ function AddPlayersPage({ gameId, userId, gameState, setReadyToPlay }) {
           <div>When the group is ready, press "Ready"</div>
           <Button
             disabled={gameState.playersReordering ? true : false}
-            onClick={() => setReadyToPlay(true)}
+            onClick={() => handleReadyToPlay()}
           >
             Ready
           </Button>
