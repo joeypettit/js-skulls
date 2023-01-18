@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
 import PlayerHand from "./PlayerHand";
 import { useGameState } from "../Contexts/GameStateProvider";
 
@@ -7,7 +8,11 @@ function GameComponents({ gameId, userId }) {
 
   return (
     <>
-      <PlayerHand />
+      <Container>
+        {gameState && gameState.readyToPlay && gameState.inProgress && (
+          <PlayerHand gameState={gameState} userId={userId} />
+        )}
+      </Container>
     </>
   );
 }

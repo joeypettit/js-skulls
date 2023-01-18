@@ -149,10 +149,14 @@ io.on("connection", (socket) => {
       // -emit unique gamestate with other player info censored.
       for (let player of allGameStates[gameStateIndex].players) {
         const userId = player.playerId;
+        player.cardsInHand = [...player.allCards];
+
+        // censor other players' card info
         const updatedGameState = createCensoredGameState(
           player.playerId,
           allGameStates[gameStateIndex]
         );
+        // send uniquely censored gamestate to each player
         io.in(userId).emit("update-gamestate", updatedGameState);
       }
       // set player turn index
