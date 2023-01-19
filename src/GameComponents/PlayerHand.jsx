@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 function PlayerHand({ gameState, userId, setShowHand, showHand }) {
   // pull player cards out of array
   let thisPlayer = {};
-
   for (let player of gameState.players) {
     if (player.playerId === userId) {
       thisPlayer = player;
@@ -12,14 +12,13 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
     }
   }
 
-  console.log("this player", thisPlayer);
-
-  // shuffle player hand so that the skull always
-  // appears on a different location on the screen
-  // (to avoid other players guessing based on your
-  // button press location)
-
-  thisPlayer.cardsInHand.sort((a, b) => 0.5 - Math.random());
+  useEffect(() => {
+    // shuffle player hand so that the skull always
+    // appears on a different location on the screen
+    // (to avoid other players guessing based on your
+    // button press location)
+    thisPlayer.cardsInHand.sort((a, b) => 0.5 - Math.random());
+  }, [thisPlayer, gameState.round]);
 
   return (
     <Offcanvas
