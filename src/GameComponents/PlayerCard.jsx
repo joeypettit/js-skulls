@@ -6,11 +6,11 @@ function Card({ card }) {
   return (
     <div>
       {card.isSkull ? (
-        <Button variant="danger" size="lg" className="py-5 px-4">
+        <Button variant="danger" size="lg" className="py-4 px-4">
           💀
         </Button>
       ) : (
-        <Button variant="success" size="lg" className="py-5 px-4">
+        <Button variant="success" size="lg" className="py-4 px-4">
           🌹
         </Button>
       )}

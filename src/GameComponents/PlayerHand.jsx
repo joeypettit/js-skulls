@@ -28,15 +28,13 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
       name={"bottom"}
       className="bg-warning"
     >
-      <Offcanvas.Header closeButton>
+      <Offcanvas.Header closeButton className="p-1">
         <Offcanvas.Title>Your Hand:</Offcanvas.Title>
       </Offcanvas.Header>
-      <Offcanvas.Body>
-        <div className="d-flex flex-row justify-content-around">
-          {thisPlayer.cardsInHand.map((card, index) => {
-            return <PlayerCard key={index} card={card} />;
-          })}
-        </div>
+      <Offcanvas.Body className="d-flex flex-row justify-content-around">
+        {thisPlayer.cardsInHand.map((card, index) => {
+          return <PlayerCard key={index} card={card} />;
+        })}
       </Offcanvas.Body>
     </Offcanvas>
 
