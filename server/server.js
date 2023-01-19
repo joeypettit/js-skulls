@@ -34,7 +34,6 @@ io.on("connection", (socket) => {
     // // create a new gamestate with this gameId
     const newGameState = createNewGameState(userId, gameId, playerName);
     allGameStates.push(newGameState);
-    console.log("updating gamestate");
     io.in(gameId).emit("update-gamestate", newGameState);
   });
 
@@ -45,8 +44,6 @@ io.on("connection", (socket) => {
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId == gameId
     );
-    console.log(allGameStates);
-    console.log("adding player", userId, gameId, gameStateIndex);
 
     // if a gamestate matches, join socket, add player to gamestate
     if (gameStateIndex !== -1) {
@@ -123,7 +120,6 @@ io.on("connection", (socket) => {
 
       // return updated gamestate to clients
       const updatedGameState = allGameStates[gameStateIndex];
-      console.log("updatedgamestate", updatedGameState);
       io.in(gameId).emit("update-gamestate", updatedGameState);
     } else {
       // emit there was an error
@@ -131,8 +127,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("start-new-game", (gameId) => {
-    console.log("starting new game", gameId);
-
     // find correct gameState to edit
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId === gameId.toString()
