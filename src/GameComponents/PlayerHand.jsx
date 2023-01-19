@@ -1,31 +1,54 @@
 import PlayerCard from "./PlayerCard";
-import Container from "react-bootstrap/Container";
+import Offcanvas from "react-bootstrap/Offcanvas";
 
-function PlayerHand({ gameState, userId }) {
+function PlayerHand({ gameState, userId, setShowHand, showHand }) {
   // pull player cards out of array
   let thisPlayer = {};
-  gameState.players.map((player) => {
+
+  for (let player of gameState.players) {
     if (player.playerId === userId) {
       thisPlayer = player;
+      break;
     }
-  });
+  }
+
+  console.log("this player", thisPlayer);
 
   // shuffle player hand so that the skull always
   // appears on a different location on the screen
   // (to avoid other players guessing based on your
   // button press location)
+
   thisPlayer.cardsInHand.sort((a, b) => 0.5 - Math.random());
 
-  console.log("thisPlayer", thisPlayer);
   return (
-    <div className="player-hands">
-      <h1>Your Hand:</h1>
-      <Container className="d-flex flex-row justify-content-between">
-        {thisPlayer.cardsInHand.map((card, index) => {
-          return <PlayerCard key={index} card={card} />;
-        })}
-      </Container>
-    </div>
+    <Offcanvas
+      show={showHand}
+      onHide={() => setShowHand(false)}
+      placement="bottom"
+      name={"bottom"}
+      className="bg-warning"
+    >
+      <Offcanvas.Header closeButton>
+        <Offcanvas.Title>Your Hand:</Offcanvas.Title>
+      </Offcanvas.Header>
+      <Offcanvas.Body>
+        <div className="d-flex flex-row justify-content-around">
+          {thisPlayer.cardsInHand.map((card, index) => {
+            return <PlayerCard key={index} card={card} />;
+          })}
+        </div>
+      </Offcanvas.Body>
+    </Offcanvas>
+
+    // <h1>Your Hand:</h1>
+    // <Container className="d-flex flex-row justify-content-around">
+    //   <div className="d-flex flex-row justify-content-around bg-primary">
+    //     {thisPlayer.cardsInHand.map((card, index) => {
+    //       return <PlayerCard key={index} card={card} />;
+    //     })}
+    //   </div>
+    // </Container>
   );
 }
 
