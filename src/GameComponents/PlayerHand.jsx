@@ -11,13 +11,14 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
       break;
     }
   }
+  console.log("this player", thisPlayer);
 
   useEffect(() => {
     // shuffle player hand so that the skull always
     // appears on a different location on the screen
     // (to avoid other players guessing based on your
     // button press location)
-    thisPlayer.cardsInHand.sort((a, b) => 0.5 - Math.random());
+    thisPlayer.allCards.sort((a, b) => 0.5 - Math.random());
   }, [thisPlayer, gameState.round]);
 
   return (

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
 
 function Card({ card }) {
+  console.log("this card", card.isSkull);
   return (
     <div>
       {card.isSkull ? (

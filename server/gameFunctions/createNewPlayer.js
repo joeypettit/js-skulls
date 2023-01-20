@@ -32,8 +32,6 @@ function createNewPlayer(playerId, playerName, isGameOwner) {
         isInPlay: false,
       },
     ],
-    cardsInHand: [], // cards that are in the players hand as play progresses
-    cardsInPlay: [], // cards currently laid down and in play
     isBetting: false, // is this player participating in this round of betting => true/false
     points: 0, // number of points (rounds) this player has won
     isOwner: isGameOwner, // if this player created the game, they are the owner

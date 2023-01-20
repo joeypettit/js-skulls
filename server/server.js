@@ -127,8 +127,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("start-new-game", (gameId) => {
-    const userId = socket.handshake.query.userId;
-
     // find correct gameState to edit
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId === gameId.toString()
@@ -150,7 +148,7 @@ io.on("connection", (socket) => {
           allGameStates[gameStateIndex]
         );
         // send uniquely censored gamestate to each player
-        io.in(userId).emit("update-gamestate", updatedGameState);
+        io.in(player.playerId).emit("update-gamestate", updatedGameState);
       }
       // set player turn index
     } else {

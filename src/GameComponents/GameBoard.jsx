@@ -1,10 +1,14 @@
-import axios from "axios";
 import GameBoardCard from "./GameBoardCard";
 
-function Gameboard({ gameState }) {
+function Gameboard({ gameState, userId }) {
   return (
     <div className="gameboard">
       <h1>This is a Gameboard</h1>
+
+      {gameState.players.map((player) => {
+        return <div>{player.name}</div>;
+      })}
+
       {/* {Object.keys(gameState).length !== 0 &&
         gameState.players.map((player, index) => {
           return (
