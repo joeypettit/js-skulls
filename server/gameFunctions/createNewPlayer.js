@@ -1,4 +1,9 @@
 function createNewPlayer(playerId, playerName, isGameOwner) {
+  // randomize card ids order to avoid other players guessing
+  // card based on id in the console
+  const cardIds = [1, 2, 3, 4];
+  cardIds.sort((a, b) => 0.5 - Math.random());
+
   // add new player to gamestate
   const newPlayerObj = {
     name: playerName, // by default this will be playerId
@@ -8,24 +13,28 @@ function createNewPlayer(playerId, playerName, isGameOwner) {
     allCards: [
       // give player default card hand
       {
+        cardId: cardIds[0],
+        isSkull: false,
+        isRevealed: false,
+        isInHand: true,
+        isInPlay: false,
+      },
+      {
+        cardId: cardIds[1],
         isSkull: true,
         isRevealed: false,
         isInHand: true,
         isInPlay: false,
       },
       {
+        cardId: cardIds[2],
         isSkull: false,
         isRevealed: false,
         isInHand: true,
         isInPlay: false,
       },
       {
-        isSkull: false,
-        isRevealed: false,
-        isInHand: true,
-        isInPlay: false,
-      },
-      {
+        cardId: cardIds[3],
         isSkull: false,
         isRevealed: false,
         isInHand: true,
