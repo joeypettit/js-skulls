@@ -6,7 +6,7 @@ function Gameboard({ gameState, userId }) {
     <div className="bg-warning p-2">
       {gameState.players.map((player) => {
         return (
-          <div className="py-3 my-1 bg-light">
+          <div className="d-flex flex-row justify-content-between py-3 my-1 bg-secondary rounded">
             <UnrevealedCardDeck gameState={gameState} player={player} />
             <CardsOnTable cards={player.allCards} />
           </div>

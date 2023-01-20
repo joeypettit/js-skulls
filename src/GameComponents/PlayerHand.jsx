@@ -36,6 +36,8 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
         {thisPlayer.allCards.map((card, index) => {
           if (card.isInHand) {
             return <PlayerCard key={index} card={card} />;
+          } else {
+            return null;
           }
         })}
       </Offcanvas.Body>

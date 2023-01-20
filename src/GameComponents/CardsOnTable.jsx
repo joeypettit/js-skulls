@@ -3,9 +3,9 @@ import PlayerCard from "./PlayerCard";
 
 function CardsOnTable({ cards }) {
   return (
-    <div>
+    <div className="d-flex flex-row mx-1">
       {cards.map((card) => {
-        if (card.isRevealed && card.isInPlay) {
+        if (card.isInPlay) {
           return <PlayerCard card={card} />;
         }
       })}
