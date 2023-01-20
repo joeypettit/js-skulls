@@ -1,21 +1,40 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 
-function Card({ card }) {
+function PlayerCard({ card }) {
   console.log("this card", card.isSkull);
   return (
     <div>
-      {card.isSkull ? (
+      {/* ~~~~ conditionals renders for in-hand cards ~~~~ */}
+      {card.isSkull && card.isInHand && (
         <Button variant="danger" size="lg" className="py-4 px-4">
           💀
         </Button>
-      ) : (
+      )}
+      {!card.isSkull && card.isInHand && (
         <Button variant="success" size="lg" className="py-4 px-4">
           🌹
+        </Button>
+      )}
+
+      {/* ~~~~ conditionals renders for in-play cards ~~~~ */}
+      {card.isSkull && card.isRevealed && card.isInPlay && (
+        <Button variant="danger" size="lg" className="py-4 px-4">
+          💀
+        </Button>
+      )}
+      {!card.isSkull && card.isRevealed && card.isInPlay && (
+        <Button variant="success" size="lg" className="py-4 px-4">
+          🌹
+        </Button>
+      )}
+      {!card.isRevealed && card.isInPlay && (
+        <Button variant="light" size="lg" className="py-4 px-4">
+          🎴
         </Button>
       )}
     </div>
   );
 }
 
-export default Card;
+export default PlayerCard;

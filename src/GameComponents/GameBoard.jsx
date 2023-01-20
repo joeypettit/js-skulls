@@ -1,12 +1,16 @@
-import GameBoardCard from "./GameBoardCard";
+import UnrevealedCardDeck from "./UnrevealedHand";
+import CardsOnTable from "./CardsOnTable";
 
 function Gameboard({ gameState, userId }) {
   return (
-    <div className="gameboard">
-      <h1>This is a Gameboard</h1>
-
+    <div className="bg-warning p-2">
       {gameState.players.map((player) => {
-        return <div>{player.name}</div>;
+        return (
+          <div className="py-3 my-1 bg-light">
+            <UnrevealedCardDeck gameState={gameState} player={player} />
+            <CardsOnTable cards={player.allCards} />
+          </div>
+        );
       })}
 
       {/* {Object.keys(gameState).length !== 0 &&
