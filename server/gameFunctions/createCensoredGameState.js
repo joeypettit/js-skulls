@@ -2,12 +2,12 @@
 // it then constructs a new game state with the information
 // about other players censored.
 
-function createCensoredGameState(playerId, fullGameState) {
+function createCensoredGameState(playerId, uncensoredGameState) {
   // edit players array to exclude all sensitive info about other players
   // exclude allCards, cardsInHand, and the 'isSkull' attribute of any
   // cardsInPlay where 'isRevealed' is false.
   const newPlayersArray = [];
-  for (let player of fullGameState.players) {
+  for (let player of uncensoredGameState.players) {
     // if playerId matches playerId in object, push to array
     if (player.playerId === playerId) {
       newPlayersArray.push(player);
@@ -26,12 +26,10 @@ function createCensoredGameState(playerId, fullGameState) {
         }
         return newHand;
       };
-      // create
+      // create censoredObject
       const censoredPlayerObject = {
         ...player,
         allCards: censorHand(player.allCards),
-        cardsInHand: censorHand(player.cardsInHand),
-        cardsInPlay: censorHand(player.cardsInPlay),
       };
       newPlayersArray.push(censoredPlayerObject);
     }
@@ -39,7 +37,7 @@ function createCensoredGameState(playerId, fullGameState) {
 
   // create shallow copy of gamestate, insert editted players array
   const censoredGameState = {
-    ...fullGameState,
+    ...uncensoredGameState,
     players: newPlayersArray,
   };
 

@@ -45,5 +45,6 @@ export default App;
 // -Global "Kath is connected/disconnected" notification messages context
 // -Global error messages conext
 // -handle players that join late, after game has started
+// -change allGameStates[gameStateIndex] to allGameState.find() on server
 //
 //

@@ -32,7 +32,7 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
         <Offcanvas.Title>Your Hand:</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="d-flex flex-row justify-content-around">
-        {thisPlayer.cardsInHand.map((card, index) => {
+        {thisPlayer.allCards.map((card, index) => {
           return <PlayerCard key={index} card={card} />;
         })}
       </Offcanvas.Body>
