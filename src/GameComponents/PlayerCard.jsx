@@ -1,34 +1,50 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
+import { useGameState } from "../Contexts/GameStateProvider";
 
 function PlayerCard({ card }) {
-  console.log("this card", card.isSkull);
+  const { playCard } = useGameState();
+
+  function handlePlayCard() {
+    playCard(card.cardId);
+  }
+
   return (
     <div>
       {/* ~~~~ conditionals renders for in-hand cards ~~~~ */}
       {card.isSkull && card.isInHand && (
-        <Button variant="danger" size="lg" className="py-4 px-4">
+        <Button
+          variant="danger"
+          size="lg"
+          className="py-4 px-4"
+          onClick={handlePlayCard}
+        >
           💀
         </Button>
       )}
       {!card.isSkull && card.isInHand && (
-        <Button variant="success" size="lg" className="py-4 px-4">
+        <Button
+          variant="success"
+          size="lg"
+          className="py-4 px-4"
+          onClick={handlePlayCard}
+        >
           🌹
         </Button>
       )}
 
       {/* ~~~~ conditionals renders for in-play cards ~~~~ */}
-      {card.isSkull && card.isRevealed && card.isInPlay && (
+      {card.isSkull && card.isRevealed && card.isInPlay && !card.isInHand && (
         <Button variant="danger" size="lg" className="py-4 px-4">
           💀
         </Button>
       )}
-      {!card.isSkull && card.isRevealed && card.isInPlay && (
+      {!card.isSkull && card.isRevealed && card.isInPlay && !card.isInHand && (
         <Button variant="success" size="lg" className="py-4 px-4">
           🌹
         </Button>
       )}
-      {!card.isRevealed && card.isInPlay && (
+      {!card.isRevealed && card.isInPlay && !card.isInHand && (
         <Button variant="light" size="lg" className="py-4 px-4">
           🎴
         </Button>

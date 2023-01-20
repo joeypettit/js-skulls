@@ -156,6 +156,43 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("play-card", ({ cardId, gameId }) => {
+    // grab user's id
+    const userId = socket.handshake.query.userId;
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    if (thisGameState) {
+      // find player who is playing the card
+      const thisPlayer = thisGameState.players.find((player) => {
+        return player.playerId === userId;
+      });
+
+      // set the played card => isInPlay === true
+      thisPlayer.allCards.map((card) => {
+        if (card.cardId === cardId) {
+          card.isInPlay = true;
+          card.isInHand = false;
+        }
+      });
+
+      // emit censored updated gamestate to all players
+      for (let player of thisGameState.players) {
+        // censor other players' card info
+        const updatedGameState = createCensoredGameState(
+          player.playerId,
+          thisGameState
+        );
+        // send uniquely censored gamestate to each player
+        io.in(player.playerId).emit("update-gamestate", updatedGameState);
+      }
+    } else {
+      // emit there was an error
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("disconnect user", socket.rooms);
     const disconnectedId = socket.handshake.query.userId;

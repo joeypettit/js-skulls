@@ -39,9 +39,9 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     socket.emit("start-new-game", gameId);
   }
 
-  function playCard(userId) {
+  function playCard(cardId) {
     // request player plays a card
-    socket.emit("play-card", userId);
+    socket.emit("play-card", { cardId, gameId });
   }
 
   // update gameState in state

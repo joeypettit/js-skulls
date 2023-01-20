@@ -34,7 +34,9 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
       </Offcanvas.Header>
       <Offcanvas.Body className="d-flex flex-row justify-content-around">
         {thisPlayer.allCards.map((card, index) => {
-          return <PlayerCard key={index} card={card} />;
+          if (card.isInHand) {
+            return <PlayerCard key={index} card={card} />;
+          }
         })}
       </Offcanvas.Body>
     </Offcanvas>
