@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
 
     // if a gamestate matches, join socket, add player to gamestate
     if (gameStateIndex !== -1) {
-      const newPlayerObj = createNewPlayer(userId, playerName);
+      const newPlayerObj = createNewPlayer(userId, playerName, false);
       allGameStates[gameStateIndex].players.push(newPlayerObj);
       const updatedGameState = allGameStates[gameStateIndex];
       socket.join(gameId);
@@ -127,6 +127,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("start-new-game", (gameId) => {
+    const userId = socket.handshake.query.userId;
+
     // find correct gameState to edit
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId === gameId.toString()
@@ -142,9 +144,6 @@ io.on("connection", (socket) => {
       // -move cards into cardsInHand
       // -emit unique gamestate with other player info censored.
       for (let player of allGameStates[gameStateIndex].players) {
-        const userId = player.playerId;
-        player.cardsInHand = [...player.allCards];
-
         // censor other players' card info
         const updatedGameState = createCensoredGameState(
           player.playerId,

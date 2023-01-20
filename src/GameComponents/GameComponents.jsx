@@ -7,7 +7,6 @@ import { useGameState } from "../Contexts/GameStateProvider";
 function GameComponents({ gameId, userId }) {
   const { gameState } = useGameState();
   const [showHand, setShowHand] = useState(false);
-  console.log("set show hand", showHand);
 
   return (
     <>
@@ -21,6 +20,7 @@ function GameComponents({ gameId, userId }) {
               showHand={showHand}
             />
             <Button
+              variant="warning"
               className="position-absolute bottom-0 start-50 translate-middle-x"
               onClick={() => setShowHand(true)}
             >
