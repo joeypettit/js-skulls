@@ -7,7 +7,7 @@ function createNewPlayer(playerId, playerName, isGameOwner) {
   // add new player to gamestate
   const newPlayerObj = {
     name: playerName, // by default this will be playerId
-    isPlayersTurn: false,
+    isPlayerTurn: false,
     playerId, // function will update this to playerId
     isConnected: true,
     allCards: [

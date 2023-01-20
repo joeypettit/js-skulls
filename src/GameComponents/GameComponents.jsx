@@ -7,6 +7,7 @@ import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
   const { gameState } = useGameState();
+  // state to open/close player hand off canvas
   const [showHand, setShowHand] = useState(false);
 
   console.log("gamestate is", gameState);

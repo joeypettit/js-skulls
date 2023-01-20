@@ -1,13 +1,28 @@
-import UnrevealedCardDeck from "./UnrevealedHand";
+import UnrevealedHand from "./UnrevealedHand";
 import CardsOnTable from "./CardsOnTable";
 
 function Gameboard({ gameState, userId }) {
+  function findWhoseTurn() {
+    let whoseTurn = gameState.players.find((player) => player.isPlayerTurn);
+    whoseTurn = whoseTurn.name;
+
+    return whoseTurn;
+  }
+
   return (
     <div className="bg-warning p-2">
+      <div className="text-center">It is {findWhoseTurn()}'s turn.</div>
       {gameState.players.map((player) => {
         return (
-          <div className="d-flex flex-row justify-content-between py-3 my-1 bg-secondary rounded">
-            <UnrevealedCardDeck gameState={gameState} player={player} />
+          <div
+            key={player.playerId}
+            className={
+              player.isPlayerTurn
+                ? "d-flex flex-row justify-content-between py-3 my-1 rounded bg-primary"
+                : "d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary"
+            }
+          >
+            <UnrevealedHand gameState={gameState} player={player} />
             <CardsOnTable cards={player.allCards} />
           </div>
         );

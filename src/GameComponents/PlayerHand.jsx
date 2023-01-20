@@ -1,16 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import PlayerCard from "./PlayerCard";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 function PlayerHand({ gameState, userId, setShowHand, showHand }) {
-  // pull player cards out of array
-  let thisPlayer = {};
-  for (let player of gameState.players) {
-    if (player.playerId === userId) {
-      thisPlayer = player;
-      break;
+  // pull this user out of players array
+  const thisPlayer = useMemo(() => {
+    for (let player of gameState.players) {
+      if (player.playerId === userId) {
+        return player;
+      }
     }
-  }
+  }, [userId, gameState.players]);
+
   console.log("this player", thisPlayer);
 
   useEffect(() => {

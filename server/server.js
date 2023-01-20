@@ -134,9 +134,17 @@ io.on("connection", (socket) => {
 
     // if gamestate found...
     if (gameStateIndex !== -1) {
-      // set each readyToPlay and inProgress to true
+      // set readyToPlay and inProgress to true
       allGameStates[gameStateIndex].readyToPlay = true;
       allGameStates[gameStateIndex].inProgress = true;
+
+      // assign a random player to be the first dealer
+      const startingPlayerIndex = Math.floor(
+        Math.random() * allGameStates[gameStateIndex].players.length
+      );
+      allGameStates[gameStateIndex].players[
+        startingPlayerIndex
+      ].isPlayerTurn = true;
 
       // for each player,
       // -move cards into cardsInHand
