@@ -19,6 +19,7 @@ const createCensoredGameState = require("./gameFunctions/createCensoredGameState
 const passTurnToNextPlayer = require("./gameFunctions/passTurnToNextPlayer");
 const playCard = require("./gameFunctions/playCard");
 const startNewGame = require("./gameFunctions/startNewGame");
+const emitCensoredGameStates = require("./gameFunctions/emitCensoredGameState");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -135,20 +136,10 @@ io.on("connection", (socket) => {
 
     // if gamestate found...
     if (thisGameState) {
+      // prepare gamestate for the start of a new game
       startNewGame(thisGameState);
-
-      // for each player,
-      // -emit unique gamestate with other player info censored.
-      for (let player of thisGameState.players) {
-        // censor other players' card info
-        const updatedGameState = createCensoredGameState(
-          player.playerId,
-          thisGameState
-        );
-        // send uniquely censored gamestate to each player
-        io.in(player.playerId).emit("update-gamestate", updatedGameState);
-      }
-      // set player turn index
+      // use io instance to pass unique censored gamestate to all players individually
+      emitCensoredGameStates(thisGameState, io);
     } else {
       // emit there was an error
     }
@@ -161,19 +152,11 @@ io.on("connection", (socket) => {
     });
 
     if (thisGameState) {
+      // alter gamestate to play the card, and pass turn to next player
       playCard(thisGameState, cardId);
       passTurnToNextPlayer(thisGameState);
-
-      // emit censored updated gamestate to all players
-      for (let player of thisGameState.players) {
-        // censor other players' card info
-        const updatedGameState = createCensoredGameState(
-          player.playerId,
-          thisGameState
-        );
-        // send uniquely censored gamestate to each player
-        io.in(player.playerId).emit("update-gamestate", updatedGameState);
-      }
+      // use io instance to pass unique censored gamestate to all players
+      emitCensoredGameStates(thisGameState, io);
     } else {
       // emit there was an error
     }

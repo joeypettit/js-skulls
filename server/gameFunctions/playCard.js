@@ -5,8 +5,6 @@
 function playCard(gameState, cardId) {
   // player who is playing the card
   const thisPlayer = gameState.players[gameState.playerTurnIndex];
-  console.log("inPlayCard, this player is", thisPlayer);
-  console.log("gamestate", gameState);
 
   // set the played card => isInPlay === true
   thisPlayer.allCards.map((card) => {
