@@ -46,5 +46,5 @@ export default App;
 // -Global error messages conext
 // -handle players that join late, after game has started
 // -change allGameStates[gameStateIndex] to allGameState.find() on server
-//
+// -refactor reorder function to user playerTurnIndex, make 'reordering' a gamePhase instead
 //

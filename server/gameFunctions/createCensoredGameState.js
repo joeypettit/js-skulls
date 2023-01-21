@@ -3,7 +3,6 @@
 // about other players censored.
 
 function createCensoredGameState(playerId, uncensoredGameState) {
-  console.log("in createCensoredGameState", playerId, uncensoredGameState);
   // edit players array to exclude all sensitive info about other players
   // exclude allCards, cardsInHand, and the 'isSkull' attribute of any
   // cardsInPlay where 'isRevealed' is false.

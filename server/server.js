@@ -16,6 +16,8 @@ const allGameStates = require("./gameFunctions/allGameStates");
 const createNewGameState = require("./gameFunctions/createNewGameState");
 const createNewPlayer = require("./gameFunctions/createNewPlayer");
 const createCensoredGameState = require("./gameFunctions/createCensoredGameState");
+const passTurnToNextPlayer = require("./gameFunctions/passTurnToNextPlayer");
+const playCard = require("./gameFunctions/playCard");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -39,7 +41,6 @@ io.on("connection", (socket) => {
 
   // add player to a game using gameId and userId
   socket.on("add-player", ({ gameId, playerName }) => {
-    console.log("add player", socket.handshake.query.userId);
     const userId = socket.handshake.query.userId;
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId == gameId
@@ -79,7 +80,6 @@ io.on("connection", (socket) => {
 
   socket.on("assign-order-index", ({ gameId, newIndex }) => {
     const userId = socket.handshake.query.userId;
-    console.log("in assign order index", gameId, newIndex);
 
     // find correct gameState to edit
     const gameStateIndex = allGameStates.findIndex(
@@ -166,52 +166,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("play-card", ({ cardId, gameId }) => {
-    // grab user's id
-    const userId = socket.handshake.query.userId;
     // find correct gameState to edit
     const thisGameState = allGameStates.find((gameState) => {
       return gameState.gameId === gameId;
     });
 
     if (thisGameState) {
-      // find player who is playing the card
-      const thisPlayer = thisGameState.players[thisGameState.playerTurnIndex];
-
-      // set the played card => isInPlay === true
-      thisPlayer.allCards.map((card) => {
-        if (card.cardId === cardId) {
-          card.isInPlay = true;
-          card.isInHand = false;
-        }
-      });
-
-      if (thisGameState.playerTurnIndex < thisGameState.players.length - 1) {
-        // if player is not the last player in the players array
-
-        // increment playerTurnIndex
-        thisGameState.playerTurnIndex += 1;
-
-        // get players index of previous player
-        const prevPlayerIndex = thisGameState.playerTurnIndex - 1;
-        console.log(prevPlayerIndex);
-
-        // make previous player isPlayerTurn false
-        thisGameState.players[prevPlayerIndex].isPlayerTurn = false;
-        // make next player isPlayerTurn true
-        thisGameState.players[
-          thisGameState.playerTurnIndex
-        ].isPlayerTurn = true;
-      } else {
-        thisGameState.playerTurnIndex = 0;
-        const prevPlayerIndex = thisGameState.players.length - 1;
-        console.log("prevplayerindex", prevPlayerIndex);
-        // make previous player isPlayerTurn false
-        thisGameState.players[prevPlayerIndex].isPlayerTurn = false;
-        // make next players isPlayerTurn true
-        thisGameState.players[
-          thisGameState.playerTurnIndex
-        ].isPlayerTurn = true;
-      }
+      playCard(thisGameState, cardId);
+      passTurnToNextPlayer(thisGameState);
 
       // emit censored updated gamestate to all players
       for (let player of thisGameState.players) {
@@ -220,7 +182,6 @@ io.on("connection", (socket) => {
           player.playerId,
           thisGameState
         );
-        console.log("in here");
         // send uniquely censored gamestate to each player
         io.in(player.playerId).emit("update-gamestate", updatedGameState);
       }
