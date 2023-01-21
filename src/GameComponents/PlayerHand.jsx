@@ -20,7 +20,7 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
     // (to avoid other players guessing based on your
     // button press location)
     thisPlayer.allCards.sort((a, b) => 0.5 - Math.random());
-  }, [thisPlayer, gameState.round]);
+  }, [thisPlayer, gameState]);
 
   return (
     <Offcanvas
@@ -36,7 +36,13 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
       <Offcanvas.Body className="d-flex flex-row justify-content-around">
         {thisPlayer.allCards.map((card, index) => {
           if (card.isInHand) {
-            return <PlayerCard key={index} card={card} />;
+            return (
+              <PlayerCard
+                key={index}
+                card={card}
+                isPlayerTurn={thisPlayer.isPlayerTurn}
+              />
+            );
           } else {
             return null;
           }

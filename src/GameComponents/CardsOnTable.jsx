@@ -1,12 +1,12 @@
 import React from "react";
-import PlayerCard from "./PlayerCard";
+import TableCards from "./TableCards";
 
 function CardsOnTable({ cards }) {
   return (
     <div className="d-flex flex-row mx-1">
       {cards.map((card) => {
         if (card.isInPlay) {
-          return <PlayerCard card={card} />;
+          return <TableCards card={card} />;
         }
       })}
     </div>

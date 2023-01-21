@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function PlayedCard({ card }) {
+function TableCards({ card }) {
   const { playCard } = useGameState();
 
   return (
@@ -26,4 +26,4 @@ function PlayedCard({ card }) {
   );
 }
 
-export default PlayedCard;
+export default TableCards;

@@ -1,4 +1,4 @@
-function UnrevealedHand({ gameState, player }) {
+function TableHand({ gameState, player }) {
   return (
     <div className="d-flex flex-column p-2">
       <div className="bg-light rounded text-center">{player.name}</div>
@@ -19,4 +19,4 @@ function UnrevealedHand({ gameState, player }) {
   );
 }
 
-export default UnrevealedHand;
+export default TableHand;

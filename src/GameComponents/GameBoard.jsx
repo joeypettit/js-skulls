@@ -1,11 +1,10 @@
-import UnrevealedHand from "./UnrevealedHand";
+import TableHand from "./TableHand";
 import CardsOnTable from "./CardsOnTable";
 
 function Gameboard({ gameState, userId }) {
   function findWhoseTurn() {
     let whoseTurn = gameState.players.find((player) => player.isPlayerTurn);
     whoseTurn = whoseTurn.name;
-
     return whoseTurn;
   }
 
@@ -22,7 +21,7 @@ function Gameboard({ gameState, userId }) {
                 : "d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary"
             }
           >
-            <UnrevealedHand gameState={gameState} player={player} />
+            <TableHand gameState={gameState} player={player} />
             <CardsOnTable cards={player.allCards} />
           </div>
         );
