@@ -1,39 +1,46 @@
 function createNewPlayer(playerId, playerName, isGameOwner) {
+  // randomize card ids order to avoid other players guessing
+  // card based on id in the console
+  const cardIds = [1, 2, 3, 4];
+  cardIds.sort((a, b) => 0.5 - Math.random());
+
   // add new player to gamestate
   const newPlayerObj = {
     name: playerName, // by default this will be playerId
-    isPlayersTurn: false,
+    isPlayerTurn: false,
     playerId, // function will update this to playerId
     isConnected: true,
     allCards: [
       // give player default card hand
       {
+        cardId: cardIds[0],
+        isSkull: false,
+        isRevealed: false,
+        isInHand: true,
+        isInPlay: false,
+      },
+      {
+        cardId: cardIds[1],
         isSkull: true,
         isRevealed: false,
         isInHand: true,
         isInPlay: false,
       },
       {
+        cardId: cardIds[2],
         isSkull: false,
         isRevealed: false,
         isInHand: true,
         isInPlay: false,
       },
       {
-        isSkull: false,
-        isRevealed: false,
-        isInHand: true,
-        isInPlay: false,
-      },
-      {
+        cardId: cardIds[3],
         isSkull: false,
         isRevealed: false,
         isInHand: true,
         isInPlay: false,
       },
     ],
-    cardsInHand: [], // cards that are in the players hand as play progresses
-    cardsInPlay: [], // cards currently laid down and in play
     isBetting: false, // is this player participating in this round of betting => true/false
     points: 0, // number of points (rounds) this player has won
     isOwner: isGameOwner, // if this player created the game, they are the owner

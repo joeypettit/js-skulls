@@ -127,8 +127,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("start-new-game", (gameId) => {
-    const userId = socket.handshake.query.userId;
-
     // find correct gameState to edit
     const gameStateIndex = allGameStates.findIndex(
       (gameStateObj) => gameStateObj.gameId === gameId.toString()
@@ -136,9 +134,18 @@ io.on("connection", (socket) => {
 
     // if gamestate found...
     if (gameStateIndex !== -1) {
-      // set each readyToPlay and inProgress to true
+      // set readyToPlay and inProgress to true
       allGameStates[gameStateIndex].readyToPlay = true;
       allGameStates[gameStateIndex].inProgress = true;
+
+      // assign a random player to be the first dealer
+      const startingPlayerIndex = Math.floor(
+        Math.random() * allGameStates[gameStateIndex].players.length
+      );
+      allGameStates[gameStateIndex].playerTurnIndex = startingPlayerIndex;
+      allGameStates[gameStateIndex].players[
+        startingPlayerIndex
+      ].isPlayerTurn = true;
 
       // for each player,
       // -move cards into cardsInHand
@@ -150,9 +157,73 @@ io.on("connection", (socket) => {
           allGameStates[gameStateIndex]
         );
         // send uniquely censored gamestate to each player
-        io.in(userId).emit("update-gamestate", updatedGameState);
+        io.in(player.playerId).emit("update-gamestate", updatedGameState);
       }
       // set player turn index
+    } else {
+      // emit there was an error
+    }
+  });
+
+  socket.on("play-card", ({ cardId, gameId }) => {
+    // grab user's id
+    const userId = socket.handshake.query.userId;
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    if (thisGameState) {
+      // find player who is playing the card
+      const thisPlayer = thisGameState.players[thisGameState.playerTurnIndex];
+
+      // set the played card => isInPlay === true
+      thisPlayer.allCards.map((card) => {
+        if (card.cardId === cardId) {
+          card.isInPlay = true;
+          card.isInHand = false;
+        }
+      });
+
+      if (thisGameState.playerTurnIndex < thisGameState.players.length - 1) {
+        // if player is not the last player in the players array
+
+        // increment playerTurnIndex
+        thisGameState.playerTurnIndex += 1;
+
+        // get players index of previous player
+        const prevPlayerIndex = thisGameState.playerTurnIndex - 1;
+        console.log(prevPlayerIndex);
+
+        // make previous player isPlayerTurn false
+        thisGameState.players[prevPlayerIndex].isPlayerTurn = false;
+        // make next player isPlayerTurn true
+        thisGameState.players[
+          thisGameState.playerTurnIndex
+        ].isPlayerTurn = true;
+      } else {
+        thisGameState.playerTurnIndex = 0;
+        const prevPlayerIndex = thisGameState.players.length - 1;
+        console.log("prevplayerindex", prevPlayerIndex);
+        // make previous player isPlayerTurn false
+        thisGameState.players[prevPlayerIndex].isPlayerTurn = false;
+        // make next players isPlayerTurn true
+        thisGameState.players[
+          thisGameState.playerTurnIndex
+        ].isPlayerTurn = true;
+      }
+
+      // emit censored updated gamestate to all players
+      for (let player of thisGameState.players) {
+        // censor other players' card info
+        const updatedGameState = createCensoredGameState(
+          player.playerId,
+          thisGameState
+        );
+        console.log("in here");
+        // send uniquely censored gamestate to each player
+        io.in(player.playerId).emit("update-gamestate", updatedGameState);
+      }
     } else {
       // emit there was an error
     }

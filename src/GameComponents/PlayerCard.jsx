@@ -1,16 +1,35 @@
-import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+import { useGameState } from "../Contexts/GameStateProvider";
 
-function Card({ card }) {
+function PlayerCard({ card, isPlayerTurn }) {
+  const { playCard } = useGameState();
+
+  function handlePlayCard() {
+    playCard(card.cardId);
+  }
+
   return (
     <div>
-      {card.isSkull ? (
-        <Button variant="danger" size="lg" className="py-4 px-4">
+      {/* ~~~~ conditionals renders for in-hand cards ~~~~ */}
+      {card.isSkull && card.isInHand && (
+        <Button
+          variant="danger"
+          size="lg"
+          className="py-4 px-4"
+          onClick={handlePlayCard}
+          disabled={isPlayerTurn ? false : true}
+        >
           💀
         </Button>
-      ) : (
-        <Button variant="success" size="lg" className="py-4 px-4">
+      )}
+      {!card.isSkull && card.isInHand && (
+        <Button
+          variant="success"
+          size="lg"
+          className="py-4 px-4"
+          onClick={handlePlayCard}
+          disabled={isPlayerTurn ? false : true}
+        >
           🌹
         </Button>
       )}
@@ -18,4 +37,4 @@ function Card({ card }) {
   );
 }
 
-export default Card;
+export default PlayerCard;

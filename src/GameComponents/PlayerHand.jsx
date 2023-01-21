@@ -1,24 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import PlayerCard from "./PlayerCard";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 function PlayerHand({ gameState, userId, setShowHand, showHand }) {
-  // pull player cards out of array
-  let thisPlayer = {};
-  for (let player of gameState.players) {
-    if (player.playerId === userId) {
-      thisPlayer = player;
-      break;
+  // pull this user out of players array
+  const thisPlayer = useMemo(() => {
+    for (let player of gameState.players) {
+      if (player.playerId === userId) {
+        return player;
+      }
     }
-  }
+  }, [userId, gameState.players]);
+
+  console.log("this player", thisPlayer);
 
   useEffect(() => {
     // shuffle player hand so that the skull always
     // appears on a different location on the screen
     // (to avoid other players guessing based on your
     // button press location)
-    thisPlayer.cardsInHand.sort((a, b) => 0.5 - Math.random());
-  }, [thisPlayer, gameState.round]);
+    thisPlayer.allCards.sort((a, b) => 0.5 - Math.random());
+  }, [thisPlayer, gameState]);
 
   return (
     <Offcanvas
@@ -33,7 +35,17 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
       </Offcanvas.Header>
       <Offcanvas.Body className="d-flex flex-row justify-content-around">
         {thisPlayer.allCards.map((card, index) => {
-          return <PlayerCard key={index} card={card} />;
+          if (card.isInHand) {
+            return (
+              <PlayerCard
+                key={index}
+                card={card}
+                isPlayerTurn={thisPlayer.isPlayerTurn}
+              />
+            );
+          } else {
+            return null;
+          }
         })}
       </Offcanvas.Body>
     </Offcanvas>

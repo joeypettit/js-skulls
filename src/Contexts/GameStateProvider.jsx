@@ -39,6 +39,11 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     socket.emit("start-new-game", gameId);
   }
 
+  function playCard(cardId) {
+    // request player plays a card
+    socket.emit("play-card", { cardId, gameId });
+  }
+
   // update gameState in state
   const updateGameState = useCallback(
     (newGameState) => {
@@ -73,6 +78,7 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     requestAddPlayerToGame,
     toggleReorderPlayers,
     assignPlayerOrderNumber,
+    playCard,
     startNewGame,
   };
 
