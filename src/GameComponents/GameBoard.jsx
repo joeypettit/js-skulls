@@ -2,15 +2,14 @@ import TableHand from "./TableHand";
 import CardsOnTable from "./CardsOnTable";
 
 function Gameboard({ gameState, userId }) {
-  function findWhoseTurn() {
-    let whoseTurn = gameState.players.find((player) => player.isPlayerTurn);
-    whoseTurn = whoseTurn.name;
-    return whoseTurn;
-  }
+  let whoseTurn = gameState.players.find((player) => player.isPlayerTurn);
 
   return (
     <div className="bg-warning p-2">
-      <div className="text-center">It is {findWhoseTurn()}'s turn.</div>
+      <div className="text-center">
+        It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
+        turn.
+      </div>
       {gameState.players.map((player) => {
         return (
           <div
