@@ -14,7 +14,7 @@ function GameComponents({ gameId, userId }) {
 
   return (
     <>
-      <Container className="w-auto">
+      <Container fluid className="p-0 w-auto">
         {gameState && gameState.readyToPlay && gameState.inProgress && (
           <div className="w-auto">
             <GameBoard gameState={gameState} userId={userId} />
@@ -24,13 +24,16 @@ function GameComponents({ gameId, userId }) {
               setShowHand={setShowHand}
               showHand={showHand}
             />
-            <Button
-              variant="warning"
-              className="position-absolute bottom-0 start-50 translate-middle-x w-100"
-              onClick={() => setShowHand(true)}
-            >
-              Show Hand
-            </Button>
+            <div className="d-flex flex-row position-absolute bottom-0 w-100">
+              <Button className="end-50 w-50">Bet</Button>
+              <Button
+                variant="warning"
+                className="start-50 w-50"
+                onClick={() => setShowHand(true)}
+              >
+                Show Hand
+              </Button>
+            </div>
           </div>
         )}
       </Container>

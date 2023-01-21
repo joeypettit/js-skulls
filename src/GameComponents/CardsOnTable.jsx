@@ -7,6 +7,8 @@ function CardsOnTable({ cards }) {
       {cards.map((card, index) => {
         if (card.isInPlay) {
           return <TableCards key={index} card={card} />;
+        } else {
+          return null;
         }
       })}
     </div>

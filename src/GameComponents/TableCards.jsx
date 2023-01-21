@@ -1,9 +1,6 @@
 import Button from "react-bootstrap/Button";
-import { useGameState } from "../Contexts/GameStateProvider";
 
 function TableCards({ card }) {
-  const { playCard } = useGameState();
-
   return (
     <div>
       {/* ~~~~ conditionals renders for in-play cards ~~~~ */}
