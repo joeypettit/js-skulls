@@ -2,7 +2,8 @@ import TableHand from "./TableHand";
 import CardsOnTable from "./CardsOnTable";
 
 function Gameboard({ gameState, userId }) {
-  let whoseTurn = gameState.players.find((player) => player.isPlayerTurn);
+  // get player object of the player whose turn it is
+  let whoseTurn = gameState.players[gameState.playerTurnIndex];
 
   return (
     <div className="bg-warning p-2">

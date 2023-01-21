@@ -142,6 +142,7 @@ io.on("connection", (socket) => {
       const startingPlayerIndex = Math.floor(
         Math.random() * allGameStates[gameStateIndex].players.length
       );
+      allGameStates[gameStateIndex].playerTurnIndex = startingPlayerIndex;
       allGameStates[gameStateIndex].players[
         startingPlayerIndex
       ].isPlayerTurn = true;
@@ -174,9 +175,7 @@ io.on("connection", (socket) => {
 
     if (thisGameState) {
       // find player who is playing the card
-      const thisPlayer = thisGameState.players.find((player) => {
-        return player.playerId === userId;
-      });
+      const thisPlayer = thisGameState.players[thisGameState.playerTurnIndex];
 
       // set the played card => isInPlay === true
       thisPlayer.allCards.map((card) => {
@@ -186,6 +185,34 @@ io.on("connection", (socket) => {
         }
       });
 
+      if (thisGameState.playerTurnIndex < thisGameState.players.length - 1) {
+        // if player is not the last player in the players array
+
+        // increment playerTurnIndex
+        thisGameState.playerTurnIndex += 1;
+
+        // get players index of previous player
+        const prevPlayerIndex = thisGameState.playerTurnIndex - 1;
+        console.log(prevPlayerIndex);
+
+        // make previous player isPlayerTurn false
+        thisGameState.players[prevPlayerIndex].isPlayerTurn = false;
+        // make next player isPlayerTurn true
+        thisGameState.players[
+          thisGameState.playerTurnIndex
+        ].isPlayerTurn = true;
+      } else {
+        thisGameState.playerTurnIndex = 0;
+        const prevPlayerIndex = thisGameState.players.length - 1;
+        console.log("prevplayerindex", prevPlayerIndex);
+        // make previous player isPlayerTurn false
+        thisGameState.players[prevPlayerIndex].isPlayerTurn = false;
+        // make next players isPlayerTurn true
+        thisGameState.players[
+          thisGameState.playerTurnIndex
+        ].isPlayerTurn = true;
+      }
+
       // emit censored updated gamestate to all players
       for (let player of thisGameState.players) {
         // censor other players' card info
@@ -193,6 +220,7 @@ io.on("connection", (socket) => {
           player.playerId,
           thisGameState
         );
+        console.log("in here");
         // send uniquely censored gamestate to each player
         io.in(player.playerId).emit("update-gamestate", updatedGameState);
       }
