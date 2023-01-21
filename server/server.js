@@ -18,6 +18,7 @@ const createNewPlayer = require("./gameFunctions/createNewPlayer");
 const createCensoredGameState = require("./gameFunctions/createCensoredGameState");
 const passTurnToNextPlayer = require("./gameFunctions/passTurnToNextPlayer");
 const playCard = require("./gameFunctions/playCard");
+const startNewGame = require("./gameFunctions/startNewGame");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -128,33 +129,21 @@ io.on("connection", (socket) => {
 
   socket.on("start-new-game", (gameId) => {
     // find correct gameState to edit
-    const gameStateIndex = allGameStates.findIndex(
-      (gameStateObj) => gameStateObj.gameId === gameId.toString()
-    );
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
 
     // if gamestate found...
-    if (gameStateIndex !== -1) {
-      // set readyToPlay and inProgress to true
-      allGameStates[gameStateIndex].readyToPlay = true;
-      allGameStates[gameStateIndex].inProgress = true;
-
-      // assign a random player to be the first dealer
-      const startingPlayerIndex = Math.floor(
-        Math.random() * allGameStates[gameStateIndex].players.length
-      );
-      allGameStates[gameStateIndex].playerTurnIndex = startingPlayerIndex;
-      allGameStates[gameStateIndex].players[
-        startingPlayerIndex
-      ].isPlayerTurn = true;
+    if (thisGameState) {
+      startNewGame(thisGameState);
 
       // for each player,
-      // -move cards into cardsInHand
       // -emit unique gamestate with other player info censored.
-      for (let player of allGameStates[gameStateIndex].players) {
+      for (let player of thisGameState.players) {
         // censor other players' card info
         const updatedGameState = createCensoredGameState(
           player.playerId,
-          allGameStates[gameStateIndex]
+          thisGameState
         );
         // send uniquely censored gamestate to each player
         io.in(player.playerId).emit("update-gamestate", updatedGameState);

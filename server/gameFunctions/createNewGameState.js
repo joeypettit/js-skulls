@@ -12,7 +12,7 @@ function createNewGameState(playerId, gameId, playerName) {
     reorderingAt: 0, // helpful for tracking reordering progression
     inProgress: false, // is active will be true when game is in play
     readyToPlay: false, // initates play, may be false on error/player disconnecting, etc.
-    gameStage: ["laying", "betting", "flipping", "scoring"], // ,laying, betting, flipping, scoring
+    gamePhase: ["laying", "betting", "flipping", "scoring"], // ,laying, betting, flipping, scoring
     round: 0,
     latestBet: {
       numOfCards: null, // number of cards currently being bet
