@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
       // alter gamestate to play the card, and pass turn to next player
       playCard(thisGameState, cardId);
       passTurnToNextPlayer(thisGameState);
-      // use io instance to pass unique censored gamestate to all players
+      // use io instance to pass unique censored gamestate to all players individually
       emitCensoredGameStates(thisGameState, io);
     } else {
       // emit there was an error

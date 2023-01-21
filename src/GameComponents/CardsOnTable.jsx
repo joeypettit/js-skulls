@@ -4,9 +4,9 @@ import TableCards from "./TableCards";
 function CardsOnTable({ cards }) {
   return (
     <div className="d-flex flex-row mx-1">
-      {cards.map((card) => {
+      {cards.map((card, index) => {
         if (card.isInPlay) {
-          return <TableCards card={card} />;
+          return <TableCards key={index} card={card} />;
         }
       })}
     </div>
