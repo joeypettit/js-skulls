@@ -24,8 +24,8 @@ function Gameboard({ gameState, userId }) {
                 : "d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary"
             }
           >
-            <TableHand gameState={gameState} player={player} />
-            <CardsOnTable cards={player.allCards} />
+            <TableHand player={player} />
+            <CardsOnTable cards={player.cardsInPlay} />
           </div>
         );
       })}

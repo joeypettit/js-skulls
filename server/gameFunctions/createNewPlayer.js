@@ -15,32 +15,22 @@ function createNewPlayer(playerId, playerName, isGameOwner) {
       {
         cardId: cardIds[0],
         isSkull: false,
-        isRevealed: false,
-        isInHand: true,
-        isInPlay: false,
       },
       {
         cardId: cardIds[1],
         isSkull: true,
-        isRevealed: false,
-        isInHand: true,
-        isInPlay: false,
       },
       {
         cardId: cardIds[2],
         isSkull: false,
-        isRevealed: false,
-        isInHand: true,
-        isInPlay: false,
       },
       {
         cardId: cardIds[3],
         isSkull: false,
-        isRevealed: false,
-        isInHand: true,
-        isInPlay: false,
       },
     ],
+    cardsInHand: [], // subset of allCards
+    cardsInPlay: [], // subset of allCards
     hasFolded: false, // is this player participating in this round of betting => true/false
     points: 0, // number of points (rounds) this player has won
     isOwner: isGameOwner, // if this player created the game, they are the owner

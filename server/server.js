@@ -157,10 +157,8 @@ io.on("connection", (socket) => {
       playCard(thisGameState, cardId);
       passTurnToNextPlayer(thisGameState);
 
-      console.log("playerTurn is", thisGameState.playerTurnIndex);
-      console.log("firstTO Play is", thisGameState.firstToPlayIndex);
-
-      // if gamePhase is Set Round and playerTurnIndex === firstToPlayIndex
+      // if gamePhase is 'Set Round' and playerTurnIndex === firstToPlayIndex,
+      // move gamePhase to the next round ('Play or Bet')
       // this will be triggered once all players have laid one card down
       if (
         thisGameState.gamePhase === "Set Round" &&
