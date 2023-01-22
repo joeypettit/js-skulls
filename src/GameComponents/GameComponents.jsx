@@ -31,7 +31,7 @@ function GameComponents({ gameId, userId }) {
               setShowBetting={setShowBetting}
               gameState={gameState}
             />
-            <div className="d-flex flex-row position-absolute bottom-0 w-100">
+            <div className="d-flex flex-row position-sticky bottom-0 w-100">
               <Button
                 className="end-50 w-50"
                 variant="primary"

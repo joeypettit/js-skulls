@@ -10,12 +10,14 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
   function handleSetNumOfCards(direction) {
     if (direction === "up") {
       setNumOfCards(numOfCards + 1);
-    } else if (direction === "down" && numOfCards === 1) {
+    } else if (direction === "down" && numOfCards <= 1) {
       return;
     } else {
       setNumOfCards(numOfCards - 1);
     }
   }
+
+  function handleBet() {}
 
   return (
     <Offcanvas
@@ -24,6 +26,7 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
       placement="bottom"
       name="bottom"
       className="light"
+      scroll="true"
     >
       <Offcanvas.Header closeButton className="p-1">
         <Offcanvas.Title className="text-center">
@@ -43,11 +46,14 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
             <Button
               className="m-1 p-3"
               onClick={() => handleSetNumOfCards("down")}
+              disabled={numOfCards <= 1 ? true : false}
             >
               {svgs.downArrow}
             </Button>
           </div>
-          <Button className="p-3 w-25">Bet</Button>
+          <Button className="p-3 w-25" onClick={handleBet}>
+            Bet
+          </Button>
         </div>
       </Offcanvas.Body>
     </Offcanvas>
