@@ -36,6 +36,11 @@ function GameComponents({ gameId, userId }) {
                 className="end-50 w-50"
                 variant="primary"
                 onClick={() => setShowBetting(true)}
+                disabled={
+                  gameState.gamePhase === ("Play or Bet" || "Bet or Pass")
+                    ? false
+                    : true
+                }
               >
                 Bet
               </Button>

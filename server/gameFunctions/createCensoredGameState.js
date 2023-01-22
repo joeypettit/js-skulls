@@ -15,13 +15,14 @@ function createCensoredGameState(playerId, uncensoredGameState) {
       // function accepts a player "hand" object
       // (such as allCards, cardsInHand, or cardsInPlay),
       // and censors them
-      const censorHand = (hand) => {
+      const censorCards = (hand) => {
         const newHand = [];
         for (let card of hand) {
           const newCard = { ...card };
           if (newCard.isRevealed === false) {
             newCard.isSkull = "hidden";
           }
+          newCard.cardId = "hidden";
           newHand.push(newCard);
         }
         return newHand;
@@ -29,7 +30,9 @@ function createCensoredGameState(playerId, uncensoredGameState) {
       // create censoredObject
       const censoredPlayerObject = {
         ...player,
-        allCards: censorHand(player.allCards),
+        allCards: censorCards(player.allCards),
+        cardsInHand: censorCards(player.cardsInHand),
+        cardsInPlay: censorCards(player.cardsInPlay),
       };
       newPlayersArray.push(censoredPlayerObject);
     }

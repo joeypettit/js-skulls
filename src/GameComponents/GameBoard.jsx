@@ -7,9 +7,12 @@ function Gameboard({ gameState, userId }) {
 
   return (
     <div className="bg-warning p-2">
-      <div className="text-center">
-        It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
-        turn.
+      <div className="d-flex justify-content-between">
+        <div>
+          It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
+          turn.
+        </div>
+        <div>GamePhase: {gameState.gamePhase}</div>
       </div>
       {gameState.players.map((player) => {
         return (
@@ -21,8 +24,8 @@ function Gameboard({ gameState, userId }) {
                 : "d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary"
             }
           >
-            <TableHand gameState={gameState} player={player} />
-            <CardsOnTable cards={player.allCards} />
+            <TableHand player={player} />
+            <CardsOnTable cards={player.cardsInPlay} />
           </div>
         );
       })}
