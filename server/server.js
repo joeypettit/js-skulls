@@ -162,6 +162,28 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("initiate-betting", (gameId, numOfCards) => {
+    const userId = socket.handshake.query.user;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    thisGameState.gamePhase = "betting";
+    thisGameState.latestBet = {
+      numOfCards,
+      highestBetter: userId,
+    };
+    const thisPlayer = thisGameState.players.find((player) => {
+      return player.playerId === userId;
+    });
+    thisPlayer.hasFolded = false;
+
+    passTurnToNextPlayer(thisGameState);
+    emitCensoredGameStates(thisGameState, io);
+  });
+
   socket.on("disconnect", () => {
     console.log("disconnect user", socket.rooms);
     const disconnectedId = socket.handshake.query.userId;
