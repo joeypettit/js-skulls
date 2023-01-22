@@ -3,12 +3,14 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import PlayerHand from "./PlayerHand";
 import GameBoard from "./GameBoard";
+import BettingOffCanvas from "./BettingOffCanvas";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
   const { gameState } = useGameState();
   // state to open/close player hand off canvas
   const [showHand, setShowHand] = useState(false);
+  const [showBetting, setShowBetting] = useState(false);
 
   console.log("gamestate is", gameState);
 
@@ -24,8 +26,19 @@ function GameComponents({ gameId, userId }) {
               setShowHand={setShowHand}
               showHand={showHand}
             />
+            <BettingOffCanvas
+              showBetting={showBetting}
+              setShowBetting={setShowBetting}
+              gameState={gameState}
+            />
             <div className="d-flex flex-row position-absolute bottom-0 w-100">
-              <Button className="end-50 w-50">Bet</Button>
+              <Button
+                className="end-50 w-50"
+                variant="primary"
+                onClick={() => setShowBetting(true)}
+              >
+                Bet
+              </Button>
               <Button
                 variant="warning"
                 className="start-50 w-50"

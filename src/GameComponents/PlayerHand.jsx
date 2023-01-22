@@ -12,8 +12,6 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
     }
   }, [userId, gameState.players]);
 
-  console.log("this player", thisPlayer);
-
   useEffect(() => {
     // shuffle player hand so that the skull always
     // appears on a different location on the screen
@@ -27,8 +25,8 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
       show={showHand}
       onHide={() => setShowHand(false)}
       placement="bottom"
-      name={"bottom"}
-      className="bg-warning"
+      name="bottom"
+      className="light"
     >
       <Offcanvas.Header closeButton className="p-1">
         <Offcanvas.Title>Your Hand:</Offcanvas.Title>
