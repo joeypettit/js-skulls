@@ -9,6 +9,7 @@ function startNewGame(gameState) {
     Math.random() * gameState.players.length
   );
   gameState.playerTurnIndex = startingPlayerIndex;
+  gameState.startingPlayerIndex = startingPlayerIndex;
   gameState.players[startingPlayerIndex].isPlayerTurn = true;
 }
 
