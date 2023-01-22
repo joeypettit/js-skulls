@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Button from "react-bootstrap/Button";
 import svgs from "../ClientFunctions/allSvgs";
+import { useGameState } from "../Contexts/GameStateProvider";
 
 function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
   // state to manage number of cards input
   const [numOfCards, setNumOfCards] = useState(gameState.players.length);
+
+  const { initiateBetting } = useGameState();
 
   function handleSetNumOfCards(direction) {
     if (direction === "up") {
@@ -17,7 +20,9 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
     }
   }
 
-  function handleBet() {}
+  function handleBet() {
+    initiateBetting(numOfCards);
+  }
 
   return (
     <Offcanvas

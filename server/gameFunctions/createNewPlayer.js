@@ -41,7 +41,7 @@ function createNewPlayer(playerId, playerName, isGameOwner) {
         isInPlay: false,
       },
     ],
-    isBetting: false, // is this player participating in this round of betting => true/false
+    hasFolded: false, // is this player participating in this round of betting => true/false
     points: 0, // number of points (rounds) this player has won
     isOwner: isGameOwner, // if this player created the game, they are the owner
   };
