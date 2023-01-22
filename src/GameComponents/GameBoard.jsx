@@ -7,9 +7,12 @@ function Gameboard({ gameState, userId }) {
 
   return (
     <div className="bg-warning p-2">
-      <div className="text-center">
-        It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
-        turn.
+      <div className="d-flex justify-content-between">
+        <div>
+          It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
+          turn.
+        </div>
+        <div>GamePhase: {gameState.gamePhase}</div>
       </div>
       {gameState.players.map((player) => {
         return (

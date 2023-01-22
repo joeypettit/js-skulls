@@ -146,6 +146,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("play-card", ({ cardId, gameId }) => {
+    const userId = socket.handshake.query.userId;
     // find correct gameState to edit
     const thisGameState = allGameStates.find((gameState) => {
       return gameState.gameId === gameId;
@@ -155,6 +156,20 @@ io.on("connection", (socket) => {
       // alter gamestate to play the card, and pass turn to next player
       playCard(thisGameState, cardId);
       passTurnToNextPlayer(thisGameState);
+
+      console.log("playerTurn is", thisGameState.playerTurnIndex);
+      console.log("firstTO Play is", thisGameState.firstToPlayIndex);
+
+      // if gamePhase is Set Round and playerTurnIndex === firstToPlayIndex
+      // this will be triggered once all players have laid one card down
+      if (
+        thisGameState.gamePhase === "Set Round" &&
+        thisGameState.playerTurnIndex === thisGameState.firstToPlayIndex
+      ) {
+        // move on to Play or Bet round
+        thisGameState.gamePhase = "Play or Bet";
+      }
+
       // use io instance to pass unique censored gamestate to all players individually
       emitCensoredGameStates(thisGameState, io);
     } else {
