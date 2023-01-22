@@ -7,6 +7,16 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
   // state to manage number of cards input
   const [numOfCards, setNumOfCards] = useState(gameState.players.length);
 
+  function handleSetNumOfCards(direction) {
+    if (direction === "up") {
+      setNumOfCards(numOfCards + 1);
+    } else if (direction === "down" && numOfCards === 1) {
+      return;
+    } else {
+      setNumOfCards(numOfCards - 1);
+    }
+  }
+
   return (
     <Offcanvas
       show={showBetting}
@@ -26,13 +36,13 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
           <div>
             <Button
               className="m-1 p-3"
-              onClick={() => setNumOfCards(numOfCards + 1)}
+              onClick={() => handleSetNumOfCards("up")}
             >
               {svgs.upArrow}
             </Button>
             <Button
               className="m-1 p-3"
-              onClick={() => setNumOfCards(numOfCards - 1)}
+              onClick={() => handleSetNumOfCards("down")}
             >
               {svgs.downArrow}
             </Button>
