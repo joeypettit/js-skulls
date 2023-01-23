@@ -40,6 +40,7 @@ function GameComponents({ gameId, userId }) {
                   gameState={gameState}
                   setShowBetting={setShowBetting}
                   setShowHand={setShowHand}
+                  userId={userId}
                 />
               )}
               {gameState.gamePhase === "Raise Or Pass" && (

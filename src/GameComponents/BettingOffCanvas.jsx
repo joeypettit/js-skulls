@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Button from "react-bootstrap/Button";
 import svgs from "../ClientFunctions/allSvgs";
@@ -7,6 +7,9 @@ import { useGameState } from "../Contexts/GameStateProvider";
 function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
   // state to manage number of cards input
   const [numOfCards, setNumOfCards] = useState(gameState.players.length);
+  const [raiseNumOfCard, setRaiseNumOfCards] = useState(
+    gameState.latestBet.numOfCards
+  );
 
   const { initiateBetting } = useGameState();
 
@@ -24,6 +27,14 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
     initiateBetting(numOfCards);
   }
 
+  useEffect(() => {
+    setRaiseNumOfCards(gameState.latestBet.numOfCards);
+  }, [gameState.latestBet.numOfCards]);
+
+  useEffect(() => {
+    setNumOfCards(gameState.players.length);
+  }, [gameState.players]);
+
   return (
     <Offcanvas
       show={showBetting}
@@ -39,27 +50,49 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-        <div className="d-flex flex-row justify-content-between">
-          <div className="m-4 text lead">{numOfCards}</div>
-          <div>
-            <Button
-              className="m-1 p-3"
-              onClick={() => handleSetNumOfCards("up")}
-            >
-              {svgs.upArrow}
-            </Button>
-            <Button
-              className="m-1 p-3"
-              onClick={() => handleSetNumOfCards("down")}
-              disabled={numOfCards <= 1 ? true : false}
-            >
-              {svgs.downArrow}
+        {gameState.gamePhase === "Play or Bet" && (
+          <div className="d-flex flex-row justify-content-between">
+            <div className="m-4 text lead">{numOfCards}</div>
+            <div>
+              <Button
+                className="m-1 p-3"
+                onClick={() => handleSetNumOfCards("up")}
+              >
+                {svgs.upArrow}
+              </Button>
+              <Button
+                className="m-1 p-3"
+                onClick={() => handleSetNumOfCards("down")}
+                disabled={numOfCards <= 1 ? true : false}
+              >
+                {svgs.downArrow}
+              </Button>
+            </div>
+            <Button className="p-3 w-25" onClick={handleBet}>
+              Bet
             </Button>
           </div>
-          <Button className="p-3 w-25" onClick={handleBet}>
-            Bet
-          </Button>
-        </div>
+        )}
+        {gameState.gamePhase === "Raise or Pass" && (
+          <div className="d-flex flex-row justify-content-between">
+            <div className="m-4 text lead">
+              {gameState.latestBet.highestBetter} bet
+              {gameState.latestBet.numOfCards} cards.
+            </div>
+            <div>
+              <Button className="m-1 p-3">{svgs.upArrow}</Button>
+              <Button
+                className="m-1 p-3"
+                disabled={numOfCards <= 1 ? true : false}
+              >
+                {svgs.downArrow}
+              </Button>
+            </div>
+            <Button className="p-3 w-25" onClick={handleBet}>
+              Bet
+            </Button>
+          </div>
+        )}
       </Offcanvas.Body>
     </Offcanvas>
   );
