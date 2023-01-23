@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import PlayerHand from "./PlayerHand";
 import GameBoard from "./GameBoard";
 import BettingOffCanvas from "./BettingOffCanvas";
+import RaiseOrPassButtons from "./RaiseOrPassButtons";
+import PlayOrBetButtons from "./PlayOrBetButtons";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
@@ -32,20 +34,21 @@ function GameComponents({ gameId, userId }) {
               gameState={gameState}
             />
             <div className="d-flex flex-row position-sticky bottom-0 w-100">
-              <Button
-                className="end-50 w-50"
-                variant="primary"
-                onClick={() => setShowBetting(true)}
-              >
-                Bet
-              </Button>
-              <Button
-                variant="warning"
-                className="start-50 w-50"
-                onClick={() => setShowHand(true)}
-              >
-                Show Hand
-              </Button>
+              {(gameState.gamePhase === "Set Round" ||
+                gameState.gamePhase === "Play or Bet") && (
+                <PlayOrBetButtons
+                  gameState={gameState}
+                  setShowBetting={setShowBetting}
+                  setShowHand={setShowHand}
+                  userId={userId}
+                />
+              )}
+              {gameState.gamePhase === "Raise Or Pass" && (
+                <RaiseOrPassButtons
+                  setShowBetting={setShowBetting}
+                  setShowHand={setShowHand}
+                />
+              )}
             </div>
           </div>
         )}

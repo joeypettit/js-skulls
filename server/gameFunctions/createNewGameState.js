@@ -12,8 +12,9 @@ function createNewGameState(playerId, gameId, playerName) {
     reorderingAt: 0, // helpful for tracking reordering progression
     inProgress: false, // is active will be true when game is in play
     readyToPlay: false, // initates play, may be false on error/player disconnecting, etc.
-    gamePhase: "laying", // reordering, laying, betting, flipping, scoring
+    gamePhase: "Set Round", // Reordering, Set Round, Play or Bet, Raise or Pass, Flipping, Scoring
     round: 0,
+    firstToPlayIndex: 0, // the first player to play a card this round, will be index of player in players array
     latestBet: {
       numOfCards: null, // number of cards currently being bet
       highestBetter: null, // player with highest bet

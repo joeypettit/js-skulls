@@ -6,13 +6,16 @@ function playCard(gameState, cardId) {
   // player who is playing the card
   const thisPlayer = gameState.players[gameState.playerTurnIndex];
 
-  // set the played card => isInPlay === true
-  thisPlayer.allCards.map((card) => {
-    if (card.cardId === cardId) {
-      card.isInPlay = true;
-      card.isInHand = false;
-    }
+  // find index of card to play in cardsInHand array
+  const cardToPlayIndex = thisPlayer.cardsInHand.findIndex((card) => {
+    return card.cardId === cardId;
   });
+
+  // splice from cardsInHand
+  const cardToPlay = thisPlayer.cardsInHand.splice(cardToPlayIndex, 1);
+
+  // add to beginning of cardsInPlay array
+  thisPlayer.cardsInPlay.unshift(cardToPlay[0]);
 }
 
 module.exports = playCard;

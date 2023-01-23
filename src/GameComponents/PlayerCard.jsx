@@ -11,7 +11,7 @@ function PlayerCard({ card, isPlayerTurn }) {
   return (
     <div>
       {/* ~~~~ conditionals renders for in-hand cards ~~~~ */}
-      {card.isSkull && card.isInHand && (
+      {card.isSkull && (
         <Button
           variant="danger"
           size="lg"
@@ -22,7 +22,7 @@ function PlayerCard({ card, isPlayerTurn }) {
           💀
         </Button>
       )}
-      {!card.isSkull && card.isInHand && (
+      {!card.isSkull && (
         <Button
           variant="success"
           size="lg"
