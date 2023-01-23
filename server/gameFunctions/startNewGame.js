@@ -11,8 +11,8 @@ function startNewGame(gameState) {
     Math.random() * gameState.players.length
   );
   gameState.playerTurnIndex = startingPlayerIndex;
-  gameState.startingPlayerIndex = startingPlayerIndex;
   gameState.players[startingPlayerIndex].isPlayerTurn = true;
+  gameState.firstToPlayIndex = startingPlayerIndex;
 
   // prep for new round
   prepNewRound(gameState);
