@@ -6,7 +6,7 @@ function Gameboard({ gameState, userId }) {
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
 
   return (
-    <div className="bg-warning p-2">
+    <div className="bg-light p-2">
       <div className="d-flex justify-content-between">
         <div>
           It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
