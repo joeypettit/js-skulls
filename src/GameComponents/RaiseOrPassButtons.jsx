@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-function RaiseOrPassButtons({ setShowBetting, setShowHand }) {
+function RaiseOrPassButtons({ setShowRaiseOffCanvas, setShowHand }) {
   return (
     <>
       <Button>Pass</Button>
       <Button
         className="end-50 w-50"
         variant="info"
-        onClick={() => setShowBetting(true)}
+        onClick={() => setShowRaiseOffCanvas(true)}
       >
         Raise
       </Button>

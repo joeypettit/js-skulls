@@ -20,6 +20,7 @@ const passTurnToNextPlayer = require("./gameFunctions/passTurnToNextPlayer");
 const playCard = require("./gameFunctions/playCard");
 const startNewGame = require("./gameFunctions/startNewGame");
 const emitCensoredGameStates = require("./gameFunctions/emitCensoredGameState");
+const initiateBetting = require("./gameFunctions/initiateBetting");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -176,23 +177,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("initiate-betting", (gameId, numOfCards) => {
-    const userId = socket.handshake.query.user;
+    const userId = socket.handshake.query.userId;
 
     // find correct gameState to edit
     const thisGameState = allGameStates.find((gameState) => {
       return gameState.gameId === gameId;
     });
 
-    thisGameState.gamePhase = "betting";
-    thisGameState.latestBet = {
-      numOfCards,
-      highestBetter: userId,
-    };
-    const thisPlayer = thisGameState.players.find((player) => {
-      return player.playerId === userId;
-    });
-    thisPlayer.hasFolded = false;
-
+    initiateBetting(thisGameState, userId, numOfCards);
     passTurnToNextPlayer(thisGameState);
     emitCensoredGameStates(thisGameState, io);
   });
