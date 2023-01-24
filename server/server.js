@@ -184,9 +184,28 @@ io.on("connection", (socket) => {
       return gameState.gameId === gameId;
     });
 
-    initiateBetting(thisGameState, userId, numOfCards);
-    passTurnToNextPlayer(thisGameState);
-    emitCensoredGameStates(thisGameState, io);
+    if (thisGameState) {
+      initiateBetting(thisGameState, userId, numOfCards);
+      passTurnToNextPlayer(thisGameState);
+      emitCensoredGameStates(thisGameState, io);
+    } else {
+      // emit there was an error
+    }
+  });
+
+  socket.on("raise-bet", (gameId, numOfCards) => {
+    const userId = socket.handshake.query.userId;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    if (thisGameState) {
+      raiseBet(thisGameState, userId, numOfCards);
+    } else {
+      //emit error
+    }
   });
 
   socket.on("disconnect", () => {
