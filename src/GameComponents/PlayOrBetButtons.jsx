@@ -10,7 +10,7 @@ function PlayOrBetButtons({
   return (
     <>
       <Button
-        className="end-50 w-50"
+        className="col col-6"
         variant="info"
         onClick={() => setShowBetOffCanvas(true)}
         disabled={
@@ -24,7 +24,7 @@ function PlayOrBetButtons({
       </Button>
       <Button
         variant="warning"
-        className="start-50 w-50"
+        className="col col-6"
         onClick={() => setShowHand(true)}
       >
         Show Hand

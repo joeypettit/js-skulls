@@ -1,12 +1,15 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 function RaiseOrPassButtons({ setShowRaiseOffCanvas, setShowHand }) {
   return (
     <>
-      <Button>Pass</Button>
+      <Button className="col col-4" variant="danger">
+        Pass
+      </Button>
       <Button
-        className="end-50 w-50"
+        className="col col-4"
         variant="info"
         onClick={() => setShowRaiseOffCanvas(true)}
       >
@@ -14,7 +17,7 @@ function RaiseOrPassButtons({ setShowRaiseOffCanvas, setShowHand }) {
       </Button>
       <Button
         variant="warning"
-        className="start-50 w-50"
+        className="col col-4"
         onClick={() => setShowHand(true)}
       >
         Show Hand

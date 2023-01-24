@@ -41,7 +41,10 @@ function GameComponents({ gameId, userId }) {
               gameState={gameState}
             />
 
-            <div className="d-flex flex-row position-sticky bottom-0 w-100">
+            <Container
+              fluid
+              className="d-flex flex-row position-sticky bottom-0"
+            >
               {(gameState.gamePhase === "Set Round" ||
                 gameState.gamePhase === "Play or Bet") && (
                 <PlayOrBetButtons
@@ -51,13 +54,13 @@ function GameComponents({ gameId, userId }) {
                   userId={userId}
                 />
               )}
-              {gameState.gamePhase === "Raise Or Pass" && (
+              {gameState.gamePhase === "Raise or Pass" && (
                 <RaiseOrPassButtons
                   setShowRaiseOffCanvas={setShowRaiseOffCanvas}
                   setShowHand={setShowHand}
                 />
               )}
-            </div>
+            </Container>
           </div>
         )}
       </Container>
