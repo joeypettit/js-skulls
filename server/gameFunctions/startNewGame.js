@@ -6,16 +6,14 @@ function startNewGame(gameState) {
   gameState.readyToPlay = true;
   gameState.inProgress = true;
 
-  // assign a random player to be the first dealer
-  const startingPlayerIndex = Math.floor(
-    Math.random() * gameState.players.length
-  );
-  gameState.playerTurnIndex = startingPlayerIndex;
-  gameState.players[startingPlayerIndex].isPlayerTurn = true;
-  gameState.firstToPlayIndex = startingPlayerIndex;
-
   // prep for new round
   prepNewRound(gameState);
+
+  // assign a random player to be the first dealer
+  const firstToPlayIndex = Math.floor(Math.random() * gameState.players.length);
+  gameState.playerTurnIndex = firstToPlayIndex;
+  gameState.players[firstToPlayIndex].isPlayerTurn = true;
+  gameState.firstToPlayIndex = firstToPlayIndex;
 }
 
 module.exports = startNewGame;

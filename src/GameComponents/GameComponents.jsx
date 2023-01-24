@@ -3,16 +3,18 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import PlayerHand from "./PlayerHand";
 import GameBoard from "./GameBoard";
-import BettingOffCanvas from "./BettingOffCanvas";
+import BetOffCanvas from "./BetOffCanvas";
 import RaiseOrPassButtons from "./RaiseOrPassButtons";
 import PlayOrBetButtons from "./PlayOrBetButtons";
+import RaiseOffCanvas from "./RaiseOffCanvas";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
   const { gameState } = useGameState();
   // state to open/close player hand off canvas
   const [showHand, setShowHand] = useState(false);
-  const [showBetting, setShowBetting] = useState(false);
+  const [showBetOffCanvas, setShowBetOffCanvas] = useState(false);
+  const [showRaiseOffCanvas, setShowRaiseOffCanvas] = useState(false);
 
   console.log("gamestate is", gameState);
 
@@ -28,28 +30,37 @@ function GameComponents({ gameId, userId }) {
               setShowHand={setShowHand}
               showHand={showHand}
             />
-            <BettingOffCanvas
-              showBetting={showBetting}
-              setShowBetting={setShowBetting}
+            <BetOffCanvas
+              showBetOffCanvas={showBetOffCanvas}
+              setShowBetOffCanvas={setShowBetOffCanvas}
               gameState={gameState}
             />
-            <div className="d-flex flex-row position-sticky bottom-0 w-100">
+            <RaiseOffCanvas
+              showRaiseOffCanvas={showRaiseOffCanvas}
+              setShowRaiseOffCanvas={setShowRaiseOffCanvas}
+              gameState={gameState}
+            />
+
+            <Container
+              fluid
+              className="d-flex flex-row position-sticky bottom-0"
+            >
               {(gameState.gamePhase === "Set Round" ||
                 gameState.gamePhase === "Play or Bet") && (
                 <PlayOrBetButtons
                   gameState={gameState}
-                  setShowBetting={setShowBetting}
+                  setShowBetOffCanvas={setShowBetOffCanvas}
                   setShowHand={setShowHand}
                   userId={userId}
                 />
               )}
-              {gameState.gamePhase === "Raise Or Pass" && (
+              {gameState.gamePhase === "Raise or Pass" && (
                 <RaiseOrPassButtons
-                  setShowBetting={setShowBetting}
+                  setShowRaiseOffCanvas={setShowRaiseOffCanvas}
                   setShowHand={setShowHand}
                 />
               )}
-            </div>
+            </Container>
           </div>
         )}
       </Container>

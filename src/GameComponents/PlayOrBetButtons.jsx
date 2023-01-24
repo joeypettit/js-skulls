@@ -1,13 +1,18 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-function PlayOrBetButtons({ gameState, userId, setShowBetting, setShowHand }) {
+function PlayOrBetButtons({
+  gameState,
+  userId,
+  setShowBetOffCanvas,
+  setShowHand,
+}) {
   return (
     <>
       <Button
-        className="end-50 w-50"
+        className="col col-6"
         variant="info"
-        onClick={() => setShowBetting(true)}
+        onClick={() => setShowBetOffCanvas(true)}
         disabled={
           gameState.gamePhase === "Play or Bet" &&
           userId === gameState.players[gameState.playerTurnIndex].playerId
@@ -19,7 +24,7 @@ function PlayOrBetButtons({ gameState, userId, setShowBetting, setShowHand }) {
       </Button>
       <Button
         variant="warning"
-        className="start-50 w-50"
+        className="col col-6"
         onClick={() => setShowHand(true)}
       >
         Show Hand

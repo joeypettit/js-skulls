@@ -9,6 +9,10 @@ function prepNewRound(gameState) {
     // is different each round (to avoid guessing based on
     // button presses)
     player.cardsInHand.sort((a, b) => 0.5 - Math.random());
+
+    // set values to default
+    player.hasFolded = false;
+    player.isPlayerTurn = false;
   }
 
   // set gamePhase to Set Round
