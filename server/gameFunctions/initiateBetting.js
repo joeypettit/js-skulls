@@ -32,11 +32,9 @@ function initiateBetting(gameState, userId, numOfCards) {
   }
 
   function getPlayerObject() {
-    console.log("user id is", userId);
     const playerObj = gameState.players.find((player) => {
       return player.playerId === userId;
     });
-    console.log("playerObj is", playerObj);
     return playerObj;
   }
 }

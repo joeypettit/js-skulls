@@ -5,8 +5,6 @@
 function passTurnToNextPlayer(gameState) {
   // copy of value of gamestate.playerTurnIndex
   let prevPlayerTurnIndex = gameState.playerTurnIndex;
-  // next players turn index will be...
-  let nextPlayerTurnIndex = gameState.playerTurnIndex + 1;
 
   // reference variable to gamestate.players
   let players = gameState.players;
@@ -40,10 +38,14 @@ function passTurnToNextPlayer(gameState) {
     // each player following the previous player until we find one that
     // has not yet folded, while skipping the turns of those who have.
   } else if (gameState.gamePhase === "Raise or Pass") {
-    const nextPlayerTurnIndex = gameState.playerTurnIndex + 1;
-    // start at nextPlayersTurnIndex, loop through
-    // players array until we arrive back to prevPlayersIndex
-    for (; nextPlayerTurnIndex !== prevPlayerTurnIndex; ) {
+    const nextPlayerTurnIndex = findNextPlayerTurnIndex();
+
+    // console.log("players", players);
+    // console.log("nextTurnIndex", nextPlayerTurnIndex);
+    // console.log("player[nextPlayerTurnIndex]", players[nextPlayerTurnIndex]);
+    // console.log("has folded", players[nextPlayerTurnIndex].hasFolded);
+
+    while (nextPlayerTurnIndex !== prevPlayerTurnIndex) {
       // if: player has folded, their turn will be skipped until next round
       // increment index to next entry in players array
       if (players[nextPlayerTurnIndex].hasFolded === true) {
@@ -51,14 +53,11 @@ function passTurnToNextPlayer(gameState) {
         if (nextPlayerTurnIndex < players.length - 1) {
           // increment helper variable nextPlayerTurnIndex
           nextPlayerTurnIndex += 1;
-
           // else: player is the last in the players array
         } else {
-          // set nextPlayerTurn index to beginning of players array
+          // set nextPlayerTurnIndex to beginning of players array
           nextPlayerTurnIndex = 0;
         }
-
-        // else: player has not folded, pass turn on to them.
       } else {
         // set gameState's playerTurnIndex
         gameState.playerTurnIndex = nextPlayerTurnIndex;
@@ -68,7 +67,22 @@ function passTurnToNextPlayer(gameState) {
 
         // make next player (now at gameState.playerTurnIndex) isPlayerTurn true
         players[gameState.playerTurnIndex].isPlayerTurn = true;
+
+        break;
       }
+    }
+  }
+
+  function findNextPlayerTurnIndex() {
+    // if: player is NOT the last player in the players array,
+    if (prevPlayerTurnIndex < players.length - 1) {
+      // add one to prevPlayerTurnIndex to find the next
+      return prevPlayerTurnIndex + 1;
+
+      // else: player is the last in the players array
+    } else {
+      // set playerTurn index to beginning of players array
+      return 0;
     }
   }
 }

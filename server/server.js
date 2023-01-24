@@ -186,7 +186,12 @@ io.on("connection", (socket) => {
 
     if (thisGameState) {
       initiateBetting(thisGameState, userId, numOfCards);
+      console.log("at beginning of initiate betting");
+
       passTurnToNextPlayer(thisGameState);
+      // SOMETHING IN HERE IS BROKEN ^^^
+
+      console.log("in server", thisGameState);
       emitCensoredGameStates(thisGameState, io);
     } else {
       // emit there was an error
@@ -203,6 +208,8 @@ io.on("connection", (socket) => {
 
     if (thisGameState) {
       raiseBet(thisGameState, userId, numOfCards);
+      passTurnToNextPlayer(thisGameState);
+      emitCensoredGameStates(thisGameState, io);
     } else {
       //emit error
     }
