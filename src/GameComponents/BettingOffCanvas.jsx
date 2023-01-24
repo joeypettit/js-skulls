@@ -14,12 +14,24 @@ function BettingOffCanvas({ gameState, showBetting, setShowBetting }) {
   const { initiateBetting } = useGameState();
 
   function handleSetNumOfCards(direction) {
-    if (direction === "up") {
+    if (direction === "up" && numOfCards < totalCardsPlayed()) {
       setNumOfCards(numOfCards + 1);
+    } else if (direction === "up" && numOfCards === totalCardsPlayed()) {
+      return;
     } else if (direction === "down" && numOfCards <= 1) {
       return;
     } else {
       setNumOfCards(numOfCards - 1);
+    }
+
+    // count how many total cards have been played
+    function totalCardsPlayed() {
+      let cardCounter = 0;
+      for (let player of gameState.players) {
+        cardCounter += player.cardsInPlay.length;
+      }
+      console.log(cardCounter);
+      return cardCounter;
     }
   }
 
