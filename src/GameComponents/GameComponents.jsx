@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 import PlayerHand from "./PlayerHand";
 import GameBoard from "./GameBoard";
 import BetOffCanvas from "./BetOffCanvas";
@@ -20,9 +19,9 @@ function GameComponents({ gameId, userId }) {
 
   return (
     <>
-      <Container fluid className="p-0 w-auto">
+      <Container fluid className="p-0 w-auto h-100">
         {gameState && gameState.readyToPlay && gameState.inProgress && (
-          <div className="w-auto">
+          <>
             <GameBoard gameState={gameState} userId={userId} />
             <PlayerHand
               gameState={gameState}
@@ -41,10 +40,7 @@ function GameComponents({ gameId, userId }) {
               gameState={gameState}
             />
 
-            <Container
-              fluid
-              className="d-flex flex-row position-sticky bottom-0"
-            >
+            <div className="d-flex flex-row position-fixed bottom-0 w-100">
               {(gameState.gamePhase === "Set Round" ||
                 gameState.gamePhase === "Play or Bet") && (
                 <PlayOrBetButtons
@@ -56,12 +52,13 @@ function GameComponents({ gameId, userId }) {
               )}
               {gameState.gamePhase === "Raise or Pass" && (
                 <RaiseOrPassButtons
+                  userId={userId}
                   setShowRaiseOffCanvas={setShowRaiseOffCanvas}
                   setShowHand={setShowHand}
                 />
               )}
-            </Container>
-          </div>
+            </div>
+          </>
         )}
       </Container>
     </>

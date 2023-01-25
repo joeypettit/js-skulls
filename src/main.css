@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 5vh;
+  min-width: 322px;
+  color: white;
+}
+
+ul{
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+
+.gameboard {
+  background-color: rgb(234, 208, 81);
+}
+
+.player-hands {
+  background-color: rgb(80, 175, 173);
+
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+div#root {
+  height: 100%; /* remove this line to see div.app is no more 100% height */
+  background-color: lightblue;
+
+}
+
+#page-body{
+  padding-top: 5vh;
+
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

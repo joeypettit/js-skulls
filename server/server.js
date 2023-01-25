@@ -21,6 +21,10 @@ const playCard = require("./gameFunctions/playCard");
 const startNewGame = require("./gameFunctions/startNewGame");
 const emitCensoredGameStates = require("./gameFunctions/emitCensoredGameState");
 const initiateBetting = require("./gameFunctions/initiateBetting");
+const raiseBet = require("./gameFunctions/raiseBet");
+const foldHand = require("./gameFunctions/foldHand");
+const checkReadyForFlipPhase = require("./gameFunctions/checkReadyForFlipPhase");
+const checkReadyForPlayOrBetPhase = require("./gameFunctions/checkReadyForPlayOrBetPhase");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -154,19 +158,10 @@ io.on("connection", (socket) => {
     });
 
     if (thisGameState) {
-      // alter gamestate to play the card, and pass turn to next player
       playCard(thisGameState, cardId);
       passTurnToNextPlayer(thisGameState);
-
-      // if gamePhase is 'Set Round' and playerTurnIndex === firstToPlayIndex,
-      // move gamePhase to the next round ('Play or Bet')
-      // this will be triggered once all players have laid one card down
-      if (
-        thisGameState.gamePhase === "Set Round" &&
-        thisGameState.playerTurnIndex === thisGameState.firstToPlayIndex
-      ) {
-        // move on to Play or Bet round
-        thisGameState.gamePhase = "Play or Bet";
+      if (thisGameState.gamePhase === "Set Round") {
+        checkReadyForPlayOrBetPhase(thisGameState);
       }
 
       // use io instance to pass unique censored gamestate to all players individually
@@ -184,9 +179,47 @@ io.on("connection", (socket) => {
       return gameState.gameId === gameId;
     });
 
-    initiateBetting(thisGameState, userId, numOfCards);
-    passTurnToNextPlayer(thisGameState);
-    emitCensoredGameStates(thisGameState, io);
+    if (thisGameState) {
+      initiateBetting(thisGameState, userId, numOfCards);
+      passTurnToNextPlayer(thisGameState);
+      emitCensoredGameStates(thisGameState, io);
+    } else {
+      // emit there was an error
+    }
+  });
+
+  socket.on("raise-bet", (gameId, numOfCards) => {
+    const userId = socket.handshake.query.userId;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    if (thisGameState) {
+      raiseBet(thisGameState, userId, numOfCards);
+      passTurnToNextPlayer(thisGameState);
+      emitCensoredGameStates(thisGameState, io);
+    } else {
+      //emit error
+    }
+  });
+
+  socket.on("pass-on-bet", (gameId) => {
+    const userId = socket.handshake.query.userId;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    if (thisGameState) {
+      foldHand(thisGameState, userId);
+      passTurnToNextPlayer(thisGameState);
+      checkReadyForFlipPhase(thisGameState);
+      emitCensoredGameStates(thisGameState, io);
+    } else {
+    }
   });
 
   socket.on("disconnect", () => {

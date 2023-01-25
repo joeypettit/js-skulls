@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./main.css";
 import Header from "./Header/Header";
 import SetupComponents from "./SetupComponents/SetupComponents";
 import GameComponents from "./GameComponents/GameComponents";
@@ -19,13 +19,15 @@ function App() {
         userId={userId}
         setUserId={setUserId}
       >
-        <GameComponents gameId={gameId} userId={userId} />
-        <SetupComponents
-          setGameId={setGameId}
-          setUserId={setUserId}
-          userId={userId}
-          gameId={gameId}
-        />
+        <div id="page-body">
+          <GameComponents gameId={gameId} userId={userId} />
+          <SetupComponents
+            setGameId={setGameId}
+            setUserId={setUserId}
+            userId={userId}
+            gameId={gameId}
+          />
+        </div>
       </AllProviders>
     </>
   );

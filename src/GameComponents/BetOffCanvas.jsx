@@ -36,6 +36,7 @@ function BetOffCanvas({ gameState, showBetOffCanvas, setShowBetOffCanvas }) {
 
   function handleBet() {
     initiateBetting(numOfCardsInput);
+    setShowBetOffCanvas(false);
   }
 
   useEffect(() => {
@@ -74,7 +75,11 @@ function BetOffCanvas({ gameState, showBetOffCanvas, setShowBetOffCanvas }) {
               {svgs.downArrow}
             </Button>
           </div>
-          <Button className="p-3 w-25" onClick={handleBet}>
+          <Button
+            className="p-3 w-25"
+            onClick={handleBet}
+            disabled={!showBetOffCanvas}
+          >
             Bet
           </Button>
         </div>

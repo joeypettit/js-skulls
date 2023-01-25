@@ -9,9 +9,9 @@ function RaiseOffCanvas({
   setShowRaiseOffCanvas,
   gameState,
 }) {
-  const [numOfCardsInput, setNumOfCardsInput] = useState(
-    gameState.latestBet.numOfCards
-  );
+  const { raiseBet } = useGameState();
+
+  const [numOfCardsInput, setNumOfCardsInput] = useState(1);
 
   function handleSetNumOfCardsInput(direction) {
     const currentBetPlusRaise =
@@ -29,20 +29,24 @@ function RaiseOffCanvas({
     } else {
       setNumOfCardsInput(numOfCardsInput - 1);
     }
-
-    // count how many total cards have been played
-    function totalCardsPlayed() {
-      let cardCounter = 0;
-      for (let player of gameState.players) {
-        cardCounter += player.cardsInPlay.length;
-      }
-      console.log(cardCounter);
-      return cardCounter;
-    }
   }
 
   function handleRaise() {
-    console.log("raise");
+    // send raised gameState.latestBet.numOfCards (numOfCardsInput + previous high bet)
+    const newlyRaiseNumOfCards =
+      numOfCardsInput + gameState.latestBet.numOfCards;
+    raiseBet(newlyRaiseNumOfCards);
+    setShowRaiseOffCanvas(false);
+  }
+
+  // count how many total cards have been played
+  function totalCardsPlayed() {
+    let cardCounter = 0;
+    for (let player of gameState.players) {
+      cardCounter += player.cardsInPlay.length;
+    }
+    console.log(cardCounter);
+    return cardCounter;
   }
 
   useEffect(() => {
@@ -63,28 +67,42 @@ function RaiseOffCanvas({
       </Offcanvas.Header>
       <Offcanvas.Body>
         <div className="d-flex flex-row justify-content-between">
-          <div className="m-4 text lead">
-            {gameState.latestBet.highestBetter} bet
-            {gameState.latestBet.numOfCards} cards.
+          <div className="m-4 text lead text-center">
+            <strong>{gameState.latestBet.highestBetter.name}</strong>
+            <br /> bet {gameState.latestBet.numOfCards}{" "}
+            {gameState.latestBet.numOfCards === 1 ? "card" : "cards"}
           </div>
-          <div>Raise: +{numOfCardsInput}</div>
-          <div>
-            <Button
-              className="m-1 p-3"
-              onClick={() => handleSetNumOfCardsInput("up")}
-            >
-              {svgs.upArrow}
-            </Button>
-            <Button
-              className="m-1 p-3"
-              disabled={numOfCardsInput <= 1 ? true : false}
-              onClick={() => handleSetNumOfCardsInput("down")}
-            >
-              {svgs.downArrow}
-            </Button>
+          <div className="text-center">
+            <div>Raise: +{numOfCardsInput}</div>
+            <div>
+              <Button
+                className="m-1 p-3"
+                disabled={
+                  numOfCardsInput + gameState.latestBet.numOfCards ===
+                  totalCardsPlayed()
+                    ? true
+                    : false
+                }
+                onClick={() => handleSetNumOfCardsInput("up")}
+              >
+                {svgs.upArrow}
+              </Button>
+              <Button
+                className="m-1 p-3"
+                disabled={numOfCardsInput <= 1 ? true : false}
+                onClick={() => handleSetNumOfCardsInput("down")}
+              >
+                {svgs.downArrow}
+              </Button>
+            </div>
           </div>
-          <Button className="p-3 w-25" onClick={handleRaise}>
-            Bet
+          <Button
+            className="p-3 w-25"
+            onClick={handleRaise}
+            disabled={!showRaiseOffCanvas}
+          >
+            Bet <br />
+            {numOfCardsInput + gameState.latestBet.numOfCards} Cards
           </Button>
         </div>
       </Offcanvas.Body>
