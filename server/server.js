@@ -21,8 +21,10 @@ const playCard = require("./gameFunctions/playCard");
 const startNewGame = require("./gameFunctions/startNewGame");
 const emitCensoredGameStates = require("./gameFunctions/emitCensoredGameState");
 const initiateBetting = require("./gameFunctions/initiateBetting");
+const raiseBet = require("./gameFunctions/raiseBet");
 const foldHand = require("./gameFunctions/foldHand");
-const checkReadyForPlayOrBetPhase = require("./checkReadyForPlayOrBetPhase");
+const checkReadyForFlipPhase = require("./gameFunctions/checkReadyForFlipPhase");
+const checkReadyForPlayOrBetPhase = require("./gameFunctions/checkReadyForPlayOrBetPhase");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -203,7 +205,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("fold-hand", (gameId) => {
+  socket.on("pass-on-bet", (gameId) => {
     const userId = socket.handshake.query.userId;
 
     // find correct gameState to edit

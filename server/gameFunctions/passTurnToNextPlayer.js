@@ -33,17 +33,6 @@ function passTurnToNextPlayer(gameState) {
     // make next player (now at gameState.playerTurnIndex) isPlayerTurn true
     players[gameState.playerTurnIndex].isPlayerTurn = true;
 
-    // if gamePhase is 'Set Round' and playerTurnIndex === firstToPlayIndex,
-    // move gamePhase to the next round ('Play or Bet')
-    // this will be triggered once all players have laid one card down
-    if (
-      gameState.gamePhase === "Set Round" &&
-      gameState.playerTurnIndex === gameState.firstToPlayIndex
-    ) {
-      // move on to Play or Bet round
-      gameState.gamePhase = "Play or Bet";
-    }
-
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // else if: if gamePhase is in 'Raise or Pass', we must check each
     // each player following the previous player until we find one that
@@ -78,19 +67,19 @@ function passTurnToNextPlayer(gameState) {
       }
     }
   }
+
+  function findNextPlayerTurnIndex() {
+    // if: player is NOT the last player in the players array,
+    if (prevPlayerTurnIndex < players.length - 1) {
+      // add one to prevPlayerTurnIndex to find the next
+      return prevPlayerTurnIndex + 1;
+
+      // else: player is the last in the players array
+    } else {
+      // set playerTurn index to beginning of players array
+      return 0;
+    }
+  }
 }
 
 module.exports = passTurnToNextPlayer;
-
-function findNextPlayerTurnIndex() {
-  // if: player is NOT the last player in the players array,
-  if (prevPlayerTurnIndex < players.length - 1) {
-    // add one to prevPlayerTurnIndex to find the next
-    return prevPlayerTurnIndex + 1;
-
-    // else: player is the last in the players array
-  } else {
-    // set playerTurn index to beginning of players array
-    return 0;
-  }
-}
