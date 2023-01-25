@@ -11,9 +11,7 @@ function RaiseOffCanvas({
 }) {
   const { raiseBet } = useGameState();
 
-  const [numOfCardsInput, setNumOfCardsInput] = useState(
-    gameState.latestBet.numOfCards
-  );
+  const [numOfCardsInput, setNumOfCardsInput] = useState(1);
 
   function handleSetNumOfCardsInput(direction) {
     const currentBetPlusRaise =
@@ -38,6 +36,7 @@ function RaiseOffCanvas({
     const newlyRaiseNumOfCards =
       numOfCardsInput + gameState.latestBet.numOfCards;
     raiseBet(newlyRaiseNumOfCards);
+    setShowRaiseOffCanvas(false);
   }
 
   // count how many total cards have been played
@@ -97,7 +96,11 @@ function RaiseOffCanvas({
               </Button>
             </div>
           </div>
-          <Button className="p-3 w-25" onClick={handleRaise}>
+          <Button
+            className="p-3 w-25"
+            onClick={handleRaise}
+            disabled={!showRaiseOffCanvas}
+          >
             Bet <br />
             {numOfCardsInput + gameState.latestBet.numOfCards} Cards
           </Button>
