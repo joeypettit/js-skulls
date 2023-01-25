@@ -40,11 +40,6 @@ function passTurnToNextPlayer(gameState) {
   } else if (gameState.gamePhase === "Raise or Pass") {
     const nextPlayerTurnIndex = findNextPlayerTurnIndex();
 
-    // console.log("players", players);
-    // console.log("nextTurnIndex", nextPlayerTurnIndex);
-    // console.log("player[nextPlayerTurnIndex]", players[nextPlayerTurnIndex]);
-    // console.log("has folded", players[nextPlayerTurnIndex].hasFolded);
-
     while (nextPlayerTurnIndex !== prevPlayerTurnIndex) {
       // if: player has folded, their turn will be skipped until next round
       // increment index to next entry in players array
@@ -71,20 +66,26 @@ function passTurnToNextPlayer(gameState) {
         break;
       }
     }
-  }
-
-  function findNextPlayerTurnIndex() {
-    // if: player is NOT the last player in the players array,
-    if (prevPlayerTurnIndex < players.length - 1) {
-      // add one to prevPlayerTurnIndex to find the next
-      return prevPlayerTurnIndex + 1;
-
-      // else: player is the last in the players array
-    } else {
-      // set playerTurn index to beginning of players array
-      return 0;
+    // now if nextPlayerTurnIndex index equals prevPlayerTurn index,
+    // we know all other players have folded and we can move on to,
+    // next gamePhase => flip-cards
+    if (nextPlayerTurnIndex === prevPlayerTurnIndex) {
+      gameState.gamePhase === "flip-cards";
     }
   }
 }
 
 module.exports = passTurnToNextPlayer;
+
+function findNextPlayerTurnIndex() {
+  // if: player is NOT the last player in the players array,
+  if (prevPlayerTurnIndex < players.length - 1) {
+    // add one to prevPlayerTurnIndex to find the next
+    return prevPlayerTurnIndex + 1;
+
+    // else: player is the last in the players array
+  } else {
+    // set playerTurn index to beginning of players array
+    return 0;
+  }
+}
