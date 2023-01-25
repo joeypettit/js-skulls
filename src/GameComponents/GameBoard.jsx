@@ -14,15 +14,17 @@ function Gameboard({ gameState, userId }) {
         </div>
         <div>GamePhase: {gameState.gamePhase}</div>
       </div>
-      <div className="m-1 text lead text-center">
-        <strong>
-          {gameState.latestBet.highestBetter.playerId === userId
-            ? "You"
-            : gameState.latestBet.highestBetter.name}
-        </strong>{" "}
-        bet {gameState.latestBet.numOfCards}{" "}
-        {gameState.latestBet.numOfCards === 1 ? "card" : "cards"}
-      </div>
+      {gameState.gamePhase === "Raise or Pass" && (
+        <div className="m-1 text lead text-center">
+          <strong>
+            {gameState.latestBet.highestBetter.playerId === userId
+              ? "You"
+              : gameState.latestBet.highestBetter.name}
+          </strong>{" "}
+          bet {gameState.latestBet.numOfCards}{" "}
+          {gameState.latestBet.numOfCards === 1 ? "card" : "cards"}
+        </div>
+      )}
       {gameState.players.map((player) => {
         return (
           <div

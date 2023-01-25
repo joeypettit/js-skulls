@@ -9,6 +9,12 @@
   color: white;
 }
 
+ul{
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
 
 .gameboard {
   background-color: rgb(234, 208, 81);
