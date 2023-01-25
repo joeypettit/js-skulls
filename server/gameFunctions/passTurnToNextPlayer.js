@@ -33,6 +33,17 @@ function passTurnToNextPlayer(gameState) {
     // make next player (now at gameState.playerTurnIndex) isPlayerTurn true
     players[gameState.playerTurnIndex].isPlayerTurn = true;
 
+    // if gamePhase is 'Set Round' and playerTurnIndex === firstToPlayIndex,
+    // move gamePhase to the next round ('Play or Bet')
+    // this will be triggered once all players have laid one card down
+    if (
+      gameState.gamePhase === "Set Round" &&
+      gameState.playerTurnIndex === gameState.firstToPlayIndex
+    ) {
+      // move on to Play or Bet round
+      gameState.gamePhase = "Play or Bet";
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // else if: if gamePhase is in 'Raise or Pass', we must check each
     // each player following the previous player until we find one that
@@ -65,12 +76,6 @@ function passTurnToNextPlayer(gameState) {
 
         break;
       }
-    }
-    // now if nextPlayerTurnIndex index equals prevPlayerTurn index,
-    // we know all other players have folded and we can move on to,
-    // next gamePhase => flip-cards
-    if (nextPlayerTurnIndex === prevPlayerTurnIndex) {
-      gameState.gamePhase === "flip-cards";
     }
   }
 }
