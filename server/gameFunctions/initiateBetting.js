@@ -15,10 +15,10 @@ function initiateBetting(gameState, userId, numOfCards) {
   };
 
   // if player bets highest possible number of cards,
-  // skip gamePhase to "flip-cards"
+  // skip gamePhase to "request-flip"
   // else: move to "Raise or Pass" gamePhase
   if (gameState.latestBet.numOfCards === totalCardsPlayed()) {
-    gameState.gamePhase = "flip-cards";
+    gameState.gamePhase = "request-flip";
   } else {
     gameState.gamePhase = "Raise or Pass";
   }
