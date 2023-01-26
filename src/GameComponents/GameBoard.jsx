@@ -1,9 +1,23 @@
+import { useEffect } from "react";
 import TableHand from "./TableHand";
 import CardsOnTable from "./CardsOnTable";
 
-function Gameboard({ gameState, userId }) {
+function Gameboard({ gameState, userId, setShowFlipModal }) {
   // get player object of the player whose turn it is
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
+
+  // this use effect should be put up in its the game components, but
+  // was placed here to make sure gameState is available to it.
+  // fix this later...
+  useEffect(() => {
+    if (
+      gameState.gamePhase === "better-will-flip" ||
+      gameState.gamePhase === "request-flip" ||
+      gameState.gamePhase === "better-will-flip"
+    ) {
+      setShowFlipModal(true);
+    }
+  }, [gameState.gamePhase]);
 
   return (
     <div className="bg-light p-2">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import PlayerHand from "./PlayerHand";
 import GameBoard from "./GameBoard";
@@ -6,6 +6,7 @@ import BetOffCanvas from "./BetOffCanvas";
 import RaiseOrPassButtons from "./RaiseOrPassButtons";
 import PlayOrBetButtons from "./PlayOrBetButtons";
 import RaiseOffCanvas from "./RaiseOffCanvas";
+import FlipModal from "./FlipModal";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
@@ -14,15 +15,18 @@ function GameComponents({ gameId, userId }) {
   const [showHand, setShowHand] = useState(false);
   const [showBetOffCanvas, setShowBetOffCanvas] = useState(false);
   const [showRaiseOffCanvas, setShowRaiseOffCanvas] = useState(false);
-
-  console.log("gamestate is", gameState);
+  const [showFlipModal, setShowFlipModal] = useState(false);
 
   return (
     <>
       <Container fluid className="p-0 w-auto h-100">
         {gameState && gameState.readyToPlay && gameState.inProgress && (
           <>
-            <GameBoard gameState={gameState} userId={userId} />
+            <GameBoard
+              gameState={gameState}
+              userId={userId}
+              setShowFlipModal={setShowFlipModal}
+            />
             <PlayerHand
               gameState={gameState}
               userId={userId}
@@ -38,6 +42,10 @@ function GameComponents({ gameId, userId }) {
               showRaiseOffCanvas={showRaiseOffCanvas}
               setShowRaiseOffCanvas={setShowRaiseOffCanvas}
               gameState={gameState}
+            />
+            <FlipModal
+              showFlipModal={showFlipModal}
+              setShowFlipModal={setShowFlipModal}
             />
 
             <div className="d-flex flex-row position-fixed bottom-0 w-100">
