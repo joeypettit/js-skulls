@@ -30,6 +30,7 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
               key={index}
               card={card}
               isPlayerTurn={thisPlayer.isPlayerTurn}
+              setShowHand={setShowHand}
             />
           );
         })}

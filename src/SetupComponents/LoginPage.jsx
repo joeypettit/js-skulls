@@ -51,16 +51,12 @@ function LoginPage({ setGameId, userId, playerName, setPlayerName }) {
 
   return (
     <Container className="d-flex flex-column alight-items-center justify-content-center">
-      <div>
+      <div className="text-center">
         {playerName && !nameConfirmed && (
           <div>
             <h1>Welcome {playerName}</h1>
             <Button onClick={handleNameConfirm}>Continue</Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setPlayerName(null)}
-            >
+            <Button variant="secondary" onClick={() => setPlayerName(null)}>
               Change Name
             </Button>
           </div>

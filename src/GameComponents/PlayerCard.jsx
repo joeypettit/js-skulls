@@ -1,11 +1,12 @@
 import Button from "react-bootstrap/Button";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function PlayerCard({ card, isPlayerTurn }) {
+function PlayerCard({ card, isPlayerTurn, setShowHand }) {
   const { playCard } = useGameState();
 
   function handlePlayCard() {
     playCard(card.cardId);
+    setShowHand(false);
   }
 
   return (

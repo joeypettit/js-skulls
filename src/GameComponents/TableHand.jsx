@@ -1,11 +1,16 @@
-function TableHand({ player }) {
+import { useGameState } from "../Contexts/GameStateProvider";
+
+function TableHand({ player, userId }) {
+  const { gameState } = useGameState();
+
   return (
     <div className="d-flex flex-column p-2">
       <div className="bg-light rounded text-center">
         {player.name}{" "}
+        {gameState.latestBet.highestBetter.playerId === player.playerId && "⭐"}
         {player.hasFolded && (
           <span className="text-muted">
-            <em>-(folded)-</em>
+            <em>-(Out)-</em>
           </span>
         )}
       </div>

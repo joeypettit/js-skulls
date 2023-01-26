@@ -16,13 +16,14 @@ function Gameboard({ gameState, userId }) {
       </div>
       {gameState.gamePhase === "Raise or Pass" && (
         <div className="m-1 text lead text-center">
+          ⭐{" "}
           <strong>
             {gameState.latestBet.highestBetter.playerId === userId
               ? "You"
               : gameState.latestBet.highestBetter.name}
           </strong>{" "}
           bet {gameState.latestBet.numOfCards}{" "}
-          {gameState.latestBet.numOfCards === 1 ? "card" : "cards"}
+          {gameState.latestBet.numOfCards === 1 ? "card" : "cards"} ⭐
         </div>
       )}
       {gameState.players.map((player) => {
@@ -35,7 +36,7 @@ function Gameboard({ gameState, userId }) {
                 : "d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary"
             }
           >
-            <TableHand player={player} />
+            <TableHand player={player} userId={userId} />
             <CardsOnTable cards={player.cardsInPlay} />
           </div>
         );

@@ -33,9 +33,9 @@ function RaiseOffCanvas({
 
   function handleRaise() {
     // send raised gameState.latestBet.numOfCards (numOfCardsInput + previous high bet)
-    const newlyRaiseNumOfCards =
+    const newlyRaisedNumOfCards =
       numOfCardsInput + gameState.latestBet.numOfCards;
-    raiseBet(newlyRaiseNumOfCards);
+    raiseBet(newlyRaisedNumOfCards);
     setShowRaiseOffCanvas(false);
   }
 
@@ -45,12 +45,11 @@ function RaiseOffCanvas({
     for (let player of gameState.players) {
       cardCounter += player.cardsInPlay.length;
     }
-    console.log(cardCounter);
     return cardCounter;
   }
 
   useEffect(() => {
-    setNumOfCardsInput(gameState.latestBet.numOfCards);
+    setNumOfCardsInput(1);
   }, [gameState.latestBet.numOfCards]);
 
   return (

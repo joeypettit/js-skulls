@@ -38,7 +38,7 @@ function passTurnToNextPlayer(gameState) {
     // each player following the previous player until we find one that
     // has not yet folded, while skipping the turns of those who have.
   } else if (gameState.gamePhase === "Raise or Pass") {
-    const nextPlayerTurnIndex = findNextPlayerTurnIndex();
+    let nextPlayerTurnIndex = findNextPlayerTurnIndex();
 
     while (nextPlayerTurnIndex !== prevPlayerTurnIndex) {
       // if: player has folded, their turn will be skipped until next round

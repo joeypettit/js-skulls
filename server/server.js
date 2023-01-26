@@ -25,6 +25,7 @@ const raiseBet = require("./gameFunctions/raiseBet");
 const foldHand = require("./gameFunctions/foldHand");
 const checkReadyForFlipPhase = require("./gameFunctions/checkReadyForFlipPhase");
 const checkReadyForPlayOrBetPhase = require("./gameFunctions/checkReadyForPlayOrBetPhase");
+const checkForAllCardsBet = require("./gameFunctions/checkForAllCardsBet");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -198,6 +199,7 @@ io.on("connection", (socket) => {
 
     if (thisGameState) {
       raiseBet(thisGameState, userId, numOfCards);
+      checkForAllCardsBet(thisGameState, userId);
       passTurnToNextPlayer(thisGameState);
       emitCensoredGameStates(thisGameState, io);
     } else {

@@ -22,16 +22,16 @@ function BetOffCanvas({ gameState, showBetOffCanvas, setShowBetOffCanvas }) {
     } else {
       setNumOfCardsInput(numOfCardsInput - 1);
     }
+  }
 
-    // count how many total cards have been played
-    function totalCardsPlayed() {
-      let cardCounter = 0;
-      for (let player of gameState.players) {
-        cardCounter += player.cardsInPlay.length;
-      }
-      console.log(cardCounter);
-      return cardCounter;
+  // count how many total cards have been played
+  function totalCardsPlayed() {
+    let cardCounter = 0;
+    for (let player of gameState.players) {
+      cardCounter += player.cardsInPlay.length;
     }
+    console.log(cardCounter);
+    return cardCounter;
   }
 
   function handleBet() {
@@ -64,6 +64,7 @@ function BetOffCanvas({ gameState, showBetOffCanvas, setShowBetOffCanvas }) {
             <Button
               className="m-1 p-3"
               onClick={() => handleSetNumOfCards("up")}
+              disabled={numOfCardsInput === totalCardsPlayed()}
             >
               {svgs.upArrow}
             </Button>
@@ -80,7 +81,8 @@ function BetOffCanvas({ gameState, showBetOffCanvas, setShowBetOffCanvas }) {
             onClick={handleBet}
             disabled={!showBetOffCanvas}
           >
-            Bet
+            Bet <br />
+            {numOfCardsInput} Cards
           </Button>
         </div>
       </Offcanvas.Body>
