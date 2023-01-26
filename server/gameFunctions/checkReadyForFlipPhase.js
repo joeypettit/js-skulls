@@ -1,5 +1,5 @@
 // this function checks how many players are still playing.
-// If only one player remains, move game on to request-flip phase.
+// If only one player remains, move game on to better-will-flip phase.
 
 function checkReadyForFlipPhase(gameState) {
   const remainingPlayerCount = gameState.players.filter((player) => {
@@ -7,7 +7,7 @@ function checkReadyForFlipPhase(gameState) {
   }).length;
 
   if (gameState.gamePhase === "Raise or Pass" && remainingPlayerCount <= 1) {
-    gameState.gamePhase = "request-flip";
+    gameState.gamePhase = "better-will-flip";
   }
 }
 
