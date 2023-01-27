@@ -44,6 +44,7 @@ function GameComponents({ gameId, userId }) {
               gameState={gameState}
             />
             <FlipModal
+              userId={userId}
               showFlipModal={showFlipModal}
               setShowFlipModal={setShowFlipModal}
             />

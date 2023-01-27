@@ -1,22 +1,46 @@
 import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import getPlayerIndex from "../ClientFunctions/getPlayerIndex";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function FlipModal({ showFlipModal, setShowFlipModal }) {
-  const { gameState } = useGameState();
+function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
+  const { gameState, flipCard } = useGameState();
 
-  function countRevealedCards() {
-    // count number of cards currently in play
-    let revealedCardCount = 0;
-    for (let player of gameState.players) {
-      const revealedInThisHand = player.cardsInPlay
-        .map((card) => {
-          return card.isRevealed;
-        })
-        .flat().length;
-      revealedCardCount += revealedInThisHand;
+  const highestBettersId = gameState.latestBet.highestBetter.playerId;
+  const highestBettersName = gameState.latestBet.highestBetter.name;
+
+  const idOfPlayerThatWillFlip = gameState.flipRequestedTo;
+
+  const indexOfPlayerThatWillFlip = getPlayerIndex(
+    gameState,
+    idOfPlayerThatWillFlip
+  );
+
+  function determineCardPresentation(card) {
+    if (card.isSkull && card.isRevealed) {
+      return (
+        <Button variant="danger" size="lg" className="py-4 px-3 mx-1">
+          💀
+        </Button>
+      );
+    } else if (!card.isSkull && card.isRevealed) {
+      return (
+        <Button variant="success" size="lg" className="py-4 px-3 mx-1">
+          🌹
+        </Button>
+      );
+    } else if (!card.isRevealed) {
+      return (
+        <Button variant="light" size="lg" className="py-4 px-3 mx-1">
+          🎴
+        </Button>
+      );
     }
-    return revealedCardCount;
+  }
+
+  function handleFlipCard() {
+    flipCard();
   }
 
   return (
@@ -29,12 +53,33 @@ function FlipModal({ showFlipModal, setShowFlipModal }) {
         centered
       >
         <Modal.Header className="d-flex justify-content-center">
-          <Modal.Title>
-            {gameState.latestBet.highestBetter.name} needs{" "}
-            {gameState.latestBet.numOfCards} roses to win!
-          </Modal.Title>
+          <Modal.Title>FLIP MODAL</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Challenger!</Modal.Body>
+        <Modal.Body>
+          {gameState.gamePhase === "flip-cards" && (
+            <div>
+              <div>
+                {highestBettersId === userId
+                  ? "You need "
+                  : highestBettersName + " needs "}
+                {gameState.latestBet.rosesNeeded} roses to win!
+              </div>
+
+              <div className="d-flex flex-row">
+                {gameState.players[indexOfPlayerThatWillFlip].cardsInPlay.map(
+                  (card) => {
+                    return determineCardPresentation(card);
+                  }
+                )}
+              </div>
+              {idOfPlayerThatWillFlip === userId && (
+                <div>
+                  <Button onClick={handleFlipCard}>Flip</Button>
+                </div>
+              )}
+            </div>
+          )}
+        </Modal.Body>
       </Modal>
     </>
   );

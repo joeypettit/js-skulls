@@ -12,10 +12,11 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
   useEffect(() => {
     if (
       gameState.gamePhase === "better-will-flip" ||
-      gameState.gamePhase === "request-flip" ||
-      gameState.gamePhase === "better-will-flip"
+      gameState.gamePhase === "request-flip"
     ) {
       setShowFlipModal(true);
+    } else {
+      setShowFlipModal(false);
     }
   }, [gameState.gamePhase]);
 

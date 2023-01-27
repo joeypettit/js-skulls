@@ -57,6 +57,10 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     socket.emit("pass-on-bet", gameId);
   }
 
+  function flipCard() {
+    socket.emit("flip-card", gameId);
+  }
+
   // update gameState in state
   const updateGameState = useCallback(
     (newGameState) => {
@@ -96,6 +100,7 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     initiateBetting,
     raiseBet,
     passOnBet,
+    flipCard,
   };
 
   return (

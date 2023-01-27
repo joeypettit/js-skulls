@@ -23,9 +23,12 @@ const emitCensoredGameStates = require("./gameFunctions/emitCensoredGameState");
 const initiateBetting = require("./gameFunctions/initiateBetting");
 const raiseBet = require("./gameFunctions/raiseBet");
 const foldHand = require("./gameFunctions/foldHand");
-const checkReadyForFlipPhase = require("./gameFunctions/checkReadyForFlipPhase");
+const checkReadyForBetterFlipPhase = require("./gameFunctions/checkReadyForBetterFlipPhase");
 const checkReadyForPlayOrBetPhase = require("./gameFunctions/checkReadyForPlayOrBetPhase");
 const checkForAllCardsBet = require("./gameFunctions/checkForAllCardsBet");
+const flipCard = require("./gameFunctions/flipCard");
+const checkCardsForSkulls = require("./gameFunctions/checkCardsForSkulls");
+const checkForWin = require("./gameFunctions/checkForWin");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -218,11 +221,29 @@ io.on("connection", (socket) => {
     if (thisGameState) {
       foldHand(thisGameState, userId);
       passTurnToNextPlayer(thisGameState);
-      checkReadyForFlipPhase(thisGameState);
+      checkReadyForBetterFlipPhase(thisGameState);
       emitCensoredGameStates(thisGameState, io);
     } else {
     }
   });
+
+  socket.on("flip-card", (gameId) => {
+    const userId = socket.handshake.query.userId;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    if (thisGameState) {
+      flipCard(thisGameState, userId);
+      checkCardsForSkulls(thisGameState, userId);
+      checkForWin(thisGameState, userId);
+      emitCensoredGameStates(thisGameState, io);
+    }
+  });
+
+  socket.on("request-flip", (gameId) => {});
 
   socket.on("disconnect", () => {
     console.log("disconnect user", socket.rooms);
