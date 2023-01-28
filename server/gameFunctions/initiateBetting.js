@@ -12,6 +12,7 @@ function initiateBetting(gameState, userId, numOfCards) {
       playerId: thisPlayerObject.playerId,
       name: thisPlayerObject.name,
     },
+    rosesNeeded: numOfCards,
   };
 
   // if player bets highest possible number of cards,

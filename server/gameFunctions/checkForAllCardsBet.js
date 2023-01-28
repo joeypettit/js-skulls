@@ -12,6 +12,7 @@ function checkForAllCardsBet(gameState, userId) {
 
   if (gameState.latestBet.numOfCards === numOfCardsInPlay) {
     gameState.gamePhase = "flip-cards";
+    gameState.flipRequestedTo = gameState.latestBet.highestBetter.playerId;
     gameState.players.map((player) => {
       if (player.playerId !== userId) player.hasFolded = true;
     });

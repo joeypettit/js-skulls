@@ -9,6 +9,7 @@ function raiseBet(gameState, userId, numOfCards) {
       playerId: thisPlayerObject.playerId,
       name: thisPlayerObject.name,
     },
+    rosesNeeded: numOfCards,
   };
 }
 

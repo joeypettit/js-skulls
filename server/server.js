@@ -23,9 +23,13 @@ const emitCensoredGameStates = require("./gameFunctions/emitCensoredGameState");
 const initiateBetting = require("./gameFunctions/initiateBetting");
 const raiseBet = require("./gameFunctions/raiseBet");
 const foldHand = require("./gameFunctions/foldHand");
-const checkReadyForFlipPhase = require("./gameFunctions/checkReadyForFlipPhase");
+const checkReadyForBetterFlipPhase = require("./gameFunctions/checkReadyForBetterFlipPhase");
 const checkReadyForPlayOrBetPhase = require("./gameFunctions/checkReadyForPlayOrBetPhase");
 const checkForAllCardsBet = require("./gameFunctions/checkForAllCardsBet");
+const flipCard = require("./gameFunctions/flipCard");
+const checkForSkullOrRose = require("./gameFunctions/checkForSkullOrRose");
+const checkForWin = require("./gameFunctions/checkForWin");
+const resetFlipRequestedTo = require("./gameFunctions/resetFlipRequestedTo");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -182,6 +186,7 @@ io.on("connection", (socket) => {
 
     if (thisGameState) {
       initiateBetting(thisGameState, userId, numOfCards);
+      checkForAllCardsBet(thisGameState, userId);
       passTurnToNextPlayer(thisGameState);
       emitCensoredGameStates(thisGameState, io);
     } else {
@@ -218,10 +223,40 @@ io.on("connection", (socket) => {
     if (thisGameState) {
       foldHand(thisGameState, userId);
       passTurnToNextPlayer(thisGameState);
-      checkReadyForFlipPhase(thisGameState);
+      checkReadyForBetterFlipPhase(thisGameState);
       emitCensoredGameStates(thisGameState, io);
     } else {
     }
+  });
+
+  socket.on("flip-card", (gameId) => {
+    const userId = socket.handshake.query.userId;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    if (thisGameState) {
+      flipCard(thisGameState, userId);
+      checkForSkullOrRose(thisGameState, userId);
+      checkForWin(thisGameState, userId);
+      resetFlipRequestedTo(thisGameState, userId);
+      emitCensoredGameStates(thisGameState, io);
+    }
+  });
+
+  // sent by highest better to initiate flip from another player
+  socket.on("request-flip", (gameId, flipperId) => {
+    const userId = socket.handshake.query.userId;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    thisGameState.flipRequestedTo = flipperId;
+    emitCensoredGameStates(thisGameState, io);
   });
 
   socket.on("disconnect", () => {

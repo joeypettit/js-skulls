@@ -15,7 +15,7 @@ function TableCards({ card }) {
         </Button>
       )}
       {!card.isRevealed && (
-        <Button variant="light" size="lg" className="py-4 px-3 mx-1">
+        <Button variant="secondary" size="lg" className="py-4 px-3 mx-1">
           🎴
         </Button>
       )}

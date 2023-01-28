@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import PlayerCard from "./PlayerCard";
 import Offcanvas from "react-bootstrap/Offcanvas";
 

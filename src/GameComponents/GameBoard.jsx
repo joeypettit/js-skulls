@@ -1,12 +1,23 @@
-import TableHand from "./TableHand";
-import CardsOnTable from "./CardsOnTable";
+import { useEffect } from "react";
+import PlayerTableBox from "./PlayerTableBox";
 
-function Gameboard({ gameState, userId }) {
+function Gameboard({ gameState, userId, setShowFlipModal }) {
   // get player object of the player whose turn it is
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
 
+  // this use effect should be put up in its the game components, but
+  // was placed here to make sure gameState is available to it.
+  // fix this later...
+  useEffect(() => {
+    if (gameState.gamePhase === "flip-cards" && gameState.flipRequestedTo) {
+      setShowFlipModal(true);
+    } else {
+      setShowFlipModal(false);
+    }
+  }, [gameState.gamePhase]);
+
   return (
-    <div className="bg-light p-2">
+    <div className="p-2">
       <div className="d-flex justify-content-between">
         <div>
           It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
@@ -27,19 +38,7 @@ function Gameboard({ gameState, userId }) {
         </div>
       )}
       {gameState.players.map((player) => {
-        return (
-          <div
-            key={player.playerId}
-            className={
-              player.isPlayerTurn
-                ? "d-flex flex-row justify-content-between py-3 my-1 rounded bg-primary"
-                : "d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary"
-            }
-          >
-            <TableHand player={player} userId={userId} />
-            <CardsOnTable cards={player.cardsInPlay} />
-          </div>
-        );
+        return <PlayerTableBox player={player} userId={userId} />;
       })}
     </div>
   );
