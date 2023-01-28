@@ -1,26 +1,9 @@
 import { useEffect } from "react";
-import TableHand from "./TableHand";
-import CardsOnTable from "./CardsOnTable";
+import PlayerTableBox from "./PlayerTableBox";
 
 function Gameboard({ gameState, userId, setShowFlipModal }) {
   // get player object of the player whose turn it is
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
-
-  function flipRequestActivated() {
-    const bettersId = gameState.latestBet.highestBetter.playerId;
-
-    // if this user is the highest better and they have laid all of their cards,
-    // (and the game is in the "flip-cards phase") return true, else false.
-    if (
-      gameState.gamePhase === "flip-cards" &&
-      gameState.flipRequestedTo !== bettersId &&
-      bettersId === userId
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   function handleRequestFlip() {}
 
@@ -57,28 +40,7 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
         </div>
       )}
       {gameState.players.map((player) => {
-        return (
-          <div
-            key={player.playerId}
-            className={
-              player.isPlayerTurn
-                ? `d-flex flex-row justify-content-between py-3 my-1 rounded bg-info shadow ${
-                    flipRequestActivated() && `border border-primary border-3`
-                  }`
-                : `d-flex flex-row justify-content-between py-3 my-1 rounded bg-light shadow ${
-                    flipRequestActivated() && `border border-primary border-3`
-                  }`
-            }
-            onClick={
-              flipRequestActivated()
-                ? () => handleRequestFlip(player.playerId)
-                : null
-            }
-          >
-            <TableHand player={player} userId={userId} />
-            <CardsOnTable cards={player.cardsInPlay} />
-          </div>
-        );
+        return <PlayerTableBox player={player} userId={userId} />;
       })}
     </div>
   );
