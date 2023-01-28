@@ -5,8 +5,6 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
   // get player object of the player whose turn it is
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
 
-  function handleRequestFlip() {}
-
   // this use effect should be put up in its the game components, but
   // was placed here to make sure gameState is available to it.
   // fix this later...

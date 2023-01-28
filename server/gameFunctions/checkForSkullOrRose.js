@@ -4,7 +4,7 @@ const getPlayerObject = require("./getPlayerObject");
 // where isSkulls is true AND isRevealed is also true.
 // advance gamePhase accordingly
 
-function checkCardsForSkulls(gameState, userId) {
+function checkForSkullOrRose(gameState, userId) {
   const thisPlayer = getPlayerObject(gameState, userId);
 
   let revealedSkullFound = false;
@@ -15,11 +15,11 @@ function checkCardsForSkulls(gameState, userId) {
     }
   }
 
-  console.log("skulls?", revealedSkullFound);
-
   if (revealedSkullFound) {
     gameState.gamePhase = "better-lost";
+  } else {
+    gameState.latestBet.rosesNeeded = gameState.latestBet.rosesNeeded - 1;
   }
 }
 
-module.exports = checkCardsForSkulls;
+module.exports = checkForSkullOrRose;

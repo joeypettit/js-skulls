@@ -27,7 +27,7 @@ const checkReadyForBetterFlipPhase = require("./gameFunctions/checkReadyForBette
 const checkReadyForPlayOrBetPhase = require("./gameFunctions/checkReadyForPlayOrBetPhase");
 const checkForAllCardsBet = require("./gameFunctions/checkForAllCardsBet");
 const flipCard = require("./gameFunctions/flipCard");
-const checkCardsForSkulls = require("./gameFunctions/checkCardsForSkulls");
+const checkForSkullOrRose = require("./gameFunctions/checkForSkullOrRose");
 const checkForWin = require("./gameFunctions/checkForWin");
 const resetFlipRequestedTo = require("./gameFunctions/resetFlipRequestedTo");
 
@@ -186,6 +186,7 @@ io.on("connection", (socket) => {
 
     if (thisGameState) {
       initiateBetting(thisGameState, userId, numOfCards);
+      checkForAllCardsBet(thisGameState, userId);
       passTurnToNextPlayer(thisGameState);
       emitCensoredGameStates(thisGameState, io);
     } else {
@@ -238,7 +239,7 @@ io.on("connection", (socket) => {
 
     if (thisGameState) {
       flipCard(thisGameState, userId);
-      checkCardsForSkulls(thisGameState, userId);
+      checkForSkullOrRose(thisGameState, userId);
       checkForWin(thisGameState, userId);
       resetFlipRequestedTo(thisGameState, userId);
       emitCensoredGameStates(thisGameState, io);

@@ -8,7 +8,22 @@ const getPlayerObject = require("./getPlayerObject");
 function resetFlipRequestedTo(gameState, userId) {
   const bettersId = gameState.latestBet.highestBetter.playerId;
 
+  // array of playerIds of players that still have unrevealed cards in play
+  const playersWithUnrevealed = [];
+
+  for (let player of gameState.players) {
+    for (let card of player.cardsInPlay) {
+      if (!card.isRevealed) {
+        playersWithUnrevealed.push(player.playerId);
+        break;
+      }
+    }
+  }
+
+  console.log("playersWithUnrevealed", playersWithUnrevealed);
+
   if (bettersId === userId) {
+    // better must flip all cards before selecting other player for flip
     const bettersObj = getPlayerObject(gameState, bettersId);
     const bettersUnrevealedCards = bettersObj.cardsInPlay.filter((card) => {
       return !card.isRevealed;
@@ -19,6 +34,11 @@ function resetFlipRequestedTo(gameState, userId) {
     } else {
       gameState.flipRequestedTo = null;
     }
+  } else if (
+    playersWithUnrevealed.length === 1 &&
+    playersWithUnrevealed[0] === userId
+  ) {
+    gameState.flipRequestedTo = playersWithUnrevealed[0];
   } else {
     gameState.flipRequestedTo = null;
   }
