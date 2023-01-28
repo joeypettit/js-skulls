@@ -62,11 +62,11 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
             key={player.playerId}
             className={
               player.isPlayerTurn
-                ? `d-flex flex-row justify-content-between py-3 my-1 rounded bg-primary ${
-                    flipRequestActivated() && `border border-info border-3`
+                ? `d-flex flex-row justify-content-between py-3 my-1 rounded bg-info shadow ${
+                    flipRequestActivated() && `border border-primary border-3`
                   }`
-                : `d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary ${
-                    flipRequestActivated() && `border border-info border-3`
+                : `d-flex flex-row justify-content-between py-3 my-1 rounded bg-light shadow ${
+                    flipRequestActivated() && `border border-primary border-3`
                   }`
             }
             onClick={
