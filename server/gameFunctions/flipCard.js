@@ -7,7 +7,9 @@ function flipCard(gameState, userId) {
     return !card.isRevealed;
   });
 
-  nextUnrevealedCard.isRevealed = true;
+  if (nextUnrevealedCard) {
+    nextUnrevealedCard.isRevealed = true;
+  }
 }
 
 module.exports = flipCard;

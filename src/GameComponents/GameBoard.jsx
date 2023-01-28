@@ -6,14 +6,29 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
   // get player object of the player whose turn it is
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
 
+  function flipRequestActivated() {
+    const bettersId = gameState.latestBet.highestBetter.playerId;
+
+    // if this user is the highest better and they have laid all of their cards,
+    // (and the game is in the "flip-cards phase") return true, else false.
+    if (
+      gameState.gamePhase === "flip-cards" &&
+      gameState.flipRequestedTo !== bettersId &&
+      bettersId === userId
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function handleRequestFlip() {}
+
   // this use effect should be put up in its the game components, but
   // was placed here to make sure gameState is available to it.
   // fix this later...
   useEffect(() => {
-    if (
-      gameState.gamePhase === "better-will-flip" ||
-      gameState.gamePhase === "request-flip"
-    ) {
+    if (gameState.gamePhase === "flip-cards" && gameState.flipRequestedTo) {
       setShowFlipModal(true);
     } else {
       setShowFlipModal(false);
@@ -47,8 +62,17 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
             key={player.playerId}
             className={
               player.isPlayerTurn
-                ? "d-flex flex-row justify-content-between py-3 my-1 rounded bg-primary"
-                : "d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary"
+                ? `d-flex flex-row justify-content-between py-3 my-1 rounded bg-primary ${
+                    flipRequestActivated() && `border border-info border-3`
+                  }`
+                : `d-flex flex-row justify-content-between py-3 my-1 rounded bg-secondary ${
+                    flipRequestActivated() && `border border-info border-3`
+                  }`
+            }
+            onClick={
+              flipRequestActivated()
+                ? () => handleRequestFlip(player.playerId)
+                : null
             }
           >
             <TableHand player={player} userId={userId} />

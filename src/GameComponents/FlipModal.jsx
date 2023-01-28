@@ -10,12 +10,11 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
   const highestBettersId = gameState.latestBet.highestBetter.playerId;
   const highestBettersName = gameState.latestBet.highestBetter.name;
 
-  const idOfPlayerThatWillFlip = gameState.flipRequestedTo;
+  const flipRequestedTo = gameState.flipRequestedTo;
+  console.log("id of playerThatWillFlip", flipRequestedTo);
 
-  const indexOfPlayerThatWillFlip = getPlayerIndex(
-    gameState,
-    idOfPlayerThatWillFlip
-  );
+  const indexOfPlayerThatWillFlip = getPlayerIndex(gameState, flipRequestedTo);
+  console.log("index of that player", indexOfPlayerThatWillFlip);
 
   function determineCardPresentation(card) {
     if (card.isSkull && card.isRevealed) {
@@ -72,7 +71,7 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
                   }
                 )}
               </div>
-              {idOfPlayerThatWillFlip === userId && (
+              {flipRequestedTo === userId && (
                 <div>
                   <Button onClick={handleFlipCard}>Flip</Button>
                 </div>

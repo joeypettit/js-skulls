@@ -43,11 +43,13 @@ function GameComponents({ gameId, userId }) {
               setShowRaiseOffCanvas={setShowRaiseOffCanvas}
               gameState={gameState}
             />
-            <FlipModal
-              userId={userId}
-              showFlipModal={showFlipModal}
-              setShowFlipModal={setShowFlipModal}
-            />
+            {gameState.flipRequestedTo && (
+              <FlipModal
+                userId={userId}
+                showFlipModal={showFlipModal}
+                setShowFlipModal={setShowFlipModal}
+              />
+            )}
 
             <div className="d-flex flex-row position-fixed bottom-0 w-100">
               {(gameState.gamePhase === "Set Round" ||

@@ -29,6 +29,7 @@ const checkForAllCardsBet = require("./gameFunctions/checkForAllCardsBet");
 const flipCard = require("./gameFunctions/flipCard");
 const checkCardsForSkulls = require("./gameFunctions/checkCardsForSkulls");
 const checkForWin = require("./gameFunctions/checkForWin");
+const resetFlipRequestedTo = require("./gameFunctions/resetFlipRequestedTo");
 
 // Route includes
 // const gameRouter = require("./routes/game.route");
@@ -239,11 +240,23 @@ io.on("connection", (socket) => {
       flipCard(thisGameState, userId);
       checkCardsForSkulls(thisGameState, userId);
       checkForWin(thisGameState, userId);
+      resetFlipRequestedTo(thisGameState, userId);
       emitCensoredGameStates(thisGameState, io);
     }
   });
 
-  socket.on("request-flip", (gameId) => {});
+  // sent by highest better to initiate flip from another player
+  socket.on("request-flip", (gameId, flipperId) => {
+    const userId = socket.handshake.query.userId;
+
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    thisGameState.flipRequestedTo = flipperId;
+    emitCensoredGameStates(thisGameState, io);
+  });
 
   socket.on("disconnect", () => {
     console.log("disconnect user", socket.rooms);
