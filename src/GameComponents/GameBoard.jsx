@@ -36,7 +36,7 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
   }, [gameState.gamePhase]);
 
   return (
-    <div className="bg-light p-2">
+    <div className="p-2">
       <div className="d-flex justify-content-between">
         <div>
           It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}

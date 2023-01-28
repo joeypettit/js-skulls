@@ -5,7 +5,7 @@ function TableHand({ player, userId }) {
 
   return (
     <div className="d-flex flex-column p-2">
-      <div className="bg-light rounded text-center">
+      <div className="bg-light rounded text-center p-1">
         {player.name}{" "}
         {gameState.latestBet.highestBetter.playerId === player.playerId && "⭐"}
         {player.hasFolded && (
