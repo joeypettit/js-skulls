@@ -12,6 +12,8 @@ function checkForSkullOrRose(gameState, userId) {
   for (let card of thisPlayer.cardsInPlay) {
     if (card.isRevealed && card.isSkull) {
       revealedSkullFound = true;
+      gameState.revealedSkullWasFrom = thisPlayer.playerId;
+      break;
     }
   }
 

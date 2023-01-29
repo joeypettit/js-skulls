@@ -65,6 +65,10 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     socket.emit("request-flip", gameId, flipperId);
   }
 
+  function setNewRound() {
+    socket.emit("set-new-round", gameId);
+  }
+
   // update gameState in state
   const updateGameState = useCallback(
     (newGameState) => {

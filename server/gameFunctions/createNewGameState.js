@@ -19,6 +19,7 @@ function createNewGameState(playerId, gameId, playerName) {
       numOfCards: null, // number of cards currently being bet
       highestBetter: { playerId: null, name: null }, // player with highest bet
       rosesNeeded: 0,
+      revealedSkullWasFrom: null,
     },
     flipRequestedTo: null, // in the flipping phase, this will indicate which player has been asked to flip thier next card, it will be their userId
     playerTurnIndex: 0, // index in players array => shows whos turn it is

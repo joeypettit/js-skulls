@@ -30,7 +30,7 @@ const flipCard = require("./gameFunctions/flipCard");
 const checkForSkullOrRose = require("./gameFunctions/checkForSkullOrRose");
 const checkForWin = require("./gameFunctions/checkForWin");
 const resetFlipRequestedTo = require("./gameFunctions/resetFlipRequestedTo");
-
+const setNewRound = require("./gameFunctions/setNewRound");
 // Route includes
 // const gameRouter = require("./routes/game.route");
 // Routes
@@ -257,6 +257,15 @@ io.on("connection", (socket) => {
 
     thisGameState.flipRequestedTo = flipperId;
     emitCensoredGameStates(thisGameState, io);
+  });
+
+  socket.on("set-new-round", (gameId) => {
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    setNewRound(thisGameState);
   });
 
   socket.on("disconnect", () => {
