@@ -247,7 +247,7 @@ io.on("connection", (socket) => {
   });
 
   // sent by highest better to initiate flip from another player
-  socket.on("request-flip", (gameId, flipperId) => {
+  socket.on("request-flip", (gameId, playerToFlipId) => {
     const userId = socket.handshake.query.userId;
 
     // find correct gameState to edit
@@ -255,7 +255,7 @@ io.on("connection", (socket) => {
       return gameState.gameId === gameId;
     });
 
-    thisGameState.flipRequestedTo = flipperId;
+    thisGameState.flipRequestedTo = playerToFlipId;
     emitCensoredGameStates(thisGameState, io);
   });
 

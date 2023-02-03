@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PlayerTableBox from "./PlayerTableBox";
 
-function Gameboard({ gameState, userId, setShowFlipModal }) {
+function Gameboard({ gameState, userId, setShowFlipModal, showFlipModal }) {
   // get player object of the player whose turn it is
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
 
@@ -12,9 +12,12 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
     if (gameState.gamePhase === "flip-cards" && gameState.flipRequestedTo) {
       setShowFlipModal(true);
     } else {
-      setShowFlipModal(false);
+      console.log("flipmodal", showFlipModal);
+      if (showFlipModal === true) {
+        setTimeout(() => setShowFlipModal(false), 3000);
+      }
     }
-  }, [gameState.gamePhase]);
+  }, [gameState.gamePhase, gameState.flipRequestedTo]);
 
   return (
     <div className="p-2">

@@ -7,6 +7,7 @@ import RaiseOrPassButtons from "./RaiseOrPassButtons";
 import PlayOrBetButtons from "./PlayOrBetButtons";
 import RaiseOffCanvas from "./RaiseOffCanvas";
 import FlipModal from "./FlipModal";
+import EndRoundModal from "./EndRoundModal";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
@@ -16,6 +17,7 @@ function GameComponents({ gameId, userId }) {
   const [showBetOffCanvas, setShowBetOffCanvas] = useState(false);
   const [showRaiseOffCanvas, setShowRaiseOffCanvas] = useState(false);
   const [showFlipModal, setShowFlipModal] = useState(false);
+  const [showEndRoundModal, setShowEndRoundModal] = useState(false);
 
   return (
     <>
@@ -26,6 +28,7 @@ function GameComponents({ gameId, userId }) {
               gameState={gameState}
               userId={userId}
               setShowFlipModal={setShowFlipModal}
+              showFlipModal={showFlipModal}
             />
             <PlayerHand
               gameState={gameState}
@@ -43,14 +46,15 @@ function GameComponents({ gameId, userId }) {
               setShowRaiseOffCanvas={setShowRaiseOffCanvas}
               gameState={gameState}
             />
-            {gameState.flipRequestedTo && (
-              <FlipModal
-                userId={userId}
-                showFlipModal={showFlipModal}
-                setShowFlipModal={setShowFlipModal}
-              />
-            )}
-
+            <FlipModal
+              userId={userId}
+              showFlipModal={showFlipModal}
+              setShowFlipModal={setShowFlipModal}
+            />
+            <EndRoundModal
+              showEndRoundModal={showEndRoundModal}
+              setShowEndRoundModal={setShowEndRoundModal}
+            />
             <div className="d-flex flex-row position-fixed bottom-0 w-100">
               {(gameState.gamePhase === "Set Round" ||
                 gameState.gamePhase === "Play or Bet") && (

@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useGameState } from "../Contexts/GameStateProvider";
 
-function EndGameModal() {
-  const { setNewRound } = useGameState();
+function EndRoundModal({ showEndRoundModal, setShowEndRoundModal }) {
+  const { gameState, setNewRound } = useGameState();
 
   function handleSetNewRound() {
     setNewRound();
   }
+
+  useEffect(() => {
+    if (
+      gameState.gamePhase === "better-won" ||
+      gameState.gamePhase === "better-lost"
+    )
+      setShowEndRoundModal(true);
+  });
+
   return (
     <Modal
-      show={showFlipModal}
-      onHide={() => setShowFlipModal(false)}
+      show={showEndRoundModal}
+      onHide={() => setShowEndRoundModal(false)}
       backdrop="static"
       keyboard={false}
       centered
@@ -38,9 +47,20 @@ function EndGameModal() {
             </div>
           </div>
         )}
+        {gameState.gamePhase === "better-lost" && (
+          <div>
+            <h1>{gameState.latestBet.highestBetter.name} loses a card!</h1>
+            <div>
+              <h4></h4>
+            </div>
+            <div>
+              <Button onClick={handleSetNewRound}>Begin Next Round</Button>
+            </div>
+          </div>
+        )}
       </Modal.Body>
     </Modal>
   );
 }
 
-export default EndGameModal;
+export default EndRoundModal;
