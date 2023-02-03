@@ -30,11 +30,10 @@ const flipCard = require("./gameFunctions/flipCard");
 const checkForSkullOrRose = require("./gameFunctions/checkForSkullOrRose");
 const checkForWin = require("./gameFunctions/checkForWin");
 const resetFlipRequestedTo = require("./gameFunctions/resetFlipRequestedTo");
-
-// Route includes
-// const gameRouter = require("./routes/game.route");
-// Routes
-// app.use("/api/game", gameRouter);
+const setNewRound = require("./gameFunctions/setNewRound");
+const removeBetterCard = require("./gameFunctions/removeBetterCard");
+const checkForElimination = require("./gameFunctions/checkForElimination");
+const determineNextStarter = require("./gameFunctions/determineNextStarter");
 
 // Socket.io
 io.on("connection", (socket) => {
@@ -165,7 +164,7 @@ io.on("connection", (socket) => {
     if (thisGameState) {
       playCard(thisGameState, cardId);
       passTurnToNextPlayer(thisGameState);
-      if (thisGameState.gamePhase === "Set Round") {
+      if (thisGameState.gamePhase === "set-round") {
         checkReadyForPlayOrBetPhase(thisGameState);
       }
 
@@ -238,16 +237,25 @@ io.on("connection", (socket) => {
     });
 
     if (thisGameState) {
+      // flip card and emit back to clients
       flipCard(thisGameState, userId);
-      checkForSkullOrRose(thisGameState, userId);
-      checkForWin(thisGameState, userId);
-      resetFlipRequestedTo(thisGameState, userId);
       emitCensoredGameStates(thisGameState, io);
+
+      // after several seconds, check for impact of flip on
+      // gameState and update accordingly, emit update to client.
+      // this allows the flip modal to stay open for several seconds
+      // after the flip, rather than close immediately on flip
+      setTimeout(() => {
+        checkForSkullOrRose(thisGameState, userId);
+        checkForWin(thisGameState, userId);
+        resetFlipRequestedTo(thisGameState, userId);
+        emitCensoredGameStates(thisGameState, io);
+      }, 2500);
     }
   });
 
   // sent by highest better to initiate flip from another player
-  socket.on("request-flip", (gameId, flipperId) => {
+  socket.on("request-flip", (gameId, playerToFlipId) => {
     const userId = socket.handshake.query.userId;
 
     // find correct gameState to edit
@@ -255,7 +263,27 @@ io.on("connection", (socket) => {
       return gameState.gameId === gameId;
     });
 
-    thisGameState.flipRequestedTo = flipperId;
+    thisGameState.flipRequestedTo = playerToFlipId;
+    emitCensoredGameStates(thisGameState, io);
+  });
+
+  socket.on("set-new-round", (gameId) => {
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    setNewRound(thisGameState);
+  });
+
+  socket.on("remove-better-card", (gameId) => {
+    // find correct gameState to edit
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+    removeBetterCard(thisGameState);
+    checkForElimination(thisGameState);
+    determineNextStarter(thisGameState);
     emitCensoredGameStates(thisGameState, io);
   });
 

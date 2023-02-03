@@ -30,7 +30,6 @@ function BetOffCanvas({ gameState, showBetOffCanvas, setShowBetOffCanvas }) {
     for (let player of gameState.players) {
       cardCounter += player.cardsInPlay.length;
     }
-    console.log(cardCounter);
     return cardCounter;
   }
 

@@ -15,8 +15,8 @@ function prepNewRound(gameState) {
     player.isPlayerTurn = false;
   }
 
-  // set gamePhase to Set Round
-  gameState.gamePhase = "Set Round";
+  // set gamePhase to set-round
+  gameState.gamePhase = "set-round";
 }
 
 module.exports = prepNewRound;

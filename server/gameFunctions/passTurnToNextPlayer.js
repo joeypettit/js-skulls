@@ -10,10 +10,10 @@ function passTurnToNextPlayer(gameState) {
   let players = gameState.players;
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // if: we are in the 'Set Round', or 'Play or Bet' gamePhase,
+  // if: we are in the 'set-round', or 'Play or Bet' gamePhase,
   // turns gets passed normally following order in players array
   if (
-    gameState.gamePhase === "Set Round" ||
+    gameState.gamePhase === "set-round" ||
     gameState.gamePhase === "Play or Bet"
   ) {
     if (prevPlayerTurnIndex < players.length - 1) {

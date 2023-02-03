@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PlayerTableBox from "./PlayerTableBox";
 
-function Gameboard({ gameState, userId, setShowFlipModal }) {
+function Gameboard({ gameState, userId, setShowFlipModal, showFlipModal }) {
   // get player object of the player whose turn it is
   let whoseTurn = gameState.players[gameState.playerTurnIndex];
 
@@ -12,9 +12,11 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
     if (gameState.gamePhase === "flip-cards" && gameState.flipRequestedTo) {
       setShowFlipModal(true);
     } else {
-      setShowFlipModal(false);
+      if (showFlipModal === true) {
+        setShowFlipModal(false);
+      }
     }
-  }, [gameState.gamePhase]);
+  }, [gameState.gamePhase, gameState.flipRequestedTo]);
 
   return (
     <div className="p-2">
@@ -37,8 +39,8 @@ function Gameboard({ gameState, userId, setShowFlipModal }) {
           {gameState.latestBet.numOfCards === 1 ? "card" : "cards"} ⭐
         </div>
       )}
-      {gameState.players.map((player) => {
-        return <PlayerTableBox player={player} userId={userId} />;
+      {gameState.players.map((player, index) => {
+        return <PlayerTableBox key={index} player={player} userId={userId} />;
       })}
     </div>
   );

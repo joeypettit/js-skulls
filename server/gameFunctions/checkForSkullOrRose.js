@@ -12,6 +12,12 @@ function checkForSkullOrRose(gameState, userId) {
   for (let card of thisPlayer.cardsInPlay) {
     if (card.isRevealed && card.isSkull) {
       revealedSkullFound = true;
+      const modifiedPlayerObj = {
+        playerId: thisPlayer.playerId,
+        name: thisPlayer.name,
+      };
+      gameState.latestBet.revealedSkullWasFrom = thisPlayer;
+      break;
     }
   }
 

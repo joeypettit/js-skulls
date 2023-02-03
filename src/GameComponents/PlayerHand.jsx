@@ -10,8 +10,6 @@ function PlayerHand({ gameState, userId, setShowHand, showHand }) {
     });
   }, [gameState, userId]);
 
-  console.log("this player is", thisPlayer);
-
   return (
     <Offcanvas
       show={showHand}

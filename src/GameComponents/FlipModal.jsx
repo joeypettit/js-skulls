@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import getPlayerIndex from "../ClientFunctions/getPlayerIndex";
@@ -10,28 +10,40 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
   const highestBettersId = gameState.latestBet.highestBetter.playerId;
   const highestBettersName = gameState.latestBet.highestBetter.name;
 
-  const flipRequestedTo = gameState.flipRequestedTo;
-  console.log("id of playerThatWillFlip", flipRequestedTo);
+  const flipRequestedToId = gameState.flipRequestedTo;
+  const flipRequestedToIndex = getPlayerIndex(gameState, flipRequestedToId);
 
-  const indexOfPlayerThatWillFlip = getPlayerIndex(gameState, flipRequestedTo);
-  console.log("index of that player", indexOfPlayerThatWillFlip);
-
-  function determineCardPresentation(card) {
+  function determineCardPresentation(card, index) {
     if (card.isSkull && card.isRevealed) {
       return (
-        <Button variant="danger" size="lg" className="py-4 px-3 mx-1">
+        <Button
+          key={index}
+          variant="danger"
+          size="lg"
+          className="py-4 px-3 mx-1"
+        >
           💀
         </Button>
       );
     } else if (!card.isSkull && card.isRevealed) {
       return (
-        <Button variant="success" size="lg" className="py-4 px-3 mx-1">
+        <Button
+          key={index}
+          variant="success"
+          size="lg"
+          className="py-4 px-3 mx-1"
+        >
           🌹
         </Button>
       );
     } else if (!card.isRevealed) {
       return (
-        <Button variant="light" size="lg" className="py-4 px-3 mx-1">
+        <Button
+          key={index}
+          variant="light"
+          size="lg"
+          className="py-4 px-3 mx-1"
+        >
           🎴
         </Button>
       );
@@ -65,13 +77,14 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
               </div>
 
               <div className="d-flex flex-row">
-                {gameState.players[indexOfPlayerThatWillFlip].cardsInPlay.map(
-                  (card) => {
-                    return determineCardPresentation(card);
-                  }
-                )}
+                {gameState.flipRequestedTo &&
+                  gameState.players[flipRequestedToIndex].cardsInPlay.map(
+                    (card, index) => {
+                      return determineCardPresentation(card, index);
+                    }
+                  )}
               </div>
-              {flipRequestedTo === userId && (
+              {flipRequestedToId && flipRequestedToId === userId && (
                 <div>
                   <Button onClick={handleFlipCard}>Flip</Button>
                 </div>

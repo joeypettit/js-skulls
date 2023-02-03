@@ -65,10 +65,17 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     socket.emit("request-flip", gameId, flipperId);
   }
 
+  function setNewRound() {
+    socket.emit("set-new-round", gameId);
+  }
+
+  function removeBetterCard() {
+    socket.emit("remove-better-card", gameId);
+  }
+
   // update gameState in state
   const updateGameState = useCallback(
     (newGameState) => {
-      console.log("in callback");
       if (newGameState.gameId !== gameId) {
         setGameId(newGameState.gameId);
       }
@@ -106,6 +113,7 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     passOnBet,
     flipCard,
     requestFlip,
+    removeBetterCard,
   };
 
   return (
