@@ -11,7 +11,6 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
   const highestBettersName = gameState.latestBet.highestBetter.name;
 
   const flipRequestedToId = gameState.flipRequestedTo;
-
   const flipRequestedToIndex = getPlayerIndex(gameState, flipRequestedToId);
 
   function determineCardPresentation(card) {

@@ -56,7 +56,7 @@ function GameComponents({ gameId, userId }) {
               setShowEndRoundModal={setShowEndRoundModal}
             />
             <div className="d-flex flex-row position-fixed bottom-0 w-100">
-              {(gameState.gamePhase === "Set Round" ||
+              {(gameState.gamePhase === "set-round" ||
                 gameState.gamePhase === "Play or Bet") && (
                 <PlayOrBetButtons
                   gameState={gameState}
