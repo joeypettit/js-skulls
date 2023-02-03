@@ -49,4 +49,7 @@ export default App;
 // -handle players that join late, after game has started
 // -change allGameStates[gameStateIndex] to allGameState.find() on server
 // -refactor reorder function to user playerTurnIndex, make 'reordering' a gamePhase instead
+// - make sure that players get eliminated properly and that turn is pass properly
+//    -when better lays the skulls that eliminates them
+//    -when someone else lays the skull that eliminates them
 //

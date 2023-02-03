@@ -7,17 +7,20 @@ import RaiseOrPassButtons from "./RaiseOrPassButtons";
 import PlayOrBetButtons from "./PlayOrBetButtons";
 import RaiseOffCanvas from "./RaiseOffCanvas";
 import FlipModal from "./FlipModal";
-import EndRoundModal from "./EndRoundModal";
+import WonRoundModal from "./WonRoundModal";
+import LostRoundModal from "./LostRoundModal";
 import { useGameState } from "../Contexts/GameStateProvider";
 
 function GameComponents({ gameId, userId }) {
   const { gameState } = useGameState();
+
   // state to open/close player hand off canvas
   const [showHand, setShowHand] = useState(false);
   const [showBetOffCanvas, setShowBetOffCanvas] = useState(false);
   const [showRaiseOffCanvas, setShowRaiseOffCanvas] = useState(false);
   const [showFlipModal, setShowFlipModal] = useState(false);
-  const [showEndRoundModal, setShowEndRoundModal] = useState(false);
+  const [showWonRoundModal, setShowWonRoundModal] = useState(false);
+  const [showLostRoundModal, setShowLostRoundModal] = useState(false);
 
   return (
     <>
@@ -51,10 +54,15 @@ function GameComponents({ gameId, userId }) {
               showFlipModal={showFlipModal}
               setShowFlipModal={setShowFlipModal}
             />
-            <EndRoundModal
-              showEndRoundModal={showEndRoundModal}
-              setShowEndRoundModal={setShowEndRoundModal}
+            <WonRoundModal
+              showWonRoundModal={showWonRoundModal}
+              setShowWonRoundModal={setShowWonRoundModal}
             />
+            <LostRoundModal
+              showLostRoundModal={showLostRoundModal}
+              setShowLostRoundModal={setShowLostRoundModal}
+            />
+
             <div className="d-flex flex-row position-fixed bottom-0 w-100">
               {(gameState.gamePhase === "set-round" ||
                 gameState.gamePhase === "Play or Bet") && (

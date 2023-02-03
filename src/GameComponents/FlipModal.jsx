@@ -13,22 +13,37 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
   const flipRequestedToId = gameState.flipRequestedTo;
   const flipRequestedToIndex = getPlayerIndex(gameState, flipRequestedToId);
 
-  function determineCardPresentation(card) {
+  function determineCardPresentation(card, index) {
     if (card.isSkull && card.isRevealed) {
       return (
-        <Button variant="danger" size="lg" className="py-4 px-3 mx-1">
+        <Button
+          key={index}
+          variant="danger"
+          size="lg"
+          className="py-4 px-3 mx-1"
+        >
           💀
         </Button>
       );
     } else if (!card.isSkull && card.isRevealed) {
       return (
-        <Button variant="success" size="lg" className="py-4 px-3 mx-1">
+        <Button
+          key={index}
+          variant="success"
+          size="lg"
+          className="py-4 px-3 mx-1"
+        >
           🌹
         </Button>
       );
     } else if (!card.isRevealed) {
       return (
-        <Button variant="light" size="lg" className="py-4 px-3 mx-1">
+        <Button
+          key={index}
+          variant="light"
+          size="lg"
+          className="py-4 px-3 mx-1"
+        >
           🎴
         </Button>
       );
@@ -64,8 +79,8 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
               <div className="d-flex flex-row">
                 {gameState.flipRequestedTo &&
                   gameState.players[flipRequestedToIndex].cardsInPlay.map(
-                    (card) => {
-                      return determineCardPresentation(card);
+                    (card, index) => {
+                      return determineCardPresentation(card, index);
                     }
                   )}
               </div>

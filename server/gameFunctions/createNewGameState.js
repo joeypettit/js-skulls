@@ -24,6 +24,9 @@ function createNewGameState(playerId, gameId, playerName) {
     flipRequestedTo: null, // in the flipping phase, this will indicate which player has been asked to flip thier next card, it will be their userId
     playerTurnIndex: 0, // index in players array => shows whos turn it is
     players: [createNewPlayer(playerId, playerName, true)], // all players, they will be in the order of play
+    eliminatedPlayers: [], // array of players that have been eliminated
+    betterWasEliminated: false, // boolean, was better eliminated this round? resets every round.
+    nextToStart: null, // name of player that will begin next round.
   };
   return gameState;
 }
