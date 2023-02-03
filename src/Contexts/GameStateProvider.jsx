@@ -72,7 +72,6 @@ export function GameStateProvider({ children, gameId, setGameId }) {
   // update gameState in state
   const updateGameState = useCallback(
     (newGameState) => {
-      console.log("in callback");
       if (newGameState.gameId !== gameId) {
         setGameId(newGameState.gameId);
       }

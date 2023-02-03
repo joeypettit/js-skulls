@@ -20,20 +20,18 @@ function resetFlipRequestedTo(gameState, userId) {
     }
   }
 
-  console.log("playersWithUnrevealed", playersWithUnrevealed);
-
   if (bettersId === userId) {
     // better must flip all cards before selecting other player for flip
     const bettersObj = getPlayerObject(gameState, bettersId);
     const bettersUnrevealedCards = bettersObj.cardsInPlay.filter((card) => {
       return !card.isRevealed;
     });
-    console.log("better unrevealed", bettersUnrevealedCards);
     if (bettersUnrevealedCards.length > 0) {
       gameState.flipRequestedTo = bettersId;
     } else {
       gameState.flipRequestedTo = null;
     }
+    // if there is only one player with unrevealed cards, play loops back to them automatically
   } else if (
     playersWithUnrevealed.length === 1 &&
     playersWithUnrevealed[0] === userId

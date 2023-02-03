@@ -12,9 +12,8 @@ function Gameboard({ gameState, userId, setShowFlipModal, showFlipModal }) {
     if (gameState.gamePhase === "flip-cards" && gameState.flipRequestedTo) {
       setShowFlipModal(true);
     } else {
-      console.log("flipmodal", showFlipModal);
       if (showFlipModal === true) {
-        setTimeout(() => setShowFlipModal(false), 3000);
+        setShowFlipModal(false);
       }
     }
   }, [gameState.gamePhase, gameState.flipRequestedTo]);

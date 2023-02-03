@@ -10,13 +10,9 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
   const highestBettersId = gameState.latestBet.highestBetter.playerId;
   const highestBettersName = gameState.latestBet.highestBetter.name;
 
-  const flipRequestedTo = gameState.flipRequestedTo;
+  const flipRequestedToId = gameState.flipRequestedTo;
 
-  let indexOfPlayerThatWillFlip = "";
-
-  if (flipRequestedTo) {
-    indexOfPlayerThatWillFlip = getPlayerIndex(gameState, flipRequestedTo);
-  }
+  const flipRequestedToIndex = getPlayerIndex(gameState, flipRequestedToId);
 
   function determineCardPresentation(card) {
     if (card.isSkull && card.isRevealed) {
@@ -67,14 +63,14 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
               </div>
 
               <div className="d-flex flex-row">
-                {indexOfPlayerThatWillFlip &&
-                  gameState.players[indexOfPlayerThatWillFlip].cardsInPlay.map(
+                {gameState.flipRequestedTo &&
+                  gameState.players[flipRequestedToIndex].cardsInPlay.map(
                     (card) => {
                       return determineCardPresentation(card);
                     }
                   )}
               </div>
-              {flipRequestedTo && flipRequestedTo === userId && (
+              {flipRequestedToId && flipRequestedToId === userId && (
                 <div>
                   <Button onClick={handleFlipCard}>Flip</Button>
                 </div>
