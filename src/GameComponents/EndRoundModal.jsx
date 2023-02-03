@@ -51,7 +51,7 @@ function EndRoundModal({ showEndRoundModal, setShowEndRoundModal }) {
           <div>
             <h1>{gameState.latestBet.highestBetter.name} loses a card!</h1>
             <div>
-              <h4></h4>
+              <h4>Game Over</h4>
             </div>
             <div>
               <Button onClick={handleSetNewRound}>Begin Next Round</Button>

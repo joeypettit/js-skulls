@@ -39,8 +39,8 @@ function Gameboard({ gameState, userId, setShowFlipModal, showFlipModal }) {
           {gameState.latestBet.numOfCards === 1 ? "card" : "cards"} ⭐
         </div>
       )}
-      {gameState.players.map((player) => {
-        return <PlayerTableBox player={player} userId={userId} />;
+      {gameState.players.map((player, index) => {
+        return <PlayerTableBox key={index} player={player} userId={userId} />;
       })}
     </div>
   );
