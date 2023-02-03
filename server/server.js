@@ -238,11 +238,20 @@ io.on("connection", (socket) => {
     });
 
     if (thisGameState) {
+      // flip card and emit back to clients
       flipCard(thisGameState, userId);
-      checkForSkullOrRose(thisGameState, userId);
-      checkForWin(thisGameState, userId);
-      resetFlipRequestedTo(thisGameState, userId);
       emitCensoredGameStates(thisGameState, io);
+
+      // after several seconds, check for impact of flip on
+      // gameState and update accordingly, emit update to client.
+      // this allows the flip modal to stay open for several seconds
+      // after the flip, rather than close immediately on flip
+      setTimeout(() => {
+        checkForSkullOrRose(thisGameState, userId);
+        checkForWin(thisGameState, userId);
+        resetFlipRequestedTo(thisGameState, userId);
+        emitCensoredGameStates(thisGameState, io);
+      }, 2500);
     }
   });
 
