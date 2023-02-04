@@ -26,7 +26,7 @@ function createNewGameState(playerId, gameId, playerName) {
     players: [createNewPlayer(playerId, playerName, true)], // all players, they will be in the order of play
     eliminatedPlayers: [], // array of players that have been eliminated
     betterWasEliminated: false, // boolean, was better eliminated this round? resets every round.
-    nextToStart: null, // name of player that will begin next round.
+    nextToStart: null, // object of player that will begin next round.
   };
   return gameState;
 }

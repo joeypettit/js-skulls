@@ -5,10 +5,12 @@ import { useGameState } from "../Contexts/GameStateProvider";
 
 function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
   const { gameState, setNewRound, removeBetterCard } = useGameState();
-  const [secondViewShown, setSecondViewShown] = useState(false);
+  const [showSecondView, setShowSecondView] = useState(false);
 
   function handleSetNewRound() {
     setNewRound();
+    setShowLostRoundModal(false);
+    setShowSecondView(false);
   }
 
   function handleRemoveBetterCard() {
@@ -17,11 +19,11 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
 
   useEffect(() => {
     if (gameState.gamePhase === "better-lost") setShowLostRoundModal(true);
-  });
+  }, [gameState.gamePhase]);
 
   useEffect(() => {
     if (gameState.nextToStart) {
-      setSecondViewShown(true);
+      setShowSecondView(true);
     }
   }, [gameState.nextToStart]);
 
@@ -39,7 +41,7 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {!secondViewShown && (
+        {!showSecondView && (
           <div>
             <h1>{gameState.latestBet.highestBetter.name} loses a card!</h1>
             <div>
@@ -50,7 +52,7 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
             </div>
           </div>
         )}
-        {secondViewShown && (
+        {showSecondView && (
           <div>
             {gameState.betterWasEliminated && (
               <h1>{gameState.latestBet.highestBetter.name} was eliminated!</h1>

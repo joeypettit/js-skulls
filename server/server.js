@@ -30,7 +30,7 @@ const flipCard = require("./gameFunctions/flipCard");
 const checkForSkullOrRose = require("./gameFunctions/checkForSkullOrRose");
 const checkForWin = require("./gameFunctions/checkForWin");
 const resetFlipRequestedTo = require("./gameFunctions/resetFlipRequestedTo");
-const setNewRound = require("./gameFunctions/setNewRound");
+const resetGameStateForNewRound = require("./gameFunctions/resetGameStateForNewRound");
 const removeBetterCard = require("./gameFunctions/removeBetterCard");
 const checkForElimination = require("./gameFunctions/checkForElimination");
 const determineNextStarter = require("./gameFunctions/determineNextStarter");
@@ -267,15 +267,6 @@ io.on("connection", (socket) => {
     emitCensoredGameStates(thisGameState, io);
   });
 
-  socket.on("set-new-round", (gameId) => {
-    // find correct gameState to edit
-    const thisGameState = allGameStates.find((gameState) => {
-      return gameState.gameId === gameId;
-    });
-
-    setNewRound(thisGameState);
-  });
-
   socket.on("remove-better-card", (gameId) => {
     // find correct gameState to edit
     const thisGameState = allGameStates.find((gameState) => {
@@ -284,6 +275,17 @@ io.on("connection", (socket) => {
     removeBetterCard(thisGameState);
     checkForElimination(thisGameState);
     determineNextStarter(thisGameState);
+    emitCensoredGameStates(thisGameState, io);
+    console.log("in remove-card", thisGameState.nextToStart);
+  });
+
+  socket.on("set-new-round", (gameId) => {
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+    console.log("in set-new-round", thisGameState);
+
+    resetGameStateForNewRound(thisGameState);
     emitCensoredGameStates(thisGameState, io);
   });
 

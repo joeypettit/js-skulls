@@ -114,6 +114,7 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     flipCard,
     requestFlip,
     removeBetterCard,
+    setNewRound,
   };
 
   return (

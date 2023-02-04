@@ -11,13 +11,6 @@ function checkForElimination(gameState) {
     gameState.eliminatedPlayers.push(eliminatedPlayerObj);
     gameState.betterWasEliminated = true;
   }
-
-  console.log(
-    "in checkForElim",
-    gameState.eliminatedPlayers,
-    gameState.players,
-    gameState.lastEliminated
-  );
 }
 
 module.exports = checkForElimination;
