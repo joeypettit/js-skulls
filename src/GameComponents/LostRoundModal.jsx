@@ -57,10 +57,14 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
             {gameState.betterWasEliminated && (
               <h1>{gameState.latestBet.highestBetter.name} was eliminated!</h1>
             )}
-            <div>{gameState.nextToStart.name} will begin next round.</div>
-            <div>
-              <Button onClick={handleSetNewRound}>Begin Next Round</Button>
-            </div>
+            {gameState.nextToStart !== null && (
+              <>
+                <div>{gameState.nextToStart.name} will begin next round.</div>
+                <div>
+                  <Button onClick={handleSetNewRound}>Begin Next Round</Button>
+                </div>
+              </>
+            )}
           </div>
         )}
       </Modal.Body>

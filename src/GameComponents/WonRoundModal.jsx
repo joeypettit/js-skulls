@@ -56,7 +56,7 @@ function WonRoundModal({ showWonRoundModal, setShowWonRoundModal }) {
             {gameState.gameWinner && (
               <h1>🎉{gameState.gameWinner.name} won the game!🎉</h1>
             )}
-            {!(gameState.gameWinner === null) && (
+            {gameState.nextToStart !== null && (
               <>
                 <div>{gameState.nextToStart.name} will begin next round.</div>
                 <div>
@@ -66,13 +66,6 @@ function WonRoundModal({ showWonRoundModal, setShowWonRoundModal }) {
             )}
           </div>
         )}
-        <div>
-          <h1>{gameState.latestBet.highestBetter.name} recieves one point!</h1>
-          <div>
-            <Button onClick={handleSetNewRound}>Begin Next Round</Button>
-          </div>
-        </div>
-        <Button>Continue</Button>
       </Modal.Body>
     </Modal>
   );

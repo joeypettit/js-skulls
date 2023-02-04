@@ -287,6 +287,7 @@ io.on("connection", (socket) => {
 
     awardPointToBetter(thisGameState);
     checkForGameWin(thisGameState);
+    determineNextStarter(thisGameState);
     emitCensoredGameStates(thisGameState, io);
   });
 
