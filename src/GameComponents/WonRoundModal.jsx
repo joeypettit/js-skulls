@@ -9,8 +9,6 @@ function WonRoundModal({ showWonRoundModal, setShowWonRoundModal }) {
 
   function handleSetNewRound() {
     setNewRound();
-    setShowWonRoundModal(false);
-    setShowSecondView(false);
   }
 
   function handleAwardPoint() {
@@ -26,6 +24,13 @@ function WonRoundModal({ showWonRoundModal, setShowWonRoundModal }) {
       setShowSecondView(true);
     }
   }, [gameState.nextToStart]);
+
+  useEffect(() => {
+    if (gameState.gamePhase === "set-round") {
+      setShowWonRoundModal(false);
+      setShowSecondView(false);
+    }
+  }, [gameState.gamePhase]);
 
   return (
     <Modal
