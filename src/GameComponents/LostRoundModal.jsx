@@ -23,9 +23,17 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
 
   useEffect(() => {
     if (gameState.nextToStart) {
+      console.log("next to start", gameState.nextToStart);
       setShowSecondView(true);
     }
   }, [gameState.nextToStart]);
+
+  useEffect(() => {
+    if (gameState.gamePhase === "set-round") {
+      setShowLostRoundModal(false);
+      setShowSecondView(false);
+    }
+  }, [gameState.gamePhase]);
 
   return (
     <Modal
@@ -53,19 +61,26 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
           </div>
         )}
         {showSecondView && (
-          <div>
-            {gameState.betterWasEliminated && (
-              <h1>{gameState.latestBet.highestBetter.name} was eliminated!</h1>
-            )}
-            {gameState.nextToStart !== null && (
-              <>
-                <div>{gameState.nextToStart.name} will begin next round.</div>
-                <div>
-                  <Button onClick={handleSetNewRound}>Begin Next Round</Button>
-                </div>
-              </>
-            )}
-          </div>
+          <>
+            <h1>second view</h1>
+            <div>
+              {gameState.betterWasEliminated && (
+                <h1>
+                  {gameState.latestBet.highestBetter.name} was eliminated!
+                </h1>
+              )}
+              {gameState.nextToStart !== null && (
+                <>
+                  <div>{gameState.nextToStart.name} will begin next round.</div>
+                  <div>
+                    <Button onClick={handleSetNewRound}>
+                      Begin Next Round
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </>
         )}
       </Modal.Body>
     </Modal>

@@ -5,7 +5,15 @@ function getPlayerObject(gameState, userId) {
   const playerObj = gameState.players.find((player) => {
     return player.playerId === userId;
   });
-  return playerObj;
+
+  if (playerObj) {
+    return playerObj;
+  } else {
+    playerObj = gameState.eliminatedPlayers.find((player) => {
+      return player.playerId === userId;
+    });
+    return playerObj;
+  }
 }
 
 module.exports = getPlayerObject;

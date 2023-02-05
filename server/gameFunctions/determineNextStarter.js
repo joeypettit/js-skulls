@@ -1,5 +1,3 @@
-const getPlayerObject = require("./getPlayerObject");
-
 function determineNextStarter(gameState) {
   const randomIndex = Math.floor(Math.random() * gameState.players.length);
 

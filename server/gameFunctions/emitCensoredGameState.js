@@ -15,6 +15,17 @@ function emitCensoredGameStates(gameState, io) {
     // send uniquely censored gamestate to each player
     io.in(player.playerId).emit("update-gamestate", updatedGameState);
   }
+
+  for (let player of gameState.eliminatedPlayers) {
+    // censor other players' card info
+    const updatedGameState = createCensoredGameState(
+      player.playerId,
+      gameState
+    );
+    updatedGameState.thisUserNotEliminated = false;
+    // send uniquely censored gamestate to each player
+    io.in(player.playerId).emit("update-gamestate", updatedGameState);
+  }
 }
 
 module.exports = emitCensoredGameStates;
