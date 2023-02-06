@@ -33,22 +33,26 @@ function GameComponents({ gameId, userId }) {
               setShowFlipModal={setShowFlipModal}
               showFlipModal={showFlipModal}
             />
-            <PlayerHand
-              gameState={gameState}
-              userId={userId}
-              setShowHand={setShowHand}
-              showHand={showHand}
-            />
-            <BetOffCanvas
-              showBetOffCanvas={showBetOffCanvas}
-              setShowBetOffCanvas={setShowBetOffCanvas}
-              gameState={gameState}
-            />
-            <RaiseOffCanvas
-              showRaiseOffCanvas={showRaiseOffCanvas}
-              setShowRaiseOffCanvas={setShowRaiseOffCanvas}
-              gameState={gameState}
-            />
+            {!gameState.thisUserEliminated && (
+              <>
+                <PlayerHand
+                  gameState={gameState}
+                  userId={userId}
+                  setShowHand={setShowHand}
+                  showHand={showHand}
+                />
+                <BetOffCanvas
+                  showBetOffCanvas={showBetOffCanvas}
+                  setShowBetOffCanvas={setShowBetOffCanvas}
+                  gameState={gameState}
+                />
+                <RaiseOffCanvas
+                  showRaiseOffCanvas={showRaiseOffCanvas}
+                  setShowRaiseOffCanvas={setShowRaiseOffCanvas}
+                  gameState={gameState}
+                />
+              </>
+            )}
             <FlipModal
               userId={userId}
               showFlipModal={showFlipModal}
@@ -64,22 +68,24 @@ function GameComponents({ gameId, userId }) {
             />
 
             <div className="d-flex flex-row position-fixed bottom-0 w-100">
-              {(gameState.gamePhase === "set-round" ||
-                gameState.gamePhase === "Play or Bet") && (
-                <PlayOrBetButtons
-                  gameState={gameState}
-                  setShowBetOffCanvas={setShowBetOffCanvas}
-                  setShowHand={setShowHand}
-                  userId={userId}
-                />
-              )}
-              {gameState.gamePhase === "Raise or Pass" && (
-                <RaiseOrPassButtons
-                  userId={userId}
-                  setShowRaiseOffCanvas={setShowRaiseOffCanvas}
-                  setShowHand={setShowHand}
-                />
-              )}
+              {!gameState.thisUserEliminated &&
+                (gameState.gamePhase === "set-round" ||
+                  gameState.gamePhase === "Play or Bet") && (
+                  <PlayOrBetButtons
+                    gameState={gameState}
+                    setShowBetOffCanvas={setShowBetOffCanvas}
+                    setShowHand={setShowHand}
+                    userId={userId}
+                  />
+                )}
+              {!gameState.thisUserEliminated &&
+                gameState.gamePhase === "Raise or Pass" && (
+                  <RaiseOrPassButtons
+                    userId={userId}
+                    setShowRaiseOffCanvas={setShowRaiseOffCanvas}
+                    setShowHand={setShowHand}
+                  />
+                )}
             </div>
           </>
         )}

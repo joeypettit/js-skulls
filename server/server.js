@@ -28,12 +28,14 @@ const checkReadyForPlayOrBetPhase = require("./gameFunctions/checkReadyForPlayOr
 const checkForAllCardsBet = require("./gameFunctions/checkForAllCardsBet");
 const flipCard = require("./gameFunctions/flipCard");
 const checkForSkullOrRose = require("./gameFunctions/checkForSkullOrRose");
-const checkForWin = require("./gameFunctions/checkForWin");
+const checkForRoundWin = require("./gameFunctions/checkForRoundWin");
 const resetFlipRequestedTo = require("./gameFunctions/resetFlipRequestedTo");
-const setNewRound = require("./gameFunctions/setNewRound");
+const resetGameStateForNewRound = require("./gameFunctions/resetGameStateForNewRound");
 const removeBetterCard = require("./gameFunctions/removeBetterCard");
 const checkForElimination = require("./gameFunctions/checkForElimination");
 const determineNextStarter = require("./gameFunctions/determineNextStarter");
+const checkForGameWin = require("./gameFunctions/checkForGameWin");
+const awardPointToBetter = require("./gameFunctions/awardPointToBetter");
 
 // Socket.io
 io.on("connection", (socket) => {
@@ -247,7 +249,7 @@ io.on("connection", (socket) => {
       // after the flip, rather than close immediately on flip
       setTimeout(() => {
         checkForSkullOrRose(thisGameState, userId);
-        checkForWin(thisGameState, userId);
+        checkForRoundWin(thisGameState, userId);
         resetFlipRequestedTo(thisGameState, userId);
         emitCensoredGameStates(thisGameState, io);
       }, 2500);
@@ -267,15 +269,6 @@ io.on("connection", (socket) => {
     emitCensoredGameStates(thisGameState, io);
   });
 
-  socket.on("set-new-round", (gameId) => {
-    // find correct gameState to edit
-    const thisGameState = allGameStates.find((gameState) => {
-      return gameState.gameId === gameId;
-    });
-
-    setNewRound(thisGameState);
-  });
-
   socket.on("remove-better-card", (gameId) => {
     // find correct gameState to edit
     const thisGameState = allGameStates.find((gameState) => {
@@ -284,6 +277,26 @@ io.on("connection", (socket) => {
     removeBetterCard(thisGameState);
     checkForElimination(thisGameState);
     determineNextStarter(thisGameState);
+    emitCensoredGameStates(thisGameState, io);
+  });
+
+  socket.on("award-point", (gameId) => {
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    awardPointToBetter(thisGameState);
+    checkForGameWin(thisGameState);
+    determineNextStarter(thisGameState);
+    emitCensoredGameStates(thisGameState, io);
+  });
+
+  socket.on("set-new-round", (gameId) => {
+    const thisGameState = allGameStates.find((gameState) => {
+      return gameState.gameId === gameId;
+    });
+
+    resetGameStateForNewRound(thisGameState);
     emitCensoredGameStates(thisGameState, io);
   });
 

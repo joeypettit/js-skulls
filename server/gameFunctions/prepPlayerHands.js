@@ -1,6 +1,10 @@
-function prepNewRound(gameState) {
+function prepPlayerHands(gameState) {
   // copy allCards of each player into their cardsInHand, add isRevealed key.
   for (let player of gameState.players) {
+    // clear cardsInHand and cardsInPlay
+    player.cardsInHand = [];
+    player.cardsInPlay = [];
+
     player.allCards.map((card) => {
       const cardForHand = { ...card, isRevealed: false };
       player.cardsInHand.push(cardForHand);
@@ -13,10 +17,14 @@ function prepNewRound(gameState) {
     // set values to default
     player.hasFolded = false;
     player.isPlayerTurn = false;
-  }
 
-  // set gamePhase to set-round
-  gameState.gamePhase = "set-round";
+    if (
+      gameState.nextToStart &&
+      gameState.nextToStart.playerId === player.playerId
+    ) {
+      player.isPlayerTurn = true;
+    }
+  }
 }
 
-module.exports = prepNewRound;
+module.exports = prepPlayerHands;

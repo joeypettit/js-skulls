@@ -16,7 +16,12 @@ function Gameboard({ gameState, userId, setShowFlipModal, showFlipModal }) {
         setShowFlipModal(false);
       }
     }
-  }, [gameState.gamePhase, gameState.flipRequestedTo]);
+  }, [
+    gameState.gamePhase,
+    gameState.flipRequestedTo,
+    setShowFlipModal,
+    showFlipModal,
+  ]);
 
   return (
     <div className="p-2">

@@ -6,7 +6,6 @@ function removeBetterCard(gameState) {
 
   const betterCardCount = betterObj.allCards.length;
   const randomIndex = Math.floor(Math.random() * betterCardCount);
-  console.log("randomNum is", randomIndex);
 
   betterObj.allCards.splice(randomIndex, 1);
 }

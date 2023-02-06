@@ -1,5 +1,3 @@
-const getPlayerObject = require("./getPlayerObject");
-
 function determineNextStarter(gameState) {
   const randomIndex = Math.floor(Math.random() * gameState.players.length);
 
@@ -21,7 +19,6 @@ function determineNextStarter(gameState) {
     // if better was not eliminated, they start next round
     gameState.nextToStart = gameState.latestBet.highestBetter;
   }
-  console.log("next starter is", gameState.nextToStart);
 }
 
 module.exports = determineNextStarter;

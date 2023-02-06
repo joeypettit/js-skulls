@@ -73,6 +73,10 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     socket.emit("remove-better-card", gameId);
   }
 
+  function awardPoint() {
+    socket.emit("award-point", gameId);
+  }
+
   // update gameState in state
   const updateGameState = useCallback(
     (newGameState) => {
@@ -114,6 +118,8 @@ export function GameStateProvider({ children, gameId, setGameId }) {
     flipCard,
     requestFlip,
     removeBetterCard,
+    setNewRound,
+    awardPoint,
   };
 
   return (
