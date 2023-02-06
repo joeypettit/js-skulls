@@ -28,7 +28,7 @@ function createNewGameState(playerId, gameId, playerName) {
     betterWasEliminated: false, // boolean, was better eliminated this round? resets every round.
     gameWinner: null,
     nextToStart: null, // object of player that will begin next round.
-    thisUserNotEliminated: true,
+    thisUserEliminated: false, // boolean, modified on emitCensoredGameState, indicates if that specific client user has been eliminated from play
   };
   return gameState;
 }

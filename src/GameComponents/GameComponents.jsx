@@ -33,7 +33,7 @@ function GameComponents({ gameId, userId }) {
               setShowFlipModal={setShowFlipModal}
               showFlipModal={showFlipModal}
             />
-            {gameState.thisUserNotEliminated && (
+            {!gameState.thisUserEliminated && (
               <>
                 <PlayerHand
                   gameState={gameState}
@@ -68,17 +68,17 @@ function GameComponents({ gameId, userId }) {
             />
 
             <div className="d-flex flex-row position-fixed bottom-0 w-100">
-              {((gameState.thisUserNotEliminated &&
-                gameState.gamePhase === "set-round") ||
-                gameState.gamePhase === "Play or Bet") && (
-                <PlayOrBetButtons
-                  gameState={gameState}
-                  setShowBetOffCanvas={setShowBetOffCanvas}
-                  setShowHand={setShowHand}
-                  userId={userId}
-                />
-              )}
-              {gameState.thisUserNotEliminated &&
+              {!gameState.thisUserEliminated &&
+                (gameState.gamePhase === "set-round" ||
+                  gameState.gamePhase === "Play or Bet") && (
+                  <PlayOrBetButtons
+                    gameState={gameState}
+                    setShowBetOffCanvas={setShowBetOffCanvas}
+                    setShowHand={setShowHand}
+                    userId={userId}
+                  />
+                )}
+              {!gameState.thisUserEliminated &&
                 gameState.gamePhase === "Raise or Pass" && (
                   <RaiseOrPassButtons
                     userId={userId}

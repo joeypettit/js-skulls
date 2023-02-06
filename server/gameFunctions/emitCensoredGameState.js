@@ -22,7 +22,7 @@ function emitCensoredGameStates(gameState, io) {
       player.playerId,
       gameState
     );
-    updatedGameState.thisUserNotEliminated = false;
+    updatedGameState.thisUserEliminated = true;
     // send uniquely censored gamestate to each player
     io.in(player.playerId).emit("update-gamestate", updatedGameState);
   }
