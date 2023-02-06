@@ -64,7 +64,7 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
         centered
       >
         <Modal.Header className="d-flex justify-content-center">
-          <Modal.Title>FLIP MODAL</Modal.Title>
+          <Modal.Title>Flip Cards</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {gameState.gamePhase === "flip-cards" && (

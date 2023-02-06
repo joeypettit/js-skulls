@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import PlayerHand from "./PlayerHand";
 import GameBoard from "./GameBoard";

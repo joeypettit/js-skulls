@@ -19,21 +19,21 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
 
   useEffect(() => {
     if (gameState.gamePhase === "better-lost") setShowLostRoundModal(true);
-  }, [gameState.gamePhase]);
+  }, [gameState.gamePhase, setShowLostRoundModal]);
 
   useEffect(() => {
     if (gameState.nextToStart) {
       console.log("next to start", gameState.nextToStart);
       setShowSecondView(true);
     }
-  }, [gameState.nextToStart]);
+  }, [gameState.nextToStart, setShowSecondView]);
 
   useEffect(() => {
     if (gameState.gamePhase === "set-round") {
       setShowLostRoundModal(false);
       setShowSecondView(false);
     }
-  }, [gameState.gamePhase]);
+  }, [gameState.gamePhase, setShowLostRoundModal, setShowSecondView]);
 
   return (
     <Modal

@@ -17,7 +17,7 @@ function WonRoundModal({ showWonRoundModal, setShowWonRoundModal }) {
 
   useEffect(() => {
     if (gameState.gamePhase === "better-won") setShowWonRoundModal(true);
-  }, [gameState.gamePhase]);
+  }, [gameState.gamePhase, setShowWonRoundModal]);
 
   useEffect(() => {
     if (gameState.nextToStart) {
@@ -30,7 +30,7 @@ function WonRoundModal({ showWonRoundModal, setShowWonRoundModal }) {
       setShowWonRoundModal(false);
       setShowSecondView(false);
     }
-  }, [gameState.gamePhase]);
+  }, [gameState.gamePhase, setShowSecondView, setShowWonRoundModal]);
 
   return (
     <Modal
