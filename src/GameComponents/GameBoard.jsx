@@ -25,10 +25,20 @@ function Gameboard({ gameState, userId, setShowFlipModal, showFlipModal }) {
 
   return (
     <div className="p-2">
-      <div className="m-2 text-center lead bg-warning rounded shadow border border-warning p-1">
-        It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
-        turn.
-      </div>
+      {gameState.gamePhase === "set-round" ||
+        gameState.gamePhase === "Play or Bet" ||
+        (gameState.gamePhase === "Raise or Pass" && (
+          <div className="m-2 text-center lead bg-warning rounded shadow border border-warning p-1">
+            It is{" "}
+            {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
+            turn.
+          </div>
+        ))}
+      {gameState.gamePhase === "flip-cards" && (
+        <div className="m-2 text-center lead bg-warning rounded shadow border border-warning p-1">
+          {gameState.latestBet.highestBetter.name} is the highest better.
+        </div>
+      )}
 
       {gameState.gamePhase === "Raise or Pass" && (
         <div className="m-2 text lead text-center bg-light rounded p-1 border border-warning">

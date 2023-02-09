@@ -50,7 +50,7 @@ function LoginPage({ setGameId, userId, playerName, setPlayerName }) {
   }
 
   return (
-    <Container className="d-flex flex-column align-items-center justify-content-center bg-light p-5 rounded">
+    <Container className="d-flex flex-column align-items-center justify-content-center bg-light p-5 rounded ">
       <div className="text-center">
         {playerName && !nameConfirmed && (
           <div>
