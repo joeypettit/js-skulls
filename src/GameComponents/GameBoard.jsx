@@ -25,15 +25,13 @@ function Gameboard({ gameState, userId, setShowFlipModal, showFlipModal }) {
 
   return (
     <div className="p-2">
-      <div className="d-flex justify-content-between">
-        <div>
-          It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
-          turn.
-        </div>
-        <div>GamePhase: {gameState.gamePhase}</div>
+      <div className="text-center lead bg-warning rounded shadow border border-warning p-1">
+        It is {whoseTurn.playerId === userId ? "your" : whoseTurn.name + "'s"}{" "}
+        turn.
       </div>
+
       {gameState.gamePhase === "Raise or Pass" && (
-        <div className="m-1 text lead text-center">
+        <div className="my-1 text lead text-center bg-light rounded p-1">
           ⭐{" "}
           <strong>
             {gameState.latestBet.highestBetter.playerId === userId

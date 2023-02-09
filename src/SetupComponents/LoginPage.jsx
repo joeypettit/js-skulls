@@ -50,7 +50,7 @@ function LoginPage({ setGameId, userId, playerName, setPlayerName }) {
   }
 
   return (
-    <Container className="d-flex flex-column alight-items-center justify-content-center">
+    <Container className="d-flex flex-column align-items-center justify-content-center bg-light p-5 rounded">
       <div className="text-center">
         {playerName && !nameConfirmed && (
           <div>
@@ -105,7 +105,7 @@ function LoginPage({ setGameId, userId, playerName, setPlayerName }) {
         </div>
       )}
       {/* Use This Device as a Game Gameboard */}
-      <Form
+      {/* <Form
         className="bg-light rounded p-2 m-2"
         onSubmit={handleUseDeviceAsGameboard}
       >
@@ -121,7 +121,7 @@ function LoginPage({ setGameId, userId, playerName, setPlayerName }) {
         <Button type="submit" className="mt-2 me-2">
           OK
         </Button>
-      </Form>
+      </Form> */}
     </Container>
   );
 }

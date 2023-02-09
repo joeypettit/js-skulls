@@ -11,25 +11,29 @@ function App() {
   const [gameId, setGameId] = useState();
   const [userId, setUserId] = useLocalStorage("userId", null);
   return (
-    <>
-      <Header gameId={gameId} userId={userId} />
-      <AllProviders
-        gameId={gameId}
-        setGameId={setGameId}
-        userId={userId}
-        setUserId={setUserId}
-      >
-        <div id="page-body">
-          <GameComponents gameId={gameId} userId={userId} />
-          <SetupComponents
-            setGameId={setGameId}
-            setUserId={setUserId}
-            userId={userId}
+    <div className="background-image ">
+      <div className="overlay">
+        <div className="content">
+          <Header gameId={gameId} userId={userId} />
+          <AllProviders
             gameId={gameId}
-          />
+            setGameId={setGameId}
+            userId={userId}
+            setUserId={setUserId}
+          >
+            <div id="page-body">
+              <GameComponents gameId={gameId} userId={userId} />
+              <SetupComponents
+                setGameId={setGameId}
+                setUserId={setUserId}
+                userId={userId}
+                gameId={gameId}
+              />
+            </div>
+          </AllProviders>
         </div>
-      </AllProviders>
-    </>
+      </div>
+    </div>
   );
 }
 

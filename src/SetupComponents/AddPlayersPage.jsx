@@ -25,7 +25,7 @@ function AddPlayersPage({ gameId, userId, gameState }) {
   }
 
   return (
-    <Container className="text-center">
+    <Container className="text-center bg-light p-3 rounded">
       <div className="py-3">
         <h1>Welcome {getPlayerName()}!</h1>
       </div>

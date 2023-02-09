@@ -16,9 +16,6 @@ ul{
 }
 
 
-.gameboard {
-  background-color: rgb(234, 208, 81);
-}
 
 .player-hands {
   background-color: rgb(80, 175, 173);
@@ -35,9 +32,22 @@ body {
 
 div#root {
   height: 100%; /* remove this line to see div.app is no more 100% height */
-  background-color: lightblue;
 
 }
+
+.background-image{
+  background-image: url("./images/eduardo-dorantes-UhE2lwGn-DQ-unsplash.jpg");
+  height: 100%;
+  background-size: cover;
+
+}
+
+.overlay{
+  background-color: #282c34a9;
+  height: 100%;
+  width: 100%;
+}
+
 
 #page-body{
   padding-top: 5vh;
