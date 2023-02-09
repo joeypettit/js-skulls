@@ -69,7 +69,7 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
               )}
               {gameState.nextToStart !== null && (
                 <>
-                  <div className="m-2">
+                  <div className="m-2 lead">
                     {gameState.nextToStart.name} will begin next round.
                   </div>
                   <div className="m-2">

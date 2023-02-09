@@ -40,7 +40,7 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
       return (
         <Button
           key={index}
-          variant="light"
+          variant="secondary"
           size="lg"
           className="py-4 px-3 mx-1"
         >

@@ -63,9 +63,9 @@ function WonRoundModal({ showWonRoundModal, setShowWonRoundModal }) {
                 🎉{gameState.gameWinner.name} won the game!🎉
               </h1>
             )}
-            {gameState.nextToStart !== null && (
+            {!gameState.gameWinner && gameState.nextToStart !== null && (
               <>
-                <div className="m-2">
+                <div className="m-2 lead">
                   {gameState.nextToStart.name} will begin next round.
                 </div>
                 <div className="m-2">
