@@ -29,6 +29,7 @@ function createNewGameState(playerId, gameId, playerName) {
     gameWinner: null,
     nextToStart: null, // object of player that will begin next round.
     thisUserEliminated: false, // boolean, modified on emitCensoredGameState, indicates if that specific client user has been eliminated from play
+    disableFlipButton: false, // helper boolean (used in flip card function to disable flip button during modal close timeout)
   };
   return gameState;
 }

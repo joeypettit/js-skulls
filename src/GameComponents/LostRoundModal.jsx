@@ -50,20 +50,18 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
       </Modal.Header>
       <Modal.Body>
         {!showSecondView && (
-          <div>
-            <h1>{gameState.latestBet.highestBetter.name} loses a card!</h1>
-            <div>
-              {gameState.latestBet.highestBetter.name} loses a one of his cards.
-            </div>
-            <div>
+          <div className="text-center">
+            <h1 className="m-4">
+              {gameState.latestBet.highestBetter.name} loses a card!
+            </h1>
+            <div className="m-2">
               <Button onClick={handleRemoveBetterCard}>Continue</Button>
             </div>
           </div>
         )}
         {showSecondView && (
           <>
-            <h1>second view</h1>
-            <div>
+            <div className="text-center">
               {gameState.betterWasEliminated && (
                 <h1>
                   {gameState.latestBet.highestBetter.name} was eliminated!
@@ -71,8 +69,10 @@ function LostRoundModal({ showLostRoundModal, setShowLostRoundModal }) {
               )}
               {gameState.nextToStart !== null && (
                 <>
-                  <div>{gameState.nextToStart.name} will begin next round.</div>
-                  <div>
+                  <div className="m-2">
+                    {gameState.nextToStart.name} will begin next round.
+                  </div>
+                  <div className="m-2">
                     <Button onClick={handleSetNewRound}>
                       Begin Next Round
                     </Button>

@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // body parser middleware
 const allGameStates = require("./gameFunctions/allGameStates");
 const createNewGameState = require("./gameFunctions/createNewGameState");
 const createNewPlayer = require("./gameFunctions/createNewPlayer");
-const createCensoredGameState = require("./gameFunctions/createCensoredGameState");
 const passTurnToNextPlayer = require("./gameFunctions/passTurnToNextPlayer");
 const playCard = require("./gameFunctions/playCard");
 const startNewGame = require("./gameFunctions/startNewGame");
@@ -241,6 +240,7 @@ io.on("connection", (socket) => {
     if (thisGameState) {
       // flip card and emit back to clients
       flipCard(thisGameState, userId);
+      thisGameState.flipButtonDisabled = true;
       emitCensoredGameStates(thisGameState, io);
 
       // after several seconds, check for impact of flip on
@@ -251,6 +251,7 @@ io.on("connection", (socket) => {
         checkForSkullOrRose(thisGameState, userId);
         checkForRoundWin(thisGameState, userId);
         resetFlipRequestedTo(thisGameState, userId);
+        thisGameState.flipButtonDisabled = false;
         emitCensoredGameStates(thisGameState, io);
       }, 2500);
     }

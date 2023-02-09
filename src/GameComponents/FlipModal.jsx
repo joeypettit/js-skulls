@@ -64,19 +64,25 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
         centered
       >
         <Modal.Header className="d-flex justify-content-center">
-          <Modal.Title>Flip Cards</Modal.Title>
+          <Modal.Title>
+            {flipRequestedToId && (
+              <span>
+                {gameState.players[flipRequestedToIndex].name} is Flipping!
+              </span>
+            )}
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="text-center">
           {gameState.gamePhase === "flip-cards" && (
             <div>
-              <div>
+              <div className="m-2">
                 {highestBettersId === userId
                   ? "You need "
                   : highestBettersName + " needs "}
                 {gameState.latestBet.rosesNeeded} roses to win!
               </div>
 
-              <div className="d-flex flex-row">
+              <div className="d-flex flex-row justify-content-center">
                 {gameState.flipRequestedTo &&
                   gameState.players[flipRequestedToIndex].cardsInPlay.map(
                     (card, index) => {
@@ -85,8 +91,13 @@ function FlipModal({ userId, showFlipModal, setShowFlipModal }) {
                   )}
               </div>
               {flipRequestedToId && flipRequestedToId === userId && (
-                <div>
-                  <Button onClick={handleFlipCard}>Flip</Button>
+                <div className="m-2">
+                  <Button
+                    onClick={handleFlipCard}
+                    disabled={gameState.flipButtonDisabled ? true : false}
+                  >
+                    Flip
+                  </Button>
                 </div>
               )}
             </div>
