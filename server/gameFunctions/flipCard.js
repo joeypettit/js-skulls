@@ -10,6 +10,10 @@ function flipCard(gameState, userId) {
   if (nextUnrevealedCard) {
     nextUnrevealedCard.isRevealed = true;
   }
+
+  if (nextUnrevealedCard.isSkull === false) {
+    gameState.latestBet.rosesNeeded -= 1;
+  }
 }
 
 module.exports = flipCard;

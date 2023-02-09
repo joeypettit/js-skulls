@@ -55,7 +55,9 @@ function LoginPage({ setGameId, userId, playerName, setPlayerName }) {
         {playerName && !nameConfirmed && (
           <div>
             <h1>Welcome {playerName}</h1>
-            <Button onClick={handleNameConfirm}>Continue</Button>
+            <Button onClick={handleNameConfirm} className="m-1">
+              Continue
+            </Button>
             <Button variant="secondary" onClick={() => setPlayerName(null)}>
               Change Name
             </Button>

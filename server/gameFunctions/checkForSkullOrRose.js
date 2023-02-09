@@ -24,7 +24,8 @@ function checkForSkullOrRose(gameState, userId) {
   if (revealedSkullFound) {
     gameState.gamePhase = "better-lost";
   } else {
-    gameState.latestBet.rosesNeeded = gameState.latestBet.rosesNeeded - 1;
+    // this is commented out because this takes place in the flipCard function instead
+    // gameState.latestBet.rosesNeeded = gameState.latestBet.rosesNeeded - 1;
   }
 }
 
