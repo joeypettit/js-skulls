@@ -21,38 +21,38 @@ The basic rules of the game are as follows:
 
 1. When players navigate to the application, they are greeted by a prompt to enter their name, followed by a prompt for them to either join an existing game (using a room code provided by another player), or create their own new game.
 
-![alt text](./readMePhotos/EnterGame.png =250x)
+<img src="./readMePhotos/EnterGame.png" width="50" />
 
 2. Players are the placed into a game lobby, which displays all of the players who have joined. If the user started their own new game, they should share their Game ID (displayed in the lobby) with their fellow players, who can then join using this Game ID.
 
-![alt text](./readMePhotos/GameLobby.png)
+<img src="./readMePhotos/GameLobby.png" width="50"  />
 
 3. Once all players have joined, they have the ability to change the order of play. By default, play proceeds in the same order in which players joined the lobby, however this is not always optimal. For example, if players are sitting around a table (IRL), they may choose to change the order to match their clockwise orientation around the table. To change the player order, the party leader can press the Re-Order Players button. The player to the left of the party leader is then prompted to press "Next", followed by the player to the left of them. This continues until each player has pressed next. The Order of Play should now reflect the clockwise orientation of the players physical locations. When all players have entered, and the order of play is correct, the party leader will press "Ready".
 
-![alt text](./readMePhotos/ReorderPlayers.png)
+<img src="./readMePhotos/ReorderPlayers.png" width="50"  />
 
 4. Next the players are placed into the game. A random player is select to begin play. The gameboard shows each player, which cards they have played and how many cards they have in their hand. A highlighted player denotes that it is their turn. A player can view their curret hand by selecting the Show Hand button at the bottom of the screen. When it is their turn, they are able to play a card from their hand by selecting the card. Players are able to use the Make a Bet button on their turn once each player has laid at least one card.
 
-![alt text](./readMePhotos/StartGame.png)
-![alt text](./readMePhotos/PlayerHand.png)
-![alt text](./readMePhotos/BetCards.png)
+<img src="./readMePhotos/StartGame.png" width="50"  />
+<img src="./readMePhotos/PlayerHand.png" width="50"  />
+<img src="./readMePhotos/BetCards.png" width="50"  />
 
 5. Once betting begins, players are able to Raise or Fold. This continues until all but one player has folded at which point the highest better can begin flipping cards.
 
-![alt text](./readMePhotos/RaiseBet.png)
+<img src="./readMePhotos/RaiseBet.png" width="50"  />
 
 6. The highest better is prompted to first flip their own cards. Once they have done this, the can nominate another player on the board to flip their next card.
 
-![alt text](./readMePhotos/FlipYourCards.png)
-![alt text](./readMePhotos/SelectPlayerFlip.png)
-![alt text](./readMePhotos/OtherPlayerFlipping.png)
+<img src="./readMePhotos/FlipYourCards.png" width="50"  />
+<img src="./readMePhotos/SelectPlayerFlip.png" width="50"  />
+<img src="./readMePhotos/OtherPlayerFlipping.png" width="50"  />
 
 7. This continues until either the required number of roses have been exposed, or the better flips a skull, resulting in the better either winning or losing that round. If the better won, they recieve a point. If not, they will have one of their cards removed from their hand. The game will then reset and proceed to the next round.
 
-![alt text](./readMePhotos/LostRound.png)
+<img src="./readMePhotos/LostRound.png" width="50"  />
 
 8. Play continues until one player wins two rounds and the game is over!
 
-![alt text](./readMePhotos/WinGame.png)
+<img src="./readMePhotos/WinGame.png" width="50"  />
 
 ##
