@@ -61,7 +61,7 @@ The basic rules of the game are as follows:
 ## Installation
 
 1. Clone the repository
-   `git clone https://github.com/your-username/your-repo-name.git`
+   `git clone https://github.com/joeypettit/js-skulls.git`
 
 2. Install dependencies
    `cd js-skulls`
