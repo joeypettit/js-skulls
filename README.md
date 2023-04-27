@@ -21,7 +21,7 @@ The basic rules of the game are as follows:
 
 1. When players navigate to the application, they are greeted by a prompt to enter their name, followed by a prompt for them to either join an existing game (using a room code provided by another player), or create their own new game.
 
-![alt text](./readMePhotos/EnterGame.png)
+![alt text](./readMePhotos/EnterGame.png =250x)
 
 2. Players are the placed into a game lobby, which displays all of the players who have joined. If the user started their own new game, they should share their Game ID (displayed in the lobby) with their fellow players, who can then join using this Game ID.
 
