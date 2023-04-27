@@ -253,7 +253,7 @@ io.on("connection", (socket) => {
         resetFlipRequestedTo(thisGameState, userId);
         thisGameState.flipButtonDisabled = false;
         emitCensoredGameStates(thisGameState, io);
-      }, 2500);
+      }, 1800);
     }
   });
 

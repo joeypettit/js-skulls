@@ -19,7 +19,7 @@ function TableHand({ player, userId }) {
         {player.cardsInHand.map((card, index) => {
           if (card.isRevealed === false) {
             return (
-              <div key={index} className="m-1 bg-secondary">
+              <div key={index} className="m-1 bg-secondary shadow">
                 🎴
               </div>
             );
