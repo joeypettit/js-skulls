@@ -17,7 +17,7 @@ The basic rules of the game are as follows:
 -If a player loses a round, one of their cards is permanently removed from their hand, placing them at a disadvantage.
 -A player wins the entire game by winning any two rounds.
 
-## Using the app
+## Usage
 
 1. When players navigate to the application, they are greeted by a prompt to enter their name, followed by a prompt for them to either join an existing game (using a room code provided by another player), or create their own new game.
 
@@ -55,4 +55,21 @@ The basic rules of the game are as follows:
 
 <img src="./readMePhotos/WinGame.png" width="180"  />
 
-##
+## Installation
+
+1. Clone the repository
+   `git clone https://github.com/your-username/your-repo-name.git`
+
+2. Install dependencies
+   `cd js-skulls`
+   `npm install`
+
+3. Start the server
+   `npm run server`
+
+4. Start the client
+   `npm run client`
+
+5. Open the app in your browser at the following address: http://localhost:3000/
+
+Note: Make sure to have Node.js and npm installed on your machine before running these commands. If you don't have them installed, you can download them from the official Node.js website: https://nodejs.org/en/download/
